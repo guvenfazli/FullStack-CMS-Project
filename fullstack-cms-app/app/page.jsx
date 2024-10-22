@@ -1,5 +1,5 @@
 export default function Home() {
   return (
-    <p>HomePage</p>
+    <p className="font-nunito">HomePage</p>
   );
 }
