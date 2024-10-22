@@ -10,8 +10,10 @@
   "author": "Güven Fazli",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "express": "^4.21.1",
+    "mysql2": "^3.11.3",
     "sequelize": "^6.37.4"
   },
   "devDependencies": {
