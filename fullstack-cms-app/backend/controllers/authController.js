@@ -63,7 +63,7 @@ exports.loginAccount = (req, res, next) => {
       error.statusCode = 405
       throw error
     }
-    const token = jwt.sign({ email: user.email, userId: user._id }, 'secretswithcms', { expiresIn: '1h' })
+    const token = jwt.sign({ email: user.email, userId: user.id }, 'secretswithcms', { expiresIn: '1h' })
     res.json({ token: token, message: 'You are logged in!' })
 
   }).catch(err => next(err))

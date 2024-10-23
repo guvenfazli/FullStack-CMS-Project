@@ -35,7 +35,7 @@ export default function LoginForm() {
       }
 
       const resData = await sendRequest.json()
-
+      localStorage.setItem('token', resData.token)
       setIsSuccess(resData.message)
       setIsLoading(false)
 
