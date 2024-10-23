@@ -4,37 +4,33 @@ import Link from "next/link"
 
 export default function LoginForm() {
 
-  const [loadingState, setLoadingState] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [errorState, setErrorState] = useState()
 
 
-  function createAccount(e) {
+  async function createAccount(e) {
     e.preventDefault()
     const fd = new FormData(e.target)
     const data = Object.fromEntries(fd.entries())
-    setLoadingState(true)
+    setIsLoading(true)
 
-    fetch('http://localhost:8080/auth/createAccount', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const createAccount = await fetch('http://localhost:8080/auth/createAccount', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (!createAccount.ok) {
+        const responseData = await createAccount.json()
+        throw new Error(responseData.message)
       }
-    }).then(resData => {
-
-      if (!resData.status) {
-        setErrorState(resData.message)
-        setLoadingState(false)
-        return;
-      }
-
-      return resData.json()
-    }).then(createdAcc => {
-      setLoadingState(false)
-      console.log(createdAcc.message)
       e.target.reset()
-    })
-
+    } catch (err) {
+      setErrorState(err.message)
+      e.target.reset()
+    }
   }
 
   return (
@@ -54,9 +50,15 @@ export default function LoginForm() {
           <button className="border border-gray-800 px-5 py-2 rounded-lg font-bold hover:text-gray-900 hover:bg-gray-500 duration-150">Create Account</button>
           <Link className="text-gray-400 hover:text-gray-300 duration-100" href={'/userLogin'}>Do You Have an Account? <span className="font-bold">Login</span></Link>
         </div>
+
+        {errorState &&
+          <div className="mt-5 flex justify-center items-center">
+            {errorState && <p className="text-xl text-red-500">{errorState}</p>}
+          </div>
+        }
       </form>
 
-      {errorState && <p>{errorState}</p>}
+
     </div>
   )
 }
