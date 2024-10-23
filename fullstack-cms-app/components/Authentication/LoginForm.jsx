@@ -6,12 +6,15 @@ import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
+import { useRouter } from "next/navigation"
+
 
 export default function LoginForm() {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
+  const router = useRouter()
 
   async function submitLogin(e) {
     e.preventDefault()
@@ -38,6 +41,9 @@ export default function LoginForm() {
       localStorage.setItem('token', resData.token)
       setIsSuccess(resData.message)
       setIsLoading(false)
+      setTimeout(() => {
+        router.push('/')
+      }, 1000)
 
     } catch (err) {
       setIsLoading(false)
