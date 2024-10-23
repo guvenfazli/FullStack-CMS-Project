@@ -13,7 +13,11 @@ module.exports = {
       },
       fontFamily: {
         nunito: ["Nunito", "sans-serif"]
-      }
+      },
+      maxWidth: {
+        smallmid: '600px',
+        extrasmall: '375px'
+      },
     },
   },
   plugins: [],
