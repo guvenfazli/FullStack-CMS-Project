@@ -1,5 +1,12 @@
+import StatsData from "@/components/HomePage/StatsData";
+
+
 export default function Home() {
+
+
   return (
-    <p>HomePage</p>
+    <>
+      <StatsData />
+    </>
   );
 }
