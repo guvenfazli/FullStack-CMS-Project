@@ -1,9 +1,21 @@
+"use client"
 import Link from "next/link"
 
 export default function LoginForm() {
+
+  function submitLogin(e) {
+    e.preventDefault()
+    const fd = new FormData(e.target)
+    const data = Object.fromEntries(fd.entries())
+    console.log(data)
+    e.target.reset()
+  }
+
+
+
   return (
     <div className="flex flex-col items-center w-2/6 max-lg:w-2/4 max-sm:w-4/5">
-      <form className="flex flex-col text-xl p-4 px-8 w-full bg-gray-900 rounded-lg shadow-2xl max-lg:text-base max-sm:text-sm">
+      <form onSubmit={(e) => submitLogin(e)} className="flex flex-col text-xl p-4 px-8 w-full bg-gray-900 rounded-lg shadow-2xl max-lg:text-base max-sm:text-sm">
         <label htmlFor="email" className="mb-3">Email Address</label>
         <input name="email" id="email" className="text-gray-800 px-1 py-2 mb-3 rounded-md pl-2" placeholder="Enter Your Email Address"></input>
         <label htmlFor="password" className=" mb-3">Password</label>
