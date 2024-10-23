@@ -1,12 +1,18 @@
 "use client"
-
+import { useState } from "react"
 import Link from "next/link"
 
 export default function LoginForm() {
+
+  const [loadingState, setLoadingState] = useState(false)
+  const [errorState, setErrorState] = useState()
+
+
   function createAccount(e) {
     e.preventDefault()
     const fd = new FormData(e.target)
     const data = Object.fromEntries(fd.entries())
+    setLoadingState(true)
 
     fetch('http://localhost:8080/auth/createAccount', {
       method: 'POST',
@@ -14,12 +20,21 @@ export default function LoginForm() {
       headers: {
         'Content-Type': 'application/json'
       }
+    }).then(resData => {
+
+      if (!resData.status) {
+        setErrorState(resData.message)
+        setLoadingState(false)
+        return;
+      }
+
+      return resData.json()
+    }).then(createdAcc => {
+      setLoadingState(false)
+      console.log(createdAcc.message)
+      e.target.reset()
     })
 
-
-
-
-    e.target.reset()
   }
 
   return (
@@ -40,6 +55,8 @@ export default function LoginForm() {
           <Link className="text-gray-400 hover:text-gray-300 duration-100" href={'/userLogin'}>Do You Have an Account? <span className="font-bold">Login</span></Link>
         </div>
       </form>
+
+      {errorState && <p>{errorState}</p>}
     </div>
   )
 }

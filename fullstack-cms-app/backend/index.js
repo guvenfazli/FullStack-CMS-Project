@@ -23,6 +23,12 @@ app.use((req, res, next) => {
 
 app.use('/auth', authRouter)
 
+app.use((error, req, res, next) => {
+  const message = error.message
+  const statusCode = error.statusCode
+  res.status(statusCode).json({ message: message })
+})
+
 
 
 
