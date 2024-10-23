@@ -5,6 +5,8 @@ import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
+import AuthNavigate from "./AuthNavigate"
+
 export default function RegisterForm() {
 
   const [isLoading, setIsLoading] = useState(false)
@@ -59,10 +61,7 @@ export default function RegisterForm() {
         <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
         <AuthInput customName={'jobTitle'} customPlace={'Your Title'} setErrorState={setErrorState} isError={errorState} />
 
-        <div className="flex text-xl w-full items-center justify-between max-xl:flex-col max-xl:text-center max-lg:text-base max-lg:flex-col max-lg:text-center max-sm:text-sm">
-          <button disabled={isLoading} className="border border-gray-800 px-5 py-2 rounded-lg font-bold hover:text-gray-900 hover:bg-gray-500 duration-150 disabled:bg-gray-300">{isLoading ? 'Creating Account' : 'Create Account'}</button>
-          <Link className="text-gray-400 hover:text-gray-300 duration-100" href={'/userLogin'}>Do You Have an Account? <span className="font-bold">Login</span></Link>
-        </div>
+        <AuthNavigate authType={'Sign Up'} navHref={'/userLogin'} />
 
         {errorState && <AuthError errorState={errorState} />}
         {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
