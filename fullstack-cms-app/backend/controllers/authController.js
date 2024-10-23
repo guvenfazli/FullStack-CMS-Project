@@ -3,6 +3,7 @@ const Employee = require('../models/Employee')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
+
 exports.createAccount = (req, res, next) => {
   const { name, surname, email, password, jobTitle } = req.body;
   const errors = validationResult(req)
@@ -33,4 +34,39 @@ exports.createAccount = (req, res, next) => {
       })
     })
   }).catch(err => next(err))
+}
+
+exports.loginAccount = (req, res, next) => {
+  const { email, password } = req.body;
+  const errors = validationResult(req)
+  let user;
+
+
+  if (!errors.isEmpty()) {
+    const error = new Error(errors.array()[0].msg)
+    error.statusCode = 410
+    throw error
+  }
+
+  Employee.findOne({ where: { email: email } }).then(foundUser => {
+    if (!foundUser) {
+      const error = new Error('User Could not Found!')
+      error.statusCode = 414
+      throw error
+    }
+    user = foundUser
+    return bcrypt.compare(password, foundUser.password)
+  }).then(matchedUser => {
+
+    if (!matchedUser) {
+      const error = new Error('Username or Password is Incorrect!')
+      error.statusCode = 405
+      throw error
+    }
+
+    res.json({ message: 'You are logged in!' })
+
+  }).catch(err => next(err))
+
+
 }

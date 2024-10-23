@@ -12,4 +12,10 @@ router.post('/createAccount', [
   body('jobTitle').isEmpty()
 ], authController.createAccount)
 
+
+
+router.post('/loginAccount', [
+  body('password').trim().isLength({ min: 5 })
+], authController.loginAccount)
+
 module.exports = router

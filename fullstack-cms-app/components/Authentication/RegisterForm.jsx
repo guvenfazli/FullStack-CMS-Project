@@ -16,9 +16,6 @@ export default function RegisterForm() {
     e.preventDefault()
     const fd = new FormData(e.target)
     const data = Object.fromEntries(fd.entries())
-    console.log(data)
-    setIsLoading(true)
-
     try {
       setIsLoading(true)
       const createAccount = await fetch('http://localhost:8080/auth/createAccount', {
