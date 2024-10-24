@@ -25,12 +25,10 @@ export default function Header() {
         <p className="text-lg text-gray-300 mr-2">{user.name}</p>
         <button onClick={() => setIsMenu(prev => !prev)}>+</button>
 
-
-        <div className={`${!isMenu && 'hidden'} flex flex-col bg-gray-700 visible rounded-md px-4 py-2 absolute right-5 top-12 duration-100 `}>
+        <div className={`${!isMenu ? 'opacity-0 invisible' : 'opacity-100'} flex flex-col bg-gray-700 rounded-md px-4 py-2 absolute right-5 top-14 duration-100 `}>
           <button>Profile</button>
           <button>Log Out</button>
         </div>
-
 
       </div>
     </div>
