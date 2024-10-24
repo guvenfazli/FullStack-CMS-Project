@@ -6,8 +6,13 @@ export default function HeaderUserMenu({ isMenu, user, setUser }) {
 
   function signOut() {
     localStorage.removeItem('token')
-    setUser()
-    redirect('/userLogin')
+    fetch('http://localhost:8080/auth/logOut', {
+      method: 'POST',
+      credentials: 'include'
+    }).then(success => {
+      setUser()
+      redirect('/userLogin')
+    })
   }
 
   return (

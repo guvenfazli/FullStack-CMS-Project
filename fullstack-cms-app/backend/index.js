@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const sequelize = require('./utils/database.js')
+const cors = require('cors')
+const cookieparser = require('cookie-parser')
 // M O D E L S 
 const Employee = require('./models/Employee.js')
 const Admin = require('./models/Admin.js')
@@ -11,11 +13,14 @@ const Admin = require('./models/Admin.js')
 const authRouter = require('./routes/authRoute.js')
 
 // M I D D L E W A R E S 
-
+app.use(cookieparser())
 app.use(bodyParser.json()) // application/json
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000'
+}))
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', '*')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
   next();

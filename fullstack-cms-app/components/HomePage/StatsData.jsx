@@ -1,9 +1,16 @@
 "use client"
 
 import AuthCheck from "@/utils/authCheck"
+import { useEffect } from "react"
 
 export default function StatsData() {
-  const token = AuthCheck()
+  
+  useEffect(() => {
+    fetch('http://localhost:8080/auth/cookieCheck', {
+      method: 'GET',
+      credentials: 'include'
+    })
+  })
 
 
   return (

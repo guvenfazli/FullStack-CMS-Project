@@ -29,7 +29,7 @@ export default function LoginForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-
+        credentials: 'include'
       })
 
       if (!sendRequest.ok) {
