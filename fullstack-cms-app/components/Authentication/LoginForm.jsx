@@ -1,17 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useAppContext } from "@/context"
 import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
 import AuthNavigate from "./AuthNavigate"
-import { useRouter } from "next/navigation"
 
 
 export default function LoginForm() {
-
+  const { isLogged, setIsLogged } = useAppContext()
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
@@ -43,6 +43,7 @@ export default function LoginForm() {
       localStorage.setItem('token', resData.token)
       setIsSuccess(resData.message)
       setIsLoading(false)
+      setIsLogged(true)
       setTimeout(() => {
         router.push('/')
       }, 500)
@@ -55,6 +56,9 @@ export default function LoginForm() {
     e.target.reset()
   }
 
+  function test() {
+    setIsLogged(true)
+  }
 
   return (
     <div className="flex flex-col items-center w-2/6 max-lg:w-2/4 max-sm:w-4/5">

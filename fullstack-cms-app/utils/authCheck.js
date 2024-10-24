@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
 import { jwtDecode } from "jwt-decode"
-
-
+import { redirect } from "next/navigation"
 export default function AuthCheck() {
 
   if (typeof window !== 'undefined') {
@@ -10,9 +8,8 @@ export default function AuthCheck() {
       const decoded = jwtDecode(token)
       return decoded
     } else {
-      return redirect('/userLogin');
+      return redirect('/userLogin')
     }
   }
-
 
 }
