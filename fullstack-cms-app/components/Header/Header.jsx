@@ -1,28 +1,32 @@
 "use client"
+import HeaderUserMenu from "./HeaderUserMenu"
+import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
 import token from "@/utils/authCheck"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
+
+
 
 export default function Header() {
-  const user = token()
+  let decodedUser;
+  const [user, setUser] = useState()
+  
+  useEffect(() => {
+    decodedUser = token()
+    setUser(decodedUser)
+  }, [])
+
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
-
 
   return (
     <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around">
 
       <div className="hidden items-center justify-center max-sm:flex">
         <button onClick={() => setIsResponsiveMenu(prev => !prev)}>Menu</button>
-        <div className={`${!isResponsiveMenu ? 'opacity-0 invisible' : 'opacity-100'} flex flex-col bg-gray-700 rounded-md px-4 py-2 absolute left-5 top-14 duration-100 `}>
-          <button>Profile</button>
-          <button>My Tasks</button>
-          <button>Log Out</button>
-
-
-
-        </div>
+        <HeaderUserResponsiveMenu isResponsiveMenu={isResponsiveMenu} user={user} />
       </div>
 
       <div className="flex items-center max-sm:hidden">
@@ -37,14 +41,9 @@ export default function Header() {
 
       <div className="flex flex-row items-center justify-center max-sm:hidden">
 
-        <p className="text-lg text-gray-300 mr-2">{user.name}</p>
+        <p className="text-lg text-gray-300 mr-2">{user && user.name}</p>
         <button onClick={() => setIsMenu(prev => !prev)}>+</button>
-
-        <div className={`${!isMenu ? 'opacity-0 invisible' : 'opacity-100'} flex flex-col bg-gray-700 rounded-md px-4 py-2 absolute right-5 top-14 duration-100 `}>
-          <button>Profile</button>
-          <button>My Tasks</button>
-          <button>Log Out</button>
-        </div>
+        <HeaderUserMenu isMenu={isMenu} user={user} />
 
       </div>
     </div>
