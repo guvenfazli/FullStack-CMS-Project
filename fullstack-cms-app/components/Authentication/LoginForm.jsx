@@ -29,8 +29,9 @@ export default function LoginForm() {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+
       })
 
       if (!sendRequest.ok) {
@@ -70,7 +71,7 @@ export default function LoginForm() {
 
         {errorState && <AuthError errorState={errorState} />}
         {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
-        
+
       </form>
     </div>
   )

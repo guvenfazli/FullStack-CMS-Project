@@ -7,15 +7,11 @@ import token from "@/utils/authCheck"
 import { useEffect, useState } from "react"
 
 
-
-
 export default function Header() {
-  let decodedUser;
   const [user, setUser] = useState()
-  
+
   useEffect(() => {
-    decodedUser = token()
-    setUser(decodedUser)
+    setUser(token())
   }, [])
 
   const [isMenu, setIsMenu] = useState(false)
