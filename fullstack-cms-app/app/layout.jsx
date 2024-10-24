@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header/Header";
 import { AppWrapper } from "@/context";
+import { usePathname } from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,12 +20,13 @@ const geistMono = localFont({
 
 export default function RootLayout({ children }) {
 
+  const router = usePathname()
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
-          <Header />
+          {router !== '/userLogin' && <Header />}
           {children}
         </AppWrapper>
       </body>

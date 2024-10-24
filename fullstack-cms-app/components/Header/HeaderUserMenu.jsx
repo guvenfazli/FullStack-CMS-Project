@@ -1,16 +1,12 @@
 import Link from "next/link"
-import token from "@/utils/authCheck"
 import { redirect } from "next/navigation";
-import { useAppContext } from "@/context"
 
 export default function HeaderUserMenu({ isMenu, user, setUser }) {
 
-  const { isLogged, setIsLogged } = useAppContext()
 
   function signOut() {
     localStorage.removeItem('token')
     setUser()
-    setIsLogged(false)
     redirect('/userLogin')
   }
 

@@ -1,7 +1,6 @@
 import { jwtDecode } from "jwt-decode"
 import { redirect } from "next/navigation"
 export default function AuthCheck() {
-
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('token')
     if (token) {
@@ -11,5 +10,4 @@ export default function AuthCheck() {
       return redirect('/userLogin')
     }
   }
-
 }

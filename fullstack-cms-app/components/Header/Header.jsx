@@ -4,26 +4,20 @@ import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
 import token from "@/utils/authCheck"
-import { useAppContext } from "@/context"
 import { useEffect, useState } from "react"
 
 
 export default function Header() {
   const [user, setUser] = useState()
-  const { isLogged } = useAppContext()
-  console.log(isLogged)
+
   useEffect(() => {
-    if (isLogged) {
-      setUser(token())
-    }
-  }, [isLogged])
-
-
+    setUser(token())
+  }, [])
 
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
 
-  if (user) {
+  {
     return (
       <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around">
 
