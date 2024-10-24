@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
-          {router !== '/userLogin' && <Header />}
+          {router !== '/userLogin' && router !== '/userRegister' && <Header />}
           {children}
         </AppWrapper>
       </body>

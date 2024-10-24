@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAppContext } from "@/context"
 import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
@@ -11,10 +10,9 @@ import AuthNavigate from "./AuthNavigate"
 
 
 export default function LoginForm() {
-  const { isLogged, setIsLogged } = useAppContext()
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState()
-  const [errorState, setErrorState] = useState()
+  const [errorState, setErrorState] = useState(false)
   const router = useRouter()
 
   async function submitLogin(e) {
@@ -43,7 +41,6 @@ export default function LoginForm() {
       localStorage.setItem('token', resData.token)
       setIsSuccess(resData.message)
       setIsLoading(false)
-      setIsLogged(true)
       setTimeout(() => {
         router.push('/')
       }, 500)
@@ -56,22 +53,18 @@ export default function LoginForm() {
     e.target.reset()
   }
 
-  function test() {
-    setIsLogged(true)
-  }
-
   return (
     <div className="flex flex-col items-center w-2/6 max-lg:w-2/4 max-sm:w-4/5">
       <form onSubmit={(e) => submitLogin(e)} className="flex flex-col text-xl p-4 px-8 w-full bg-gray-900 rounded-lg shadow-2xl max-lg:text-base max-sm:text-sm">
 
-        <AuthLabel customFor="email">Email</AuthLabel>
+        <AuthLabel customFor={'email'}>Email</AuthLabel>
         <AuthInput inputType={'email'} customName={'email'} customPlace={'Enter Your Email'} setErrorState={setErrorState} isError={errorState} />
 
-        <AuthLabel customFor="password">Password</AuthLabel>
+        <AuthLabel customFor={"password"}>Password</AuthLabel>
         <AuthInput inputType={'password'} customName={'password'} customPlace={'Enter Your Password'} setErrorState={setErrorState} isError={errorState} />
 
 
-        <AuthNavigate authType={'Login'} navHref={'/userRegister'} />
+        <AuthNavigate authType={'Login'} navHref={'/userRegister'} isLoading={isLoading} />
 
         {errorState && <AuthError errorState={errorState} />}
         {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
