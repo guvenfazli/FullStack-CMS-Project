@@ -4,5 +4,6 @@
 @tailwind utilities;
 
 body {
-  color: #6B7280;
+  color: #D1D5DB;
+  font-family: Nunito;
 }

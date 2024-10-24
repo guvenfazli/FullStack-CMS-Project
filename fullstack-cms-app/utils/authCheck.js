@@ -1,11 +1,18 @@
 import { redirect } from "next/navigation";
+import { jwtDecode } from "jwt-decode"
 
 
 export default function AuthCheck() {
-  const token = localStorage.getItem('token')
-  if (token) {
-    return token
-  } else {
-    return redirect('/userLogin');
+
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const decoded = jwtDecode(token)
+      return decoded
+    } else {
+      return redirect('/userLogin');
+    }
   }
+
+
 }
