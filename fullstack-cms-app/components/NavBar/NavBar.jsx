@@ -8,9 +8,9 @@ export default function NavBar() {
   const [isResources, setIsResources] = useState(false)
 
   return (
-    <div className="border">
+    <div>
       <div className="mb-7">
-        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex  justify-between hover:cursor-pointer">
+        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between hover:cursor-pointer">
           <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
           <p>{!isDashBoard ? '+' : 'x'}</p>
         </div>

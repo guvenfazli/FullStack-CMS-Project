@@ -19,7 +19,7 @@ export default function Header() {
 
   if (user) {
     return (
-      <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around">
+      <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around z-10">
 
         <div className="hidden items-center justify-center max-sm:flex">
           <button onClick={() => setIsResponsiveMenu(prev => !prev)}>Menu</button>

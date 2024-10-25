@@ -5,7 +5,6 @@ import Header from "@/components/Header/Header";
 import NavBar from "@/components/NavBar/NavBar";
 import { AppWrapper } from "@/context";
 import { usePathname } from "next/navigation";
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -30,14 +29,16 @@ export default function RootLayout({ children }) {
           {router !== '/userLogin' && router !== '/userRegister' && <Header />}
 
 
-          <div className="flex border">
+          <div className="flex relative">
 
-            <div className="border p-5 w-1/6 relative">
+            <div className="p-5 w-1/6 relative max-md:hidden">
               <NavBar />
             </div>
 
-            {children}
-          
+            <div className="p-5">
+              {children}
+            </div>
+
           </div>
 
         </AppWrapper>
