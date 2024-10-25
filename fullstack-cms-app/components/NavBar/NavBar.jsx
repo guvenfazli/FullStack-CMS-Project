@@ -8,18 +8,18 @@ export default function NavBar() {
   const [isResources, setIsResources] = useState(false)
 
   return (
-    <div className="border p-5 w-1/6">
-      <div>
-        <div className="flex justify-between">
-          <button onClick={() => setIsDashBoard(prev => !prev)} className="mb-5">Dashboard</button>
+    <div className="border">
+      <div className="mb-7">
+        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex  justify-between hover:cursor-pointer">
+          <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
           <p>{!isDashBoard ? '+' : 'x'}</p>
         </div>
         <Dashboard isOpen={isDashBoard} />
       </div>
 
       <div>
-        <div className="flex justify-between">
-          <button onClick={() => setIsResources(prev => !prev)} className="mb-5">Resources</button>
+        <div onClick={() => setIsResources(prev => !prev)} className="flex  justify-between hover:cursor-pointer">
+          <button className={`${isResources && "mb-5"}`}>Resources</button>
           <p>{!isResources ? '+' : 'x'}</p>
         </div>
         <Resources isOpen={isResources} />

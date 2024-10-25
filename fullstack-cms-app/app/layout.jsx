@@ -28,10 +28,18 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
           {router !== '/userLogin' && router !== '/userRegister' && <Header />}
+
+
           <div className="flex border">
-            <NavBar />
+
+            <div className="border p-5 w-1/6 relative">
+              <NavBar />
+            </div>
+
             {children}
+          
           </div>
+
         </AppWrapper>
       </body>
     </html>
