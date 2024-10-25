@@ -84,19 +84,26 @@ exports.logOut = (req, res, next) => {
 }
 
 exports.cookieCheck = async (req, res, next) => {
-  const cookie = req.cookies['jwt']
 
-  const resolvedCookie = jwt.decode(cookie)
+  try {
+    const cookie = req.cookies['jwt']
 
-  console.log(resolvedCookie)
+    const resolvedCookie = jwt.decode(cookie)
 
-/*   if (!resolvedCookie) {
-    const error = new Error('Please log in first!')
-    error.statusCode = 402
-    throw error
-  } */
+    console.log(resolvedCookie)
 
-  return res.json({ user: resolvedCookie })
+    if (!resolvedCookie) {
+      const error = new Error('Please log in first!')
+      error.statusCode = 402
+      throw error
+    }
+
+    return res.json({ user: resolvedCookie })
+
+  } catch (err) {
+    next(err)
+  }
+
 
 
 }

@@ -18,7 +18,8 @@ module.exports = {
         smallmid: '600px',
         extrasmall: '375px'
       },
-    },
+
+    }
   },
   plugins: [],
 };
