@@ -38,12 +38,9 @@ export default function LoginForm() {
       }
 
       const resData = await sendRequest.json()
-      localStorage.setItem('token', resData.token)
       setIsSuccess(resData.message)
       setIsLoading(false)
-      setTimeout(() => {
-        router.push('/')
-      }, 500)
+      router.push('/')
 
     } catch (err) {
       setIsLoading(false)

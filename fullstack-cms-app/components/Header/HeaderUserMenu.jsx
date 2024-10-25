@@ -1,16 +1,13 @@
 import Link from "next/link"
 import { redirect } from "next/navigation";
 
-export default function HeaderUserMenu({ isMenu, user, setUser }) {
-
+export default function HeaderUserMenu({ isMenu, user }) {
 
   function signOut() {
-    localStorage.removeItem('token')
     fetch('http://localhost:8080/auth/logOut', {
       method: 'POST',
       credentials: 'include'
     }).then(success => {
-      setUser()
       redirect('/userLogin')
     })
   }

@@ -1,6 +1,6 @@
 export default function AuthLabel({ customFor, children }) {
   return (
-    <label htmlFor="name" className="mb-3">{children}</label>
+    <label htmlFor={customFor} className="mb-3">{children}</label>
 
   )
 }

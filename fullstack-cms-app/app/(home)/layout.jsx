@@ -20,21 +20,17 @@ const geistMono = localFont({
 
 export default function RootLayout({ children }) {
 
-  const router = usePathname()
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
-          {router !== '/userLogin' && router !== '/userRegister' && <Header />}
-
-          {router === '/userLogin' && router === '/userRegister' && children}
-          
+          <Header />
           <div className="flex relative">
 
-            {router !== '/userLogin' && router !== '/userRegister' && <div className="p-5 w-1/6 relative max-md:hidden">
+            <div className="p-5 w-1/6 relative max-md:hidden">
               <NavBar />
-            </div>}
+            </div>
 
 
 
