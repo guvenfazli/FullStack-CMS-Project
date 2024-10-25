@@ -1,18 +1,14 @@
 "use client"
+import SearchBar from "./Searchbar"
 import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useAppContext } from "@/context"
 
 export default function Header() {
   const { isLogged } = useAppContext()
-  /*   const [user, setUser] = useState()
-  
-    useEffect(() => {
-      setUser(isLogged)
-    }, [isLogged]) */
 
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
@@ -23,7 +19,7 @@ export default function Header() {
 
         <div className="hidden items-center justify-center max-sm:flex">
           <button onClick={() => setIsResponsiveMenu(prev => !prev)}>Menu</button>
-          <HeaderUserResponsiveMenu isResponsiveMenu={isResponsiveMenu} user={isLogged} />
+          <HeaderUserResponsiveMenu isResponsiveMenu={isResponsiveMenu} user={isLogged} setIsResponsiveMenu={setIsResponsiveMenu} />
         </div>
 
         <div className="flex items-center max-sm:hidden">
@@ -32,15 +28,13 @@ export default function Header() {
         </div>
 
 
-        <div>
-          <input className="px-4 py-1 bg-gray-700 text-white w-96 rounded-2xl  max-[470px]:w-64 max-[350px]:w-48" placeholder="Search for Projects"></input>
-        </div>
+        <SearchBar />
 
         <div className="flex flex-row items-center justify-center max-sm:hidden">
 
           <p className="text-lg text-gray-300 mr-2">{isLogged && isLogged.name}</p>
           <button onClick={() => setIsMenu(prev => !prev)}>+</button>
-          <HeaderUserMenu isMenu={isMenu} user={isLogged} /* setUser={setUser} */ />
+          <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} />
 
         </div>
       </div>

@@ -11,16 +11,16 @@ export default function NavBar() {
     <div>
       <div className="mb-7">
         <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between items-start hover:cursor-pointer">
-          <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
-          <button className={`${!isDashBoard ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isDashBoard ? '+' : 'x'}</button>
+          <button className={`${isDashBoard && "text-gray-600"} duration-100 hover:text-gray-500`}>Dashboard</button>
+          <button className={`${!isDashBoard ? 'rotate-0' : 'rotate-90 text-gray-600'} duration-100 hover:text-gray-500`}>{!isDashBoard ? '+' : 'x'}</button>
         </div>
         <Dashboard isOpen={isDashBoard} />
       </div>
 
       <div>
         <div onClick={() => setIsResources(prev => !prev)} className="flex items-start justify-between hover:cursor-pointer">
-          <button className={`${isResources && "mb-5"}`}>Resources</button>
-          <button className={`${!isResources ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isResources ? '+' : 'x'}</button>
+          <button className={`${isResources && "text-gray-600"} duration-100 hover:text-gray-500`}>Resources</button>
+          <button className={`${!isResources ? 'rotate-0' : 'rotate-90 text-gray-600'} duration-100 hover:text-gray-500`}>{!isResources ? '+' : 'x'}</button>
         </div>
         <Resources isOpen={isResources} />
       </div>
