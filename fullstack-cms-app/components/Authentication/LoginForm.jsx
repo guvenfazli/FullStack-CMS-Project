@@ -21,6 +21,7 @@ export default function LoginForm() {
     const data = Object.fromEntries(fd.entries())
 
     try {
+
       setIsLoading(true)
       const sendRequest = await fetch('http://localhost:8080/auth/loginAccount', {
         method: 'POST',
