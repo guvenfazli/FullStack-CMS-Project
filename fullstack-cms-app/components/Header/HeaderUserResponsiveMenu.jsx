@@ -17,19 +17,23 @@ export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user }) {
       <button>Log Out</button>
 
       <div className="mt-3 w-full">
-        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex  justify-between hover:cursor-pointer">
-          <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
-          <p>{!isDashBoard ? '+' : 'x'}</p>
+        <div>
+          <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between items-start hover:cursor-pointer">
+            <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
+            <button className={`${!isDashBoard ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isDashBoard ? '+' : 'x'}</button>
+          </div>
+          <Dashboard isOpen={isDashBoard} />
         </div>
-        <Dashboard isOpen={isDashBoard} />
       </div>
 
       <div className="mt-3">
-        <div onClick={() => setIsResources(prev => !prev)} className="flex justify-between hover:cursor-pointer">
-          <button className={`${isResources && "mb-5"}`}>Resources</button>
-          <p>{!isResources ? '+' : 'x'}</p>
+        <div>
+          <div onClick={() => setIsResources(prev => !prev)} className="flex items-start justify-between hover:cursor-pointer">
+            <button className={`${isResources && "mb-5"}`}>Resources</button>
+            <button className={`${!isResources ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isResources ? '+' : 'x'}</button>
+          </div>
+          <Resources isOpen={isResources} />
         </div>
-        <Resources isOpen={isResources} />
       </div>
     </div>
   )

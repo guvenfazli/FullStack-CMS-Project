@@ -10,17 +10,17 @@ export default function NavBar() {
   return (
     <div>
       <div className="mb-7">
-        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between hover:cursor-pointer">
+        <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between items-start hover:cursor-pointer">
           <button className={`${isDashBoard && "mb-5"}`}>Dashboard</button>
-          <p>{!isDashBoard ? '+' : 'x'}</p>
+          <button className={`${!isDashBoard ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isDashBoard ? '+' : 'x'}</button>
         </div>
         <Dashboard isOpen={isDashBoard} />
       </div>
 
       <div>
-        <div onClick={() => setIsResources(prev => !prev)} className="flex  justify-between hover:cursor-pointer">
+        <div onClick={() => setIsResources(prev => !prev)} className="flex items-start justify-between hover:cursor-pointer">
           <button className={`${isResources && "mb-5"}`}>Resources</button>
-          <p>{!isResources ? '+' : 'x'}</p>
+          <button className={`${!isResources ? 'rotate-0' : 'rotate-90'} duration-75`}>{!isResources ? '+' : 'x'}</button>
         </div>
         <Resources isOpen={isResources} />
       </div>
