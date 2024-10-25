@@ -1,13 +1,8 @@
-import { jwtDecode } from "jwt-decode"
-import { redirect } from "next/navigation"
-export default function AuthCheck() {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('token')
-    if (token) {
-      const decoded = jwtDecode(token)
-      return decoded
-    } else {
-      return redirect('/userLogin')
-    }
-  }
+export default async function AuthCheck() {
+  const response = await fetch('http://localhost:8080/auth/cookieCheck', {
+    method: 'GET',
+    credentials: 'include'
+  })
+  const resData = await response.json()
+  return resData
 }

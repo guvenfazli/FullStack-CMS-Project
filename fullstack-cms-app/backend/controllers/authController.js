@@ -63,9 +63,9 @@ exports.loginAccount = (req, res, next) => {
       error.statusCode = 405
       throw error
     }
-    
+
     const token = jwt.sign({ name: user.name, email: user.email, userId: user.id }, 'secretswithcms', { expiresIn: '1h' })
-    
+
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000
@@ -83,7 +83,20 @@ exports.logOut = (req, res, next) => {
   res.json({ message: 'Logged Out Successfully.' })
 }
 
-exports.cookieCheck = (req, res, next) => {
-  const cookie = req.cookies.jwt
-  console.log(cookie)
+exports.cookieCheck = async (req, res, next) => {
+  const cookie = req.cookies['jwt']
+
+  const resolvedCookie = jwt.decode(cookie)
+
+  console.log(resolvedCookie)
+
+/*   if (!resolvedCookie) {
+    const error = new Error('Please log in first!')
+    error.statusCode = 402
+    throw error
+  } */
+
+  return res.json({ user: resolvedCookie })
+
+
 }

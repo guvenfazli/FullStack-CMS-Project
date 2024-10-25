@@ -2,6 +2,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header/Header";
+import NavBar from "@/components/NavBar/NavBar";
 import { AppWrapper } from "@/context";
 import { usePathname } from "next/navigation";
 
@@ -27,7 +28,10 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
           {router !== '/userLogin' && router !== '/userRegister' && <Header />}
-          {children}
+          <div className="flex border">
+            <NavBar />
+            {children}
+          </div>
         </AppWrapper>
       </body>
     </html>
