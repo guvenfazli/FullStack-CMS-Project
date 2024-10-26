@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-export default function EmployeeTable() {
+export default function EmployeeTable({ fetchedEmployees }) {
+
   return (
     <Table>
       <TableCaption>Employee Table</TableCaption>
@@ -17,6 +18,7 @@ export default function EmployeeTable() {
           <TableHead className="w-[100px]">ID</TableHead>
           <TableHead className="w-[100px]">AVATAR</TableHead>
           <TableHead>NAME</TableHead>
+          <TableHead>SURNAME</TableHead>
           <TableHead>EMAIL</TableHead>
           <TableHead>ADMIN</TableHead>
           <TableHead className="text-right">TITLE</TableHead>
@@ -25,14 +27,17 @@ export default function EmployeeTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell>$250.00</TableCell>
-          <TableCell>Yes</TableCell>
-          <TableCell className="text-right">Full-Stack Dev.</TableCell>
-        </TableRow>
+        {fetchedEmployees && fetchedEmployees.map((employee) =>
+          <TableRow key={employee.id}>
+            <TableCell className="font-medium">{employee.id}</TableCell>
+            <TableCell>Soon</TableCell>
+            <TableCell>{employee.name}</TableCell>
+            <TableCell>{employee.surname}</TableCell>
+            <TableCell>{employee.email}</TableCell>
+            <TableCell>Yes</TableCell>
+            <TableCell className="text-right">{employee.job_title}</TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   )
