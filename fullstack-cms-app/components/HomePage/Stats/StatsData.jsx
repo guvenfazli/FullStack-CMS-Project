@@ -31,7 +31,6 @@ export default function StatsData() {
           <DataCard cardTitle="Current Users" dataType="Current" totalUsers={totalUsers} />
           <DataCard cardTitle="User Goal ( 100 )" dataType="Goal" totalUsers={totalUsers} />
         </div>
-        <p>Here will come the statistics</p>
       </div>
     )
   }
