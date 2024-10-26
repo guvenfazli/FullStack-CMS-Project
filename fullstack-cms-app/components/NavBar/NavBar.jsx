@@ -41,7 +41,7 @@ export default function NavBar() {
 
         <div className="flex items-center flex-row">
           <Switch checked={isDashBoard === true && isResources === true} onCheckedChange={() => toggleAll()} className="mr-1" id="toggle-all" />
-          <Label htmlFor="toggle-all">Toggle All</Label>
+          <Label className="hover:cursor-pointer" htmlFor="toggle-all">Toggle All</Label>
         </div>
       </div>
     )
