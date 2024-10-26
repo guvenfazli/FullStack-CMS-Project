@@ -90,8 +90,6 @@ exports.cookieCheck = async (req, res, next) => {
 
     const resolvedCookie = jwt.decode(cookie)
 
-    console.log(resolvedCookie)
-
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')
       error.statusCode = 402
