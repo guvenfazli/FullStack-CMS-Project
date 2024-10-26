@@ -40,7 +40,7 @@ export default function NavBar() {
         </div>
 
         <div className="flex items-center flex-row">
-          <Switch onCheckedChange={() => toggleAll()} className="mr-1" id="toggle-all" />
+          <Switch checked={isDashBoard === true && isResources === true} onCheckedChange={() => toggleAll()} className="mr-1" id="toggle-all" />
           <Label htmlFor="toggle-all">Toggle All</Label>
         </div>
       </div>
