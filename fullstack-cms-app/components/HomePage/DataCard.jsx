@@ -6,7 +6,7 @@ export default function DataCard({ cardTitle, dataType }) {
 
   if (dataType === "Current") {
     return (
-      <Card className="bg-gray-900 w-2/6 border-0 mr-5">
+      <Card className="bg-gray-900 w-2/6 border-0 mr-5 max-lg:w-1/2 max-sm:w-full max-sm:mb-5">
 
         <CardHeader className="flex items-start justify-center">
           <CardTitle className="text-base text-gray-300">{cardTitle}</CardTitle>
@@ -22,7 +22,7 @@ export default function DataCard({ cardTitle, dataType }) {
     )
   } else if (dataType === "Goal") {
     return (
-      <Card className="bg-gray-900 w-2/6 border-0 mr-5">
+      <Card className="bg-gray-900 w-2/6 border-0 mr-5 max-lg:w-1/2 max-sm:w-full">
 
         <CardHeader className="flex flex-row justify-between items-start">
           <CardTitle className="text-base text-gray-300">{cardTitle}</CardTitle>
@@ -32,7 +32,7 @@ export default function DataCard({ cardTitle, dataType }) {
           <p className="text-gray-300 text-5xl mr-5">1%</p>
           <Progress value={1} />
         </CardContent>
-        
+
       </Card>
     )
   }
