@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-800`}>
         <AppWrapper>
           <Header />
-          <div className="flex relative">
+          <div className="flex flex-row">
 
             <div className="p-5 w-1/6 relative max-md:hidden">
               <NavBar />
@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
 
 
 
-            <div className="p-5">
+            <div className="w-full p-5">
               {children}
             </div>
 
