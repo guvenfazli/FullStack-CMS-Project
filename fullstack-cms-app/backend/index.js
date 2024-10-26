@@ -11,6 +11,7 @@ const Admin = require('./models/Admin.js')
 // R O U T E R S 
 
 const authRouter = require('./routes/authRoute.js')
+const employeeRouter = require('./routes/userRoute.js')
 
 // M I D D L E W A R E S 
 app.use(cookieparser())
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/auth', authRouter)
+app.use('/', employeeRouter)
 
 app.use((error, req, res, next) => {
   const message = error.message

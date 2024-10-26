@@ -2,7 +2,7 @@ import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 import { signalBars } from "../Icons/Icons"
 import { Progress } from "../ui/progress"
 
-export default function DataCard({ cardTitle, dataType }) {
+export default function DataCard({ cardTitle, dataType, totalUsers }) {
 
   if (dataType === "Current") {
     return (
@@ -16,7 +16,7 @@ export default function DataCard({ cardTitle, dataType }) {
           <div className="p-4 mr-5 bg-sky-500 rounded-xl">
             <p>{signalBars}</p>
           </div>
-          <p className="text-5xl text-gray-300">1</p>
+          <p className="text-5xl text-gray-300">{totalUsers}</p>
         </CardContent>
       </Card>
     )
@@ -29,7 +29,7 @@ export default function DataCard({ cardTitle, dataType }) {
         </CardHeader>
 
         <CardContent className="flex items-center justify-around">
-          <p className="text-gray-300 text-5xl mr-5">1%</p>
+          <p className="text-gray-300 text-5xl mr-5">{(totalUsers / 100) * 100}%</p>
           <Progress value={1} />
         </CardContent>
 
