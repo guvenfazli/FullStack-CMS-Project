@@ -1,5 +1,23 @@
 const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
+const fs = require('fs')
+const path = require('path')
+
+const clearImage = (imageUrl) => {
+  const filePath = path.join(__dirname, '..', imageUrl)
+
+  try {
+    fs.unlink(filePath, (err) => {
+      const error = new Error('Something happened')
+      error.statusCode = 420
+      throw error
+    })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
 
 exports.deleteEmployee = (req, res, next) => {
   const chosenEmployeeId = req.params.employeeId
@@ -24,6 +42,7 @@ exports.deleteEmployee = (req, res, next) => {
             throw error
           }
 
+          clearImage(foundUser.profilePic)
           foundUser.destroy()
           return res.json({ message: 'Employee deleted successfully.' })
         })
