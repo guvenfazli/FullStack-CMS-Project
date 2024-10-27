@@ -8,9 +8,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 
 export default function EmployeeTable({ fetchedEmployees }) {
+
+  
 
   return (
     <Table>
@@ -30,7 +34,12 @@ export default function EmployeeTable({ fetchedEmployees }) {
         {fetchedEmployees && fetchedEmployees.map((employee) =>
           <TableRow key={employee.id}>
             <TableCell className="font-medium">{employee.id}</TableCell>
-            <TableCell>Soon</TableCell>
+            <TableCell>
+              <Avatar>
+                <AvatarImage src={`http://localhost:8080/${employee.profilePic}`}/>
+                <AvatarFallback>PP</AvatarFallback>
+              </Avatar>
+            </TableCell>
             <TableCell>{employee.name}</TableCell>
             <TableCell>{employee.surname}</TableCell>
             <TableCell>{employee.email}</TableCell>
