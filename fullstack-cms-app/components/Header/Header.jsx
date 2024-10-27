@@ -6,6 +6,7 @@ import Logo from "@/assets/Vector.png"
 import Image from "next/image"
 import { useState } from "react"
 import { useAppContext } from "@/context"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Header() {
   const { isLogged } = useAppContext()
@@ -30,10 +31,13 @@ export default function Header() {
 
         <SearchBar />
 
-        <div className="flex flex-row items-center justify-center max-sm:hidden">
-
-          <p className="text-lg text-gray-300 mr-2">{isLogged && isLogged.name}</p>
-          <button onClick={() => setIsMenu(prev => !prev)}>+</button>
+        <div  onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
+          <Avatar>
+            <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
+            <AvatarFallback>PP</AvatarFallback>
+          </Avatar>
+          <p className="text-lg text-gray-300 ml-2 mr-2">{isLogged && isLogged.name}</p>
+          <button>+</button>
           <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} />
 
         </div>
