@@ -1,7 +1,8 @@
 "use client"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Link from "next/link"
 import AuthInput from "./AuthInput"
+import FileUploader from "./FileUploader"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
@@ -10,22 +11,20 @@ import AuthNavigate from "./AuthNavigate"
 export default function RegisterForm() {
 
   const [isLoading, setIsLoading] = useState(false)
+  const [fileState, setFileState] = useState()
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
-
 
   async function createAccount(e) {
     e.preventDefault()
     const fd = new FormData(e.target)
-    const data = Object.fromEntries(fd.entries())
+    fd.append('profilePic', fileState)
+
     try {
       setIsLoading(true)
       const createAccount = await fetch('http://localhost:8080/auth/createAccount', {
         method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        body: fd,
       })
       if (!createAccount.ok) {
         setIsLoading(false)
@@ -41,6 +40,14 @@ export default function RegisterForm() {
       e.target.reset()
     }
   }
+
+  function gatherFiles(e) {
+    setFileState(prev => {
+      prev = e.target.files
+      return prev
+    })
+  }
+
 
   return (
     <div className="flex flex-col items-center w-2/6 max-lg:w-2/4 max-sm:w-4/5">
@@ -60,6 +67,10 @@ export default function RegisterForm() {
 
         <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
         <AuthInput customName={'jobTitle'} customPlace={'Your Title'} setErrorState={setErrorState} isError={errorState} />
+
+        <AuthLabel>Profile Pic*</AuthLabel>
+        <FileUploader setFileState={gatherFiles} customName={'profilePic'} customPlace={'Profile Picture'} inputType={'file'} setErrorState={setErrorState} isError={errorState} />
+
 
         <AuthNavigate authType={'Sign Up'} navHref={'/userLogin'} />
 

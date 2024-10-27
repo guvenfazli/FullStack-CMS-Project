@@ -26,8 +26,11 @@ const Employee = sequelize.define('employee', {
   job_title: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  profilePic: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
-
 })
 
 module.exports = Employee

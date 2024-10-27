@@ -6,6 +6,7 @@ const { validationResult } = require('express-validator')
 
 exports.createAccount = (req, res, next) => {
   const { name, surname, email, password, jobTitle } = req.body;
+  const profilePic = req.files[0].path
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
@@ -28,7 +29,8 @@ exports.createAccount = (req, res, next) => {
         surname: surname,
         email: email,
         password: hashedPw,
-        job_title: jobTitle
+        job_title: jobTitle,
+        profilePic: profilePic
       }).then(createdUser => {
         return res.json({ message: 'Account Successfully Created!' })
       })

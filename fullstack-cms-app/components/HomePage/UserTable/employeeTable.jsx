@@ -8,6 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
+
 export default function EmployeeTable({ fetchedEmployees }) {
 
   return (
@@ -22,8 +24,6 @@ export default function EmployeeTable({ fetchedEmployees }) {
           <TableHead>EMAIL</TableHead>
           <TableHead>ADMIN</TableHead>
           <TableHead className="text-right">TITLE</TableHead>
-
-
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -36,6 +36,9 @@ export default function EmployeeTable({ fetchedEmployees }) {
             <TableCell>{employee.email}</TableCell>
             <TableCell>Yes</TableCell>
             <TableCell className="text-right">{employee.job_title}</TableCell>
+            <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>
+            <TableCell className="text-right w-[10px]"><button>{eyeIcon}</button></TableCell>
+            <TableCell className="text-right w-[10px]"><button>{taskIcon}</button></TableCell>
           </TableRow>
         )}
       </TableBody>
