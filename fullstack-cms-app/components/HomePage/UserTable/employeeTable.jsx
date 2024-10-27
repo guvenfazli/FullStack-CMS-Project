@@ -14,6 +14,8 @@ import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 
 export default function EmployeeTable({ fetchedEmployees, isLogged }) {
 
+  console.log(fetchedEmployees)
+
   return (
     <Table>
       <TableCaption>Employee Table</TableCaption>
@@ -41,7 +43,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged }) {
             <TableCell>{employee.name}</TableCell>
             <TableCell>{employee.surname}</TableCell>
             <TableCell>{employee.email}</TableCell>
-            <TableCell>Yes</TableCell>
+            <TableCell>{employee.isAdmin ? 'Yes' : 'No'}</TableCell>
             <TableCell className="text-right">{employee.job_title}</TableCell>
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell> : ''}
             <TableCell className="text-right w-[10px]"><button>{eyeIcon}</button></TableCell>
