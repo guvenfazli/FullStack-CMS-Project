@@ -11,18 +11,44 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
 
-  async function filterTable(filterType) {
-    const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
-      method: 'GET',
-      credentials: 'include'
+  const [filterType, setFilterType] = useState()
+
+
+  async function filterTable(filter) {
+    setFilterType(prev => {
+      if (prev === filter) {
+        return undefined
+      } else {
+        return filter
+      }
     })
-    const resData = await response.json()
-    setAllEmployees(resData.employees)
   }
+
+  useEffect(() => {
+    async function filterEmployees() {
+      if (filterType) {
+        const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
+          method: 'GET',
+          credentials: 'include'
+        })
+        const resData = await response.json()
+        setAllEmployees(resData.employees)
+      } else {
+        const response = await fetch('http://localhost:8080/employees', {
+          method: 'GET',
+          credentials: 'include'
+        })
+        const resData = await response.json()
+        setAllEmployees(resData.employees)
+      }
+    }
+
+    filterEmployees()
+  }, [filterType])
 
 
 
