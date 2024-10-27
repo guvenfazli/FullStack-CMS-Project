@@ -50,7 +50,7 @@ export default function RegisterForm({ newUserCreation }) {
 
   if (newUserCreation) {
     return (
-      <div className="flex flex-col items-center w-full max-lg:w-2/4 max-sm:w-4/5">
+      <div className="flex flex-col items-center w-full max-lg:w-full max-sm:w-full">
         <form onSubmit={(e) => createAccount(e)} className="flex flex-col text-xl  w-full bg-gray-900 rounded-lg max-lg:text-base max-sm:text-sm">
 
           <AuthLabel customFor={"name"}>Name*</AuthLabel>

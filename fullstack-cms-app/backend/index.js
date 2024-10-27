@@ -15,6 +15,7 @@ const Admin = require('./models/Admin.js')
 
 const authRouter = require('./routes/authRoute.js')
 const employeeRouter = require('./routes/userRoute.js')
+const adminRouter = require('./routes/adminRoute.js')
 
 // M I D D L E W A R E S 
 
@@ -51,6 +52,7 @@ app.use((req, res, next) => {
   next();
 })
 
+app.use('/admin', adminRouter)
 app.use('/auth', authRouter)
 app.use('/', employeeRouter)
 

@@ -104,6 +104,4 @@ exports.cookieCheck = async (req, res, next) => {
     next(err)
   }
 
-
-
 }

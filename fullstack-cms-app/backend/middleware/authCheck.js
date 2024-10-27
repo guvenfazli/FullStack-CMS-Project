@@ -12,6 +12,8 @@ module.exports = (req, res, next) => {
       throw error
     }
 
+    req.user = resolvedCookie
+    
     next()
 
   } catch (err) {

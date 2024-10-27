@@ -31,8 +31,8 @@ export default function Header() {
 
         <SearchBar />
 
-        <div  onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
-          <Avatar>
+        <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
+          <Avatar className="max-[700px]:hidden">
             <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>

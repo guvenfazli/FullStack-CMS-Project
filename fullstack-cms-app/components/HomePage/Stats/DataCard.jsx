@@ -22,7 +22,7 @@ export default function DataCard({ cardTitle, dataType, totalUsers }) {
     )
   } else if (dataType === "Goal") {
     return (
-      <Card className="bg-gray-900 w-2/6 border-0 mr-5 max-lg:w-1/2 max-sm:w-full">
+      <Card className="bg-gray-900 w-2/6 border-0 max-lg:w-1/2 max-sm:w-full">
 
         <CardHeader className="flex flex-row justify-between items-start">
           <CardTitle className="text-base text-gray-300">{cardTitle}</CardTitle>

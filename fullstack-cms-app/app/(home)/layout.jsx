@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           <Header />
           <div className="flex flex-row">
 
-            <div className="p-5 w-1/6 relative max-md:hidden">
+            <div className="p-5 w-1/6 relative max-md:hidden max-[850px]:hidden">
               <NavBar />
             </div>
 
