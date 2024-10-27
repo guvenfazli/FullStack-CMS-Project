@@ -11,23 +11,33 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
+import { useState } from "react"
 
-export default function EmployeeTable({ fetchedEmployees, isLogged }) {
+export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
 
-  console.log(fetchedEmployees)
+  async function filterTable(filterType) {
+    const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    const resData = await response.json()
+    setAllEmployees(resData.employees)
+  }
+
+
 
   return (
     <Table>
       <TableCaption>Employee Table</TableCaption>
       <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
+        <TableRow className="hover:bg-transparent">
+          <TableHead className="w-[100px] hover:cursor-pointer" onClick={() => filterTable('id')}>ID</TableHead>
           <TableHead className="w-[100px]">AVATAR</TableHead>
-          <TableHead>NAME</TableHead>
-          <TableHead>SURNAME</TableHead>
-          <TableHead>EMAIL</TableHead>
-          <TableHead>ADMIN</TableHead>
-          <TableHead className="text-right">TITLE</TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('name')}>NAME</TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('surname')}>SURNAME</TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('email')}>EMAIL</TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('isAdmin')}>ADMIN</TableHead>
+          <TableHead className="text-right hover:cursor-pointer" onClick={() => filterTable('job_title')}>TITLE</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

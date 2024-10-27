@@ -27,6 +27,8 @@ export default function UserTable() {
 
 
 
+
+
   return (
     <div>
       <div>
@@ -36,7 +38,7 @@ export default function UserTable() {
 
 
       <TableNav isLogged={isLogged} />
-      <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} />
+      <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} />
     </div>
   )
 }
