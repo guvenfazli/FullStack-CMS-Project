@@ -2,11 +2,11 @@
 import TableNav from "./tableNav"
 import EmployeeTable from "./employeeTable"
 import { useEffect, useState } from "react"
-
+import { useAppContext } from "@/context"
 
 
 export default function UserTable() {
-
+  const { isLogged } = useAppContext()
   const [allEmployees, setAllEmployees] = useState()
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function UserTable() {
       </div>
 
       <TableNav />
-      <EmployeeTable fetchedEmployees={allEmployees} />
+      <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} />
     </div>
   )
 }

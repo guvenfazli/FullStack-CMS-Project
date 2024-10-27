@@ -12,9 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 
-export default function EmployeeTable({ fetchedEmployees }) {
-
-  
+export default function EmployeeTable({ fetchedEmployees, isLogged }) {
 
   return (
     <Table>
@@ -36,7 +34,7 @@ export default function EmployeeTable({ fetchedEmployees }) {
             <TableCell className="font-medium">{employee.id}</TableCell>
             <TableCell>
               <Avatar>
-                <AvatarImage src={`http://localhost:8080/${employee.profilePic}`}/>
+                <AvatarImage src={`http://localhost:8080/${employee.profilePic}`} />
                 <AvatarFallback>PP</AvatarFallback>
               </Avatar>
             </TableCell>
@@ -45,7 +43,7 @@ export default function EmployeeTable({ fetchedEmployees }) {
             <TableCell>{employee.email}</TableCell>
             <TableCell>Yes</TableCell>
             <TableCell className="text-right">{employee.job_title}</TableCell>
-            <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>
+            {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell> : ''}
             <TableCell className="text-right w-[10px]"><button>{eyeIcon}</button></TableCell>
             <TableCell className="text-right w-[10px]"><button>{taskIcon}</button></TableCell>
           </TableRow>
