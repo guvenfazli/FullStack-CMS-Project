@@ -31,7 +31,7 @@ export default function NavBar() {
           <Dashboard isOpen={isDashBoard} />
         </div>
 
-        <div className="mb-3">
+        <div className="mb-7">
           <div onClick={() => setIsResources(prev => !prev)} className="flex items-start justify-between hover:cursor-pointer">
             <button className={`${isResources && "text-gray-600"} duration-100 hover:text-gray-500`}>Resources</button>
             <button className={`${!isResources ? 'rotate-0' : 'rotate-90 text-gray-600'} duration-100 hover:text-gray-500`}>{!isResources ? '+' : 'x'}</button>
