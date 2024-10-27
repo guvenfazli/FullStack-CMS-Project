@@ -7,13 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
-import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse } from "@/components/Icons/Icons"
+import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
-import { filterUp } from "@/components/Icons/Icons"
 
 export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
 
@@ -94,7 +92,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
 
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button onClick={() => deleteEmployee(employee.id)}>{trashCan}</button></TableCell> : ''}
 
-            <TableCell className="text-right w-[10px]"><button>{eyeIcon}</button></TableCell>
+            <TableCell className="text-right w-[10px]"><Link href={`/users/${employee.id}`}>{eyeIcon}</Link></TableCell>
             <TableCell className="text-right w-[10px]"><button>{taskIcon}</button></TableCell>
           </TableRow>
         )}

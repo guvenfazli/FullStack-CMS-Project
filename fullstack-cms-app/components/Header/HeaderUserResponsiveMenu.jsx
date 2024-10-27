@@ -26,7 +26,7 @@ export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user, setIs
 
         <p>{isLogged.name}</p>
       </div>
-      {user && <Link className="mb-2 hover:text-gray-500 duration-100" href={`/${user.userId}`}>Profile</Link>}
+      {user && <Link className="mb-2 hover:text-gray-500 duration-100" href={`/users/${user.userId}`}>Profile</Link>}
       <button className="mb-2 hover:text-gray-500 duration-100">My Tasks</button>
       <button className="hover:text-gray-500 duration-100">Log Out</button>
 
