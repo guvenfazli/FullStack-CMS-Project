@@ -13,6 +13,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
 
+import { filterUp } from "@/components/Icons/Icons"
+
 export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
 
   const [filterType, setFilterType] = useState()
@@ -28,7 +30,8 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
     })
   }
 
-  useEffect(() => {
+  useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
+    
     async function filterEmployees() {
       if (filterType) {
         const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
@@ -57,13 +60,13 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
       <TableCaption>Employee Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[100px] hover:cursor-pointer" onClick={() => filterTable('id')}>ID</TableHead>
+          <TableHead className="w-[100px] hover:cursor-pointer" onClick={() => filterTable('id')}>ID <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'id' && 'rotate-180'}`}>{filterUp}</span></TableHead>
           <TableHead className="w-[100px]">AVATAR</TableHead>
-          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('name')}>NAME</TableHead>
-          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('surname')}>SURNAME</TableHead>
-          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('email')}>EMAIL</TableHead>
-          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('isAdmin')}>ADMIN</TableHead>
-          <TableHead className="text-right hover:cursor-pointer" onClick={() => filterTable('job_title')}>TITLE</TableHead>
+          <TableHead className="hover:cursor-pointer " onClick={() => filterTable('name')}>NAME <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'name' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('surname')}>SURNAME <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'surname' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('email')}>EMAIL <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'email' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer" onClick={() => filterTable('isAdmin')}>ADMIN <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="text-right hover:cursor-pointer" onClick={() => filterTable('job_title')}>TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'job_title' && 'rotate-180'}`}>{filterUp}</span></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
