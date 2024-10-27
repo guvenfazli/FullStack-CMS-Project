@@ -25,17 +25,11 @@ export default function UserTable() {
     fetchAllEmployees()
   }, [])
 
-
-
-
-
   return (
     <div>
       <div>
         <p className="text-2xl mb-5">Users</p>
       </div>
-
-
 
       <TableNav isLogged={isLogged} />
       <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} />

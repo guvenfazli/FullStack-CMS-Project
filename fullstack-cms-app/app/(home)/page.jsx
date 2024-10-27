@@ -3,7 +3,6 @@ import UserTable from "@/components/HomePage/UserTable/userTable";
 
 export default function Home() {
 
-
   return (
     <div>
       <StatsData />

@@ -14,7 +14,6 @@ exports.fetchAllUser = (req, res, next) => {
 }
 
 exports.filterEmployees = (req, res, next) => {
-
   const filterParam = req.query.filter
   Employee.findAll({ order: [filterParam] }).then(filteredUsers => {
     return res.json({ employees: filteredUsers })

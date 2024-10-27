@@ -4,7 +4,8 @@ module.exports = (req, res, next) => {
   try {
     const cookie = req.cookies['jwt']
 
-    const resolvedCookie = jwt.decode(cookie)
+    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
+
 
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')
@@ -13,7 +14,6 @@ module.exports = (req, res, next) => {
     }
 
     req.user = resolvedCookie
-    
     next()
 
   } catch (err) {

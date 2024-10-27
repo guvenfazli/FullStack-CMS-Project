@@ -19,13 +19,23 @@ export default function RegisterForm({ newUserCreation }) {
     e.preventDefault()
     const fd = new FormData(e.target)
     fd.append('profilePic', fileState)
+    let createAccount
 
     try {
       setIsLoading(true)
-      const createAccount = await fetch('http://localhost:8080/auth/createAccount', {
-        method: 'POST',
-        body: fd,
-      })
+      if (newUserCreation) {
+        createAccount = await fetch('http://localhost:8080/admin/createEmployee', {
+          method: 'POST',
+          body: fd,
+          credentials: 'include'
+        })
+        console.log('Admin created it.')
+      } else {
+        createAccount = await fetch('http://localhost:8080/auth/createAccount', {
+          method: 'POST',
+          body: fd,
+        })
+      }
       if (!createAccount.ok) {
         setIsLoading(false)
         const responseData = await createAccount.json()

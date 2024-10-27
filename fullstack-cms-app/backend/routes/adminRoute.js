@@ -4,6 +4,8 @@ const adminController = require('../controllers/adminController')
 const authCheck = require('../middleware/authCheck')
 const { body } = require('express-validator')
 
+router.post('/createEmployee', authCheck, adminController.createEmployee)
+
 router.delete('/deleteEmployee/:employeeId', authCheck, adminController.deleteEmployee)
 
 
