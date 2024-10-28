@@ -8,8 +8,11 @@ const cookieparser = require('cookie-parser')
 const multer = require('multer')
 
 // M O D E L S 
-const Employee = require('./models/Employee.js')
 const Admin = require('./models/Admin.js')
+const Employee = require('./models/Employee.js')
+const Project = require('./models/Project.js')
+const Task = require('./models/Task.js')
+const EmployeeProject = require('./models/EmployeeTask.js')
 
 // R O U T E R S 
 
@@ -69,7 +72,11 @@ app.use((error, req, res, next) => {
 
 Employee.hasOne(Admin, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 Admin.belongsTo(Employee, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
+Project.hasMany(Task, { onDelete: 'CASCADE', foreignKey: 'projectId' })
+Task.belongsTo(Project, { onDelete: 'CASCADE', foreignKey: 'projectId' })
 
+Employee.belongsToMany(Project, { through: EmployeeProject })
+Project.belongsToMany(Employee, { through: EmployeeProject })
 
 
 sequelize.sync().then(async res => {
