@@ -17,7 +17,7 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
 
   const [filterType, setFilterType] = useState()
 
-  function fixDate(date) {
+  function fixDate(date) { // Fixing the date.
     const fixedDate = new Date(date)
     const formatedDate = fixedDate.toLocaleDateString()
     const replacedDate = formatedDate.replaceAll('.', '-')
@@ -45,8 +45,6 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
       </TableHeader>
 
       <TableBody>
-
-
         {fetchedProjects?.map((project) => {
           return (
             <TableRow key={project.id}>
@@ -62,6 +60,7 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
             </TableRow>
           )
         })}
+
       </TableBody>
     </Table>
   )

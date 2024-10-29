@@ -11,6 +11,6 @@ router.get('/employees/filtering', authCheck, userController.filterEmployees)
 
 
 router.get('/projects', authCheck, userController.fetchProjects)
-
+router.get('/projectStats', authCheck, userController.fetchProjectStats)
 
 module.exports = router

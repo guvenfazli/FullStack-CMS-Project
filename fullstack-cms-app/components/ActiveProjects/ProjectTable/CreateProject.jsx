@@ -16,14 +16,19 @@ export default function CreateProjectForm() {
 
     const fd = new FormData(e.target)
 
+    try {
+      const response = await fetch('http://localhost:8080/admin/createProject', {
+        method: 'POST',
+        body: fd,
+        credentials: 'include'
+      })
 
-    const response = await fetch('http://localhost:8080/admin/createProject', {
-      method: 'POST',
-      body: fd,
-      credentials: 'include'
-    })
+      const resData = await response.json()
+    } catch (err) {
 
-    const resData = await response.json()
+    }
+
+
 
 
   }

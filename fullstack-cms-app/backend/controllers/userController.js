@@ -29,3 +29,10 @@ exports.fetchProjects = (req, res, next) => {
     return res.json({ projects: allProjects })
   })
 }
+
+exports.fetchProjectStats = async (req, res, next) => {
+  const totalProjects = await Project.count()
+  const projectStatusData = await Project.findAll({ attributes: ['projectStatus', [sequelize.fn('COUNT', sequelize.col('projectStatus')), 'counted']], group: ['projectStatus'] })
+
+  return res.json({ totalProjects, projectStatusData })
+}
