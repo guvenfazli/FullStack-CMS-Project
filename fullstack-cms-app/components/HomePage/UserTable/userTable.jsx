@@ -1,7 +1,7 @@
 "use client"
 import TableNav from "./tableNav"
 import EmployeeTable from "./employeeTable"
-
+import RegisterForm from "@/components/Authentication/RegisterForm"
 
 
 import { useEffect, useState } from "react"
@@ -31,7 +31,7 @@ export default function UserTable() {
         <p className="text-2xl mb-5">Users</p>
       </div>
 
-      <TableNav isLogged={isLogged} />
+      <TableNav isLogged={isLogged} FormComponent={RegisterForm} buttonText="Create Employee" inputPlaceHolder="Search Employees" />
       <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} />
     </div>
   )

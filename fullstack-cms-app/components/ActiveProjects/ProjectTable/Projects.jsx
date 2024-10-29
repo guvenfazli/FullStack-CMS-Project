@@ -8,7 +8,6 @@ export default function Projects() {
 
   const { isLogged } = useAppContext()
 
-  console.log(isLogged)
   return (
     <div>
       <div>

@@ -22,8 +22,7 @@ export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormC
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            <FormComponent />
-            {/* <RegisterForm newUserCreation={true} /> */}
+            <FormComponent newUserCreation={true} />
           </DialogContent>
         </Dialog>
       }

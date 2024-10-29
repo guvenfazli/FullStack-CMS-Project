@@ -8,6 +8,6 @@ router.post('/createEmployee', authCheck, adminController.createEmployee)
 
 router.delete('/deleteEmployee/:employeeId', authCheck, adminController.deleteEmployee)
 
-
+router.post('/createProject', authCheck, adminController.createProject)
 
 module.exports = router
