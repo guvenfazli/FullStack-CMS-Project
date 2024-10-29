@@ -8,6 +8,7 @@ export default function Projects() {
 
   const { isLogged } = useAppContext()
 
+  console.log(isLogged)
   return (
     <div>
       <div>
@@ -15,7 +16,7 @@ export default function Projects() {
       </div>
 
       <TableNav isLogged={isLogged} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
-      <ProjectTable />
+      <ProjectTable isLogged={isLogged} />
     </div>
   )
 }
