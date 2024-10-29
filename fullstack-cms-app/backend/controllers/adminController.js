@@ -60,8 +60,6 @@ exports.deleteEmployee = (req, res, next) => {
     return res.json({ message: 'Employee deleted successfully.' })
   })
 
-
-
 }
 
 exports.createProject = (req, res, next) => {
