@@ -13,10 +13,17 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 
 
-export default function ProjectTable({ isLogged }) {
+export default function ProjectTable({ isLogged, fetchedProjects }) {
 
   const [filterType, setFilterType] = useState()
 
+  function fixDate(date) {
+    const fixedDate = new Date(date)
+    const formated = fixedDate.toLocaleDateString()
+    return formated
+  }
+
+  console.log(fetchedProjects)
 
   return (
     <Table>
@@ -36,32 +43,25 @@ export default function ProjectTable({ isLogged }) {
 
         </TableRow>
       </TableHeader>
-      
+
       <TableBody>
 
-        <TableRow>
-          <TableCell className="font-medium">Project Id</TableCell>
-          <TableCell>Project Title</TableCell>
-          <TableCell>Project Status</TableCell>
-          <TableCell>Number of Emp</TableCell>
-          <TableCell>Time Remaining</TableCell>
-          <TableCell className="text-center">8</TableCell>
-          {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button>{trashCan}</button></TableCell>}
-          <TableCell className="text-center w-[10px]"><Link href={`/projects/projectId`}>{eyeIcon}</Link></TableCell>
-          <TableCell className="text-center w-[10px]"><button>{taskIcon}</button></TableCell>
-        </TableRow>
 
-        <TableRow>
-          <TableCell className="font-medium">Project Id</TableCell>
-          <TableCell>Project Title</TableCell>
-          <TableCell>Project Status</TableCell>
-          <TableCell>Number of Emp</TableCell>
-          <TableCell>Time Remaining</TableCell>
-          <TableCell className="text-center">8</TableCell>
-          {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button>{trashCan}</button></TableCell>}
-          <TableCell className="text-center w-[10px]"><Link href={`/projects/projectId`}>{eyeIcon}</Link></TableCell>
-          <TableCell className="text-center w-[10px]"><button>{taskIcon}</button></TableCell>
-        </TableRow>
+        {fetchedProjects?.map((project) => {
+          return (
+            <TableRow key={project.id}>
+              <TableCell className="font-medium">{project.id}</TableCell>
+              <TableCell>{project.projectName}</TableCell>
+              <TableCell>{fixDate(project.createdAt)}</TableCell>
+              <TableCell>{project.deadLine}</TableCell>
+              <TableCell>{project.projectStatus}</TableCell>
+              <TableCell className="text-center">{project.tasks.length}</TableCell>
+              {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button>{trashCan}</button></TableCell>}
+              <TableCell className="text-center w-[10px]"><Link href={`/projects/projectId`}>{eyeIcon}</Link></TableCell>
+              <TableCell className="text-center w-[10px]"><button>{taskIcon}</button></TableCell>
+            </TableRow>
+          )
+        })}
       </TableBody>
     </Table>
   )

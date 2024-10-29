@@ -1,5 +1,7 @@
 const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
+const Project = require('../models/Project')
+const sequelize = require('../utils/database')
 
 exports.fetchUserData = (req, res, next) => {
   Employee.count().then(countedEmployees => {
@@ -17,5 +19,13 @@ exports.filterEmployees = (req, res, next) => {
   const filterParam = req.query.filter
   Employee.findAll({ order: [filterParam] }).then(filteredUsers => {
     return res.json({ employees: filteredUsers })
+  })
+}
+
+exports.fetchProjects = (req, res, next) => {
+  Project.findAll({
+    include: { nested: true, all: true }
+  }).then(allProjects => {
+    return res.json({ projects: allProjects })
   })
 }

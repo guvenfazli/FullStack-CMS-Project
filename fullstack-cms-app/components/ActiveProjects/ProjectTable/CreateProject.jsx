@@ -25,7 +25,6 @@ export default function CreateProjectForm() {
 
     const resData = await response.json()
 
-    console.log(resData)
 
   }
 
