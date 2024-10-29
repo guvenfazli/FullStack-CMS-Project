@@ -18,7 +18,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
   const [filterType, setFilterType] = useState()
 
 
-  async function filterTable(filter) {
+  function filterTable(filter) {
     setFilterType(prev => {
       if (prev === filter) {
         return undefined
@@ -92,7 +92,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
 
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button onClick={() => deleteEmployee(employee.id)}>{trashCan}</button></TableCell> : ''}
 
-            <TableCell className="text-right w-[10px]"><Link href={`/users/${employee.id}`}>{eyeIcon}</Link></TableCell>
+            <TableCell className="text-right w-[10px]"><button><Link href={`/users/${employee.id}`}>{eyeIcon}</Link></button></TableCell>
             <TableCell className="text-right w-[10px]"><button>{taskIcon}</button></TableCell>
           </TableRow>
         )}

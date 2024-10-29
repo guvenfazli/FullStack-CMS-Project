@@ -21,92 +21,79 @@ const clearImage = (imageUrl) => {
 exports.createEmployee = (req, res, next) => {
   const { name, surname, email, password, jobTitle } = req.body;
   const profilePic = req.files[0].path
-  try {
-    if (req.user.isAdmin) {
-      Admin.findOne({ where: { employeeId: req.user.userId } }).then(foundAdmin => {
-        if (!foundAdmin) {
-          const error = new Error('You have no access!')
-          error.statusCode = 408
-          throw error
-        }
-        Employee.findOne({ where: { email: email } }).then(foundUser => {
-          if (foundUser) {
-            const error = new Error('Email Already Exists!')
-            error.statusCode = 415
-            throw error
-          }
-          bcrypt.hash(password, 12).then(hashedPw => {
-            Employee.create({
-              name: name,
-              surname: surname,
-              email: email,
-              password: hashedPw,
-              job_title: jobTitle,
-              profilePic: profilePic
-            }).then(createdUser => {
-              return res.json({ message: 'Account Successfully Created!' })
-            })
-          })
-        }).catch(err => next(err))
-      })
+
+
+  Employee.findOne({ where: { email: email } }).then(foundUser => {
+    if (foundUser) {
+      const error = new Error('Email Already Exists!')
+      error.statusCode = 415
+      throw error
     }
-  } catch (err) {
-    next(err)
-  }
+
+    bcrypt.hash(password, 12).then(hashedPw => {
+      Employee.create({
+        name: name,
+        surname: surname,
+        email: email,
+        password: hashedPw,
+        job_title: jobTitle,
+        profilePic: profilePic
+      }).then(createdUser => {
+        return res.json({ message: 'Account Successfully Created!' })
+      })
+    })
+  }).catch(err => next(err))
+
 }
 
 exports.deleteEmployee = (req, res, next) => {
   const chosenEmployeeId = req.params.employeeId
-  try {
-    if (req.user.isAdmin) {
-      Admin.findOne({ where: { employeeId: req.user.userId } }).then(foundAdmin => {
-        if (!foundAdmin) {
-          const error = new Error('You have no access!')
-          error.statusCode = 408
-          throw error
-        }
-        Employee.findByPk(chosenEmployeeId).then(foundUser => {
-          if (!foundUser) {
-            const error = new Error('User could not be found!')
-            error.statusCode = 420
-            throw error
-          }
-          clearImage(foundUser.profilePic)
-          foundUser.destroy()
-          return res.json({ message: 'Employee deleted successfully.' })
-        })
-      })
+
+  Employee.findByPk(chosenEmployeeId).then(foundUser => {
+    if (!foundUser) {
+      const error = new Error('User could not found!')
+      error.statusCode = 414
+      throw error
     }
-  } catch (err) {
-    next(err)
-  }
+    clearImage(foundUser.profilePic)
+    foundUser.destroy()
+    return res.json({ message: 'Employee deleted successfully.' })
+  })
+
+
+
 }
 
 exports.createProject = (req, res, next) => {
 
   const { projectTitle, deadline } = req.body
 
-  try {
-    if (req.user.isAdmin) {
-      Admin.findOne({ where: { employeeId: req.user.userId } }).then(foundAdmin => {
-        if (!foundAdmin) {
-          const error = new Error('You have no access!')
-          error.statusCode = 408
-          throw error
-        }
-
-
-        Project.create({
-          projectName: projectTitle,
-          deadLine: deadline
-        }).then(createdProject => {
-          return res.json({ message: 'Project Created!' })
-        })
-
-
-      })
+  Project.create({
+    projectName: projectTitle,
+    deadLine: deadline
+  }).then(createdProject => {
+    if (!createdProject) {
+      const error = new Error('Something went wrong.')
+      error.statusCode = 420
+      throw error
     }
-  } catch (err) {
-    next(err)
-  }
+    return res.json({ message: 'Project Created!' })
+  }).catch(err => next(err))
+
+
+}
+
+exports.deleteProject = (req, res, next) => {
+  const chosenProjectId = req.params.chosenProjectId
+
+  Project.findByPk(chosenProjectId).then(foundProject => {
+    if (!foundProject) {
+      const error = new Error('Project could not found!')
+      error.statusCode = 420
+      throw error
+    }
+    foundProject.destroy()
+    return res.json({ message: 'Project deleted successfully.' })
+  })
+
 }

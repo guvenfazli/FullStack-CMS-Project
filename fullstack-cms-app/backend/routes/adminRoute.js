@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../controllers/adminController')
 const authCheck = require('../middleware/authCheck')
+const adminCheck = require('../middleware/adminCheck')
 const { body } = require('express-validator')
 
-router.post('/createEmployee', authCheck, adminController.createEmployee)
+router.post('/createEmployee', authCheck, adminCheck, adminController.createEmployee)
 
-router.delete('/deleteEmployee/:employeeId', authCheck, adminController.deleteEmployee)
+router.delete('/deleteEmployee/:employeeId', authCheck, adminCheck, adminController.deleteEmployee)
 
-router.post('/createProject', authCheck, adminController.createProject)
+router.post('/createProject', authCheck, adminCheck, adminController.createProject)
+router.delete('/deleteProject/:chosenProjectId', authCheck, adminCheck, adminController.deleteProject)
 
 module.exports = router

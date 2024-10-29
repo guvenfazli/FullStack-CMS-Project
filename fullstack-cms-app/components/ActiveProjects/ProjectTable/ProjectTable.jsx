@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
-
+import ProjectStatus from "./ProjectStatus"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
@@ -24,10 +24,17 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
     return replacedDate
   }
 
+  async function deleteProject(projectId) {
+    const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+  }
+
 
   return (
     <Table>
-      <TableCaption>Employee Table</TableCaption>
+      <TableCaption>Project Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('id')}>ID <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'id' && 'rotate-180'}`}>{filterUp}</span></TableHead>
@@ -52,16 +59,16 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
               <TableCell>{project.projectName}</TableCell>
               <TableCell>{fixDate(project.createdAt)}</TableCell>
               <TableCell>{fixDate(project.deadLine)}</TableCell>
-              <TableCell>{project.projectStatus}</TableCell>
+              <TableCell><ProjectStatus status={project.projectStatus}>{project.projectStatus}</ProjectStatus></TableCell>
               <TableCell className="text-center">{project.tasks.length}</TableCell>
-              {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button>{trashCan}</button></TableCell>}
-              <TableCell className="text-center w-[10px]"><Link href={`/projects/projectId`}>{eyeIcon}</Link></TableCell>
+              {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}
+              <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
               <TableCell className="text-center w-[10px]"><button>{taskIcon}</button></TableCell>
             </TableRow>
           )
         })}
 
       </TableBody>
-    </Table>
+    </Table >
   )
 }
