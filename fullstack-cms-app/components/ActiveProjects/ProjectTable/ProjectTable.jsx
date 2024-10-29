@@ -19,11 +19,11 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
 
   function fixDate(date) {
     const fixedDate = new Date(date)
-    const formated = fixedDate.toLocaleDateString()
-    return formated
+    const formatedDate = fixedDate.toLocaleDateString()
+    const replacedDate = formatedDate.replaceAll('.', '-')
+    return replacedDate
   }
 
-  console.log(fetchedProjects)
 
   return (
     <Table>
@@ -53,7 +53,7 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
               <TableCell className="font-medium">{project.id}</TableCell>
               <TableCell>{project.projectName}</TableCell>
               <TableCell>{fixDate(project.createdAt)}</TableCell>
-              <TableCell>{project.deadLine}</TableCell>
+              <TableCell>{fixDate(project.deadLine)}</TableCell>
               <TableCell>{project.projectStatus}</TableCell>
               <TableCell className="text-center">{project.tasks.length}</TableCell>
               {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button>{trashCan}</button></TableCell>}
