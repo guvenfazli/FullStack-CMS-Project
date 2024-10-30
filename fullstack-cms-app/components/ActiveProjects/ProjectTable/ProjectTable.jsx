@@ -20,6 +20,7 @@ import {
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
+import dateFormatter from "@/utils/dateFormatter"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
@@ -27,13 +28,6 @@ import Link from "next/link"
 export default function ProjectTable({ isLogged, fetchedProjects, }) {
 
   const [filterType, setFilterType] = useState()
-
-  function fixDate(date) { // Fixing the date.
-    const fixedDate = new Date(date)
-    const formatedDate = fixedDate.toLocaleDateString()
-    const replacedDate = formatedDate.replaceAll('.', '-')
-    return replacedDate
-  }
 
   async function deleteProject(projectId) {
     const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
@@ -68,8 +62,8 @@ export default function ProjectTable({ isLogged, fetchedProjects, }) {
             <TableRow key={project.id}>
               <TableCell className="font-medium">{project.id}</TableCell>
               <TableCell>{project.projectName}</TableCell>
-              <TableCell>{fixDate(project.createdAt)}</TableCell>
-              <TableCell>{fixDate(project.deadLine)}</TableCell>
+              <TableCell>{dateFormatter(project.createdAt)}</TableCell>
+              <TableCell>{dateFormatter(project.deadLine)}</TableCell>
               <TableCell><ProjectStatus status={project.projectStatus}>{project.projectStatus}</ProjectStatus></TableCell>
               <TableCell className="text-center">{project.tasks.length}</TableCell>
               {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}

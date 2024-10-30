@@ -1,7 +1,8 @@
 import ProjectInfo from "./ProjectInfo"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
+import dateFormatter from "@/utils/dateFormatter"
 export default function ProjectCard({ fetchedProject }) {
-  
+
   return (
     <div className="p-2 rounded-lg bg-slate-900">
       <div className="flex w-full border-b border-b-gray-500 mb-4">
@@ -9,15 +10,15 @@ export default function ProjectCard({ fetchedProject }) {
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Deadline:'}>{fetchedProject?.deadLine}</ProjectInfo>
+        <ProjectInfo title={'Deadline:'}>{dateFormatter(fetchedProject?.deadLine)}</ProjectInfo>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Created At:'}>{fetchedProject?.createdAt}</ProjectInfo>
+        <ProjectInfo title={'Created At:'}>{dateFormatter(fetchedProject?.createdAt)}</ProjectInfo>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Last Update:'}>{fetchedProject?.updatedAt}</ProjectInfo>
+        <ProjectInfo title={'Last Update:'}>{dateFormatter(fetchedProject?.updatedAt)}</ProjectInfo>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
