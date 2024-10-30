@@ -13,7 +13,7 @@ export default function CompletedProjects({ projectStats }) {
       </CardHeader>
 
       <CardContent className="flex items-center justify-start">
-        <div className="p-4 mr-5 bg-sky-500 rounded-xl">
+        <div className="p-4 mr-5 bg-green-700 rounded-xl">
           <p>{completedProjects}</p>
         </div>
         <p className="text-5xl text-gray-300">{countedData?.counted || 0}</p>

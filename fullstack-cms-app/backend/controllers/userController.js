@@ -47,7 +47,6 @@ exports.fetchSingleProject = async (req, res, next) => {
 
 exports.changeTaskStatus = async (req, res, next) => {
   const { taskStatus } = req.body
-  console.log(req.body)
   const taskId = req.params.taskId
   const foundTask = await Task.findByPk(taskId)
   foundTask.taskStatus = taskStatus

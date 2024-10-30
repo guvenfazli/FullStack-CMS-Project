@@ -29,7 +29,6 @@ export default function RegisterForm({ newUserCreation }) {
           body: fd,
           credentials: 'include'
         })
-        console.log('Admin created it.')
       } else {
         createAccount = await fetch('http://localhost:8080/auth/createAccount', {
           method: 'POST',
