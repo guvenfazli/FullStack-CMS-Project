@@ -7,13 +7,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
+import CreateTask from "./CreateTask"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 
 
-export default function ProjectTable({ isLogged, fetchedProjects }) {
+export default function ProjectTable({ isLogged, fetchedProjects, }) {
 
   const [filterType, setFilterType] = useState()
 
@@ -63,7 +74,20 @@ export default function ProjectTable({ isLogged, fetchedProjects }) {
               <TableCell className="text-center">{project.tasks.length}</TableCell>
               {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}
               <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
-              <TableCell className="text-center w-[10px]"><button>{taskIcon}</button></TableCell>
+              <TableCell className="text-center w-[10px]">
+
+                <Dialog>
+                  <DialogTrigger>{taskIcon}</DialogTrigger>
+                  <DialogContent className="bg-gray-900 border-none">
+                    <DialogHeader>
+                      <DialogTitle>Create Task</DialogTitle>
+                    </DialogHeader>
+                    <CreateTask projectId={project.id} />
+                  </DialogContent>
+                </Dialog>
+
+              </TableCell>
+
             </TableRow>
           )
         })}

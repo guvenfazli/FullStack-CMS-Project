@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
+
+import CreateTask from "./CreateTask"
 import TableNav from "@/components/HomePage/UserTable/tableNav"
 import ProjectTable from "./ProjectTable"
 import CreateProjectForm from "./CreateProject"
@@ -11,6 +13,7 @@ export default function Projects() {
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [isCreateTask, setIsCreateTask] = useState(false)
 
   useEffect(() => {
 
@@ -41,7 +44,11 @@ export default function Projects() {
 
       <TableNav isLogged={isLogged} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
       {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} />}
-     
+
+ 
+
+
+
     </div>
   )
 }

@@ -9,7 +9,15 @@ router.post('/createEmployee', authCheck, adminCheck, adminController.createEmpl
 
 router.delete('/deleteEmployee/:employeeId', authCheck, adminCheck, adminController.deleteEmployee)
 
-router.post('/createProject', authCheck, adminCheck, adminController.createProject)
+router.post('/createProject', [
+  body('projectTitle').notEmpty().isLength({ min: 1 }),
+  body('deadline').notEmpty().isDate()
+], authCheck, adminCheck, adminController.createProject)
 router.delete('/deleteProject/:chosenProjectId', authCheck, adminCheck, adminController.deleteProject)
+
+router.post('/createTask/:chosenProjectId', [
+  body('taskTitle').notEmpty().isLength({ min: 1 }),
+  body('deadline').notEmpty().isDate()
+], authCheck, adminCheck, adminController.createTaskToProject)
 
 module.exports = router

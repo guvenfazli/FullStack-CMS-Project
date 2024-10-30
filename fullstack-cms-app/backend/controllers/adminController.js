@@ -1,8 +1,10 @@
 const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
 const Project = require('../models/Project')
+const Task = require('../models/Task')
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
+const { validationResult } = require('express-validator')
 const path = require('path')
 
 const clearImage = (imageUrl) => {
@@ -63,8 +65,14 @@ exports.deleteEmployee = (req, res, next) => {
 }
 
 exports.createProject = (req, res, next) => {
-
   const { projectTitle, deadline } = req.body
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    const error = new Error(errors.array()[0].msg)
+    error.statusCode = 410
+    throw error
+  }
 
   Project.create({
     projectName: projectTitle,
@@ -94,4 +102,31 @@ exports.deleteProject = (req, res, next) => {
     return res.json({ message: 'Project deleted successfully.' })
   })
 
+}
+
+exports.createTaskToProject = (req, res, next) => {
+  const chosenProjectId = req.params.chosenProjectId
+  const errors = validationResult(req)
+  const { taskTitle, deadline } = req.body
+  console.log(errors)
+  if (!errors.isEmpty()) {
+    const error = new Error(errors.array()[0].msg)
+    error.statusCode = 410
+    throw error
+  }
+
+  Project.findByPk(chosenProjectId).then(foundProject => {
+    if (!foundProject) {
+      const error = new Error('Project could not found!')
+      error.statusCode = 420
+      throw error
+    }
+    foundProject.createTask({
+      taskName: taskTitle,
+      taskDeadline: deadline
+    })
+    foundProject.projectStatus = 'Pending'
+    foundProject.save()
+    return res.json({ message: 'Project deleted successfully.' })
+  })
 }
