@@ -6,10 +6,10 @@ const { body } = require('express-validator')
 
 router.get('/home', authCheck, userController.fetchUserData)
 
-router.get('/employees', authCheck, userController.fetchAllUser)
 router.get('/employees/filtering', authCheck, userController.filterEmployees)
+router.get('/employees', authCheck, userController.fetchAllUser)
 
-
+router.get('/projects/:projectId', authCheck, userController.fetchSingleProject)
 router.get('/projects', authCheck, userController.fetchProjects)
 router.get('/projectStats', authCheck, userController.fetchProjectStats)
 

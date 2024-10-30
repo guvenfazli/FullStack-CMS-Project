@@ -108,7 +108,7 @@ exports.createTaskToProject = (req, res, next) => {
   const chosenProjectId = req.params.chosenProjectId
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body
-  console.log(errors)
+
   if (!errors.isEmpty()) {
     const error = new Error(errors.array()[0].msg)
     error.statusCode = 410
@@ -127,6 +127,6 @@ exports.createTaskToProject = (req, res, next) => {
     })
     foundProject.projectStatus = 'Pending'
     foundProject.save()
-    return res.json({ message: 'Project deleted successfully.' })
+    return res.json({ message: 'Task created successfully.' })
   })
 }

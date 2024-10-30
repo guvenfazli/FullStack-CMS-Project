@@ -36,3 +36,10 @@ exports.fetchProjectStats = async (req, res, next) => {
 
   return res.json({ totalProjects, projectStatusData })
 }
+
+exports.fetchSingleProject = async (req, res, next) => {
+  const projectId = req.params.projectId
+  const fetchedProject = await Project.findByPk(projectId, { include: { all: true, nested: true } })
+  return res.json({ fetchedProject })
+
+}
