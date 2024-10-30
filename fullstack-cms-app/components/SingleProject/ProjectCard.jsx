@@ -4,7 +4,7 @@ import dateFormatter from "@/utils/dateFormatter"
 export default function ProjectCard({ fetchedProject }) {
 
   return (
-    <div className="p-2 rounded-lg bg-slate-900">
+    <div className="p-2 mb-10 rounded-lg bg-slate-900">
       <div className="flex w-full border-b border-b-gray-500 mb-4">
         <ProjectInfo title={'Name:'}>{fetchedProject?.projectName}</ProjectInfo>
       </div>

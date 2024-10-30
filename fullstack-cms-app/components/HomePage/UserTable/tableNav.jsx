@@ -9,7 +9,7 @@ import {
 
 import RegisterForm from "@/components/Authentication/RegisterForm"
 
-export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle }) {
+export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle, projectId }) {
 
   return (
     <div className="flex flex-row w-full justify-between items-center mb-7 max-[375px]:flex-col">
@@ -22,7 +22,7 @@ export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormC
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            <FormComponent newUserCreation={true} />
+            <FormComponent newUserCreation={true} projectId={projectId} />
           </DialogContent>
         </Dialog>
       }
