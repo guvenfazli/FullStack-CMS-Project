@@ -34,8 +34,24 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
 
   const [filterType, setFilterType] = useState()
 
-  function editTaskStatus(status) {
-    console.log(status)
+  async function editTaskStatus(status, task) {
+
+    const data = task
+    data.taskStatus = status
+
+    const response = await fetch(`http://localhost:8080/tasks/${task.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+
+    })
+
+    const resData = await response.json()
+
+
   }
 
   return (
@@ -68,10 +84,10 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
               <HoverCard>
                 <HoverCardTrigger><ProjectStatus status={task.taskStatus}>{task.taskStatus}</ProjectStatus></HoverCardTrigger>
                 <HoverCardContent className="flex flex-col justify-start items-start bg-gray-900 border-none gap-2 w-[135px]">
-                  <ProjectStatus editTaskStatus={editTaskStatus} status='Active'>Active</ProjectStatus>
-                  <ProjectStatus editTaskStatus={editTaskStatus} status='Pending'>Pending</ProjectStatus>
-                  <ProjectStatus editTaskStatus={editTaskStatus} status='Completed'>Completed</ProjectStatus>
-                  <ProjectStatus editTaskStatus={editTaskStatus} status='Cancelled'>Cancelled</ProjectStatus>
+                  <ProjectStatus editTaskStatus={editTaskStatus} task={task} status='Active'>Active</ProjectStatus>
+                  <ProjectStatus editTaskStatus={editTaskStatus} task={task} status='Pending'>Pending</ProjectStatus>
+                  <ProjectStatus editTaskStatus={editTaskStatus} task={task} status='Completed'>Completed</ProjectStatus>
+                  <ProjectStatus editTaskStatus={editTaskStatus} task={task} status='Cancelled'>Cancelled</ProjectStatus>
                 </HoverCardContent>
               </HoverCard>
 

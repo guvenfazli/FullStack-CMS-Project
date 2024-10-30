@@ -13,4 +13,6 @@ router.get('/projects/:projectId', authCheck, userController.fetchSingleProject)
 router.get('/projects', authCheck, userController.fetchProjects)
 router.get('/projectStats', authCheck, userController.fetchProjectStats)
 
+router.patch('/tasks/:taskId', authCheck, userController.changeTaskStatus)
+
 module.exports = router

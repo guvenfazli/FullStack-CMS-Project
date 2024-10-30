@@ -2,6 +2,7 @@ const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const sequelize = require('../utils/database')
+const Task = require('../models/Task')
 
 exports.fetchUserData = (req, res, next) => {
   Employee.count().then(countedEmployees => {
@@ -42,4 +43,14 @@ exports.fetchSingleProject = async (req, res, next) => {
   const fetchedProject = await Project.findByPk(projectId, { include: { all: true, nested: true } })
   return res.json({ fetchedProject })
 
+}
+
+exports.changeTaskStatus = async (req, res, next) => {
+  const { taskStatus } = req.body
+  console.log(req.body)
+  const taskId = req.params.taskId
+  const foundTask = await Task.findByPk(taskId)
+  foundTask.taskStatus = taskStatus
+  foundTask.save()
+  return res.json({ message: 'Status changed.' })
 }

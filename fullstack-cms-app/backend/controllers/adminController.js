@@ -2,6 +2,7 @@ const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
+
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
@@ -129,4 +130,23 @@ exports.createTaskToProject = (req, res, next) => {
     foundProject.save()
     return res.json({ message: 'Task created successfully.' })
   })
+}
+
+exports.editProjectTask = async (req, res, next) => {
+  const chosenTaskId = req.params.chosenTaskId
+  const errors = validationResult(req)
+  const { taskTitle, deadline } = req.body
+
+  if (!errors.isEmpty()) {
+    const error = new Error(errors.array()[0].msg)
+    error.statusCode = 410
+    throw error
+  }
+
+  const foundTask = await Task.findByPk(chosenTaskId)
+  foundTask.taskName = taskTitle
+  foundTask.taskDeadline = deadline
+  foundTask.save()
+  return res.json({ message: 'Task edited.' })
+
 }

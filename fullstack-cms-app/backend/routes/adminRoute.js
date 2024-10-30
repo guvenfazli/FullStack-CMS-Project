@@ -20,4 +20,9 @@ router.post('/createTask/:chosenProjectId', [
   body('deadline').notEmpty().isDate()
 ], authCheck, adminCheck, adminController.createTaskToProject)
 
+router.put('/editTask/:chosenTaskId', [
+  body('taskTitle').notEmpty().isLength({ min: 1 }),
+  body('deadline').notEmpty().isDate()
+], authCheck, adminCheck, adminController.editProjectTask)
+
 module.exports = router

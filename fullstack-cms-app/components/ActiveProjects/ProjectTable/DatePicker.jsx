@@ -1,5 +1,5 @@
-export default function DatePicker({ customFor, defaultValue }) {
+export default function DatePicker({ customFor, defValue }) {
   return (
-    <input type="date" name={customFor} defaultValue={defaultValue} className="text-gray-800 px-1 py-2 mb-3 rounded-md pl-2" />
+    <input type="date" name={customFor} defaultValue={defValue} className="text-gray-800 px-1 py-2 mb-3 rounded-md pl-2" />
   )
 }
