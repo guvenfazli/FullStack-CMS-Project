@@ -9,14 +9,24 @@ import {
 } from "@/components/ui/table"
 
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
+import { trashCan, filterUp, editIcon } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
+import EditTask from "./EditTask"
 import dateFormatter from "@/utils/dateFormatter"
 
 
@@ -69,6 +79,22 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
 
             </TableCell>
             {isLogged.isAdmin === true && <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>}
+
+            {isLogged.isAdmin === true &&
+              <TableCell className="text-right w-[10px]">
+
+                <Dialog>
+                  <DialogTrigger>{editIcon}</DialogTrigger>
+                  <DialogContent className="bg-gray-900 border-none">
+                    <DialogHeader>
+                      <DialogTitle>Edit Task</DialogTitle>
+                    </DialogHeader>
+                    <EditTask task={task} />
+                  </DialogContent>
+                </Dialog>
+
+              </TableCell>
+            }
           </TableRow>
         )}
       </TableBody>
