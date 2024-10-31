@@ -51,7 +51,13 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
 
     const resData = await response.json()
 
+  }
 
+  async function deleteTask(taskId) {
+    const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
   }
 
   return (
@@ -94,7 +100,7 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
 
 
             </TableCell>
-            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>}
+            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id)}>{trashCan}</button></TableCell>}
 
             {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">

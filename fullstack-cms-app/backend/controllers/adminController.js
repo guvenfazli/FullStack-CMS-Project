@@ -211,3 +211,22 @@ exports.editProjectTask = async (req, res, next) => {
 
 
 }
+
+exports.deleteProjectTask = async (req, res, next) => {
+  const chosenTaskId = req.params.chosenTaskId
+
+  try {
+    const foundTask = await Task.findByPk(chosenTaskId)
+    if (!foundTask) {
+      const error = new Error('Task could not found!')
+      error.statusCode = 420
+      throw error
+    }
+
+    foundTask.destroy()
+    return res.json({ message: 'Task deleted successfully.' })
+
+  } catch (err) {
+    next(err)
+  }
+}

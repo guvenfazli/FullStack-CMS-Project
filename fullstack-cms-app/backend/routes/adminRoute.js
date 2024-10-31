@@ -30,4 +30,6 @@ router.put('/editTask/:chosenTaskId', [
   body('deadline').notEmpty().isDate()
 ], authCheck, adminCheck, adminController.editProjectTask)
 
+router.delete('/deleteTask/:chosenTaskId', authCheck, adminCheck, adminController.deleteProjectTask)
+
 module.exports = router
