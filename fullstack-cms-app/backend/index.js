@@ -12,7 +12,7 @@ const Admin = require('./models/Admin.js')
 const Employee = require('./models/Employee.js')
 const Project = require('./models/Project.js')
 const Task = require('./models/Task.js')
-const EmployeeProject = require('./models/EmployeeTask.js')
+const EmployeeTask = require('./models/EmployeeTask.js')
 
 // R O U T E R S 
 
@@ -75,11 +75,13 @@ Admin.belongsTo(Employee, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 Project.hasMany(Task, { onDelete: 'CASCADE', foreignKey: 'projectId' })
 Task.belongsTo(Project, { onDelete: 'CASCADE', foreignKey: 'projectId' })
 
-Employee.belongsToMany(Project, { through: EmployeeProject })
-Project.belongsToMany(Employee, { through: EmployeeProject })
+Employee.belongsToMany(Task, { through: EmployeeTask })
+Task.belongsToMany(Employee, { through: EmployeeTask })
 
 
 sequelize.sync().then(async res => {
+
+  
 
   app.listen(8080)
 }).catch(err => console.log(err));

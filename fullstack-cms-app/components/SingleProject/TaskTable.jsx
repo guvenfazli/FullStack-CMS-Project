@@ -96,10 +96,8 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
                   <ProjectStatus editTaskStatus={editTaskStatus} task={task} status='Cancelled'>Cancelled</ProjectStatus>
                 </HoverCardContent>
               </HoverCard>
-
-
-
             </TableCell>
+
             {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id)}>{trashCan}</button></TableCell>}
 
             {isLogged.isAdmin &&

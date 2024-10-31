@@ -22,10 +22,6 @@ export default function ProjectCard({ fetchedProject }) {
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Employees Assigned:'}>{fetchedProject?.employees.length}</ProjectInfo>
-      </div>
-
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
         <ProjectInfo title={'Number of Tasks:'}>{fetchedProject?.tasks.length}</ProjectInfo>
       </div>
 
