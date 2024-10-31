@@ -4,31 +4,33 @@ const Project = require('../models/Project')
 const sequelize = require('../utils/database')
 const Task = require('../models/Task')
 
-exports.fetchUserData = (req, res, next) => {
-  Employee.count().then(countedEmployees => {
-    return res.json({ totalUsers: countedEmployees })
-  })
+exports.fetchUserData = async (req, res, next) => {
+
+  const countedEmployees = await Employee.count()
+  return res.json({ totalUsers: countedEmployees })
+
 }
 
-exports.fetchAllUser = (req, res, next) => {
-  Employee.findAll().then(allEmployees => {
-    return res.json({ employees: allEmployees })
-  })
+exports.fetchAllUser = async (req, res, next) => {
+
+  const allEmployees = await Employee.findAll()
+  return res.json({ employees: allEmployees })
+
 }
 
-exports.filterEmployees = (req, res, next) => {
+exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
-  Employee.findAll({ order: [filterParam] }).then(filteredUsers => {
-    return res.json({ employees: filteredUsers })
-  })
+
+  const filteredUsers = await Employee.findAll({ order: [filterParam] })
+  return res.json({ employees: filteredUsers })
+
 }
 
-exports.fetchProjects = (req, res, next) => {
-  Project.findAll({
-    include: { nested: true, all: true }
-  }).then(allProjects => {
-    return res.json({ projects: allProjects })
-  })
+exports.fetchProjects = async (req, res, next) => {
+
+  const allProjects = await Project.findAll({ include: { nested: true, all: true } })
+  return res.json({ projects: allProjects })
+
 }
 
 exports.fetchProjectStats = async (req, res, next) => {
