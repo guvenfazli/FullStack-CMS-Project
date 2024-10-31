@@ -23,7 +23,7 @@ export default function StatShowcase() {
 
 
   return (
-    <div className="flex justify-around mb-10">
+    <div className="flex justify-around mb-10 max-sm:flex-col">
       <TotalProjects projectStats={projectStats} />
       <CompletedProjects projectStats={projectStats?.projectStatusData} />
       <TaskStatus projectStats={projectStats} />

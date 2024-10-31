@@ -9,8 +9,8 @@ export default function TaskStatus() {
       </CardHeader>
 
       <CardContent className="flex items-center justify-start">
-        <p className="text-white">Task Status List</p>
-        <p className="text-5xl text-gray-300">Total Projects</p>
+        <p className="text-white">Will be task chart here.</p>
+        {/* <p className="text-5xl text-gray-300">Total Projects</p> */}
       </CardContent>
     </Card>
   )
