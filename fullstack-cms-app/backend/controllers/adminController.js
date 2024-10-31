@@ -66,28 +66,34 @@ exports.deleteEmployee = (req, res, next) => {
 
 }
 
-exports.createProject = (req, res, next) => {
+exports.createProject = async (req, res, next) => {
   const { projectTitle, deadline } = req.body
   const errors = validationResult(req)
 
-  if (!errors.isEmpty()) {
-    const error = new Error(errors.array()[0].msg)
-    error.statusCode = 410
-    throw error
-  }
+  try {
 
-  Project.create({
-    projectName: projectTitle,
-    deadLine: deadline
-  }).then(createdProject => {
+    if (!errors.isEmpty()) {
+      const error = new Error(errors.array()[0].msg)
+      error.statusCode = 410
+      throw error
+    }
+
+    const createdProject = await Project.create({
+      projectName: projectTitle,
+      deadLine: deadline
+    })
+
     if (!createdProject) {
       const error = new Error('Something went wrong.')
       error.statusCode = 420
       throw error
     }
-    return res.json({ message: 'Project Created!' })
-  }).catch(err => next(err))
 
+    return res.json({ message: 'Project Created!' })
+
+  } catch (err) {
+    next(err)
+  }
 
 }
 
@@ -120,18 +126,25 @@ exports.editProject = async (req, res, next) => {
 
 }
 
-exports.deleteProject = (req, res, next) => {
+exports.deleteProject = async (req, res, next) => {
   const chosenProjectId = req.params.chosenProjectId
 
-  Project.findByPk(chosenProjectId).then(foundProject => {
+  try {
+
+    const foundProject = await Project.findByPk(chosenProjectId)
+
     if (!foundProject) {
       const error = new Error('Project could not found!')
       error.statusCode = 420
       throw error
     }
+
     foundProject.destroy()
     return res.json({ message: 'Project deleted successfully.' })
-  }).catch(err => next(err))
+
+  } catch (err) {
+    next(err)
+  }
 
 }
 
