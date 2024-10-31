@@ -7,6 +7,7 @@ const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const path = require('path')
+const { Op } = require('sequelize')
 
 const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
@@ -97,9 +98,9 @@ exports.editProject = async (req, res, next) => {
 
   try {
     const foundProject = await Project.findByPk(chosenProjectId)
-    const taskCheck = await Task.findOne({ where: { taskStatus: 'Active' || 'Pending', projectId: chosenProjectId } })
+    const taskCheck = await Task.findOne({ where: { taskStatus: { [Op.or]: ['Active', 'Pending'] }, projectId: chosenProjectId } })
 
-    if (taskCheck && projectStatus === 'Completed' || projectStatus === 'Cancelled') {
+    if (taskCheck && projectStatus === ('Completed' || 'Cancelled')) {
       const error = new Error('There are remaining tasks!')
       error.statusCode = 434
       throw error
@@ -110,6 +111,7 @@ exports.editProject = async (req, res, next) => {
     foundProject.projectStatus = projectStatus
 
     foundProject.save()
+
     return res.json({ message: 'Status Updated' })
 
   } catch (err) {
@@ -133,31 +135,42 @@ exports.deleteProject = (req, res, next) => {
 
 }
 
-exports.createTaskToProject = (req, res, next) => {
+exports.createTaskToProject = async (req, res, next) => {
   const chosenProjectId = req.params.chosenProjectId
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body
 
-  if (!errors.isEmpty()) {
-    const error = new Error(errors.array()[0].msg)
-    error.statusCode = 410
-    throw error
-  }
+  try {
 
-  Project.findByPk(chosenProjectId).then(foundProject => {
+    if (!errors.isEmpty()) {
+      const error = new Error(errors.array()[0].msg)
+      error.statusCode = 410
+      throw error
+    }
+
+    const foundProject = await Project.findByPk(chosenProjectId)
+
     if (!foundProject) {
       const error = new Error('Project could not found!')
       error.statusCode = 420
       throw error
     }
+
     foundProject.createTask({
       taskName: taskTitle,
       taskDeadline: deadline
     })
+
     foundProject.projectStatus = 'Pending'
     foundProject.save()
+
     return res.json({ message: 'Task created successfully.' })
-  }).catch(err => next(err))
+
+  } catch (err) {
+    next(err)
+  }
+
+
 }
 
 exports.editProjectTask = async (req, res, next) => {
@@ -165,16 +178,23 @@ exports.editProjectTask = async (req, res, next) => {
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body
 
-  if (!errors.isEmpty()) {
-    const error = new Error(errors.array()[0].msg)
-    error.statusCode = 410
-    throw error
+  try {
+
+    if (!errors.isEmpty()) {
+      const error = new Error(errors.array()[0].msg)
+      error.statusCode = 410
+      throw error
+    }
+
+    const foundTask = await Task.findByPk(chosenTaskId)
+    foundTask.taskName = taskTitle
+    foundTask.taskDeadline = deadline
+    foundTask.save()
+    return res.json({ message: 'Task edited.' })
+
+  } catch (err) {
+    next(err)
   }
 
-  const foundTask = await Task.findByPk(chosenTaskId)
-  foundTask.taskName = taskTitle
-  foundTask.taskDeadline = deadline
-  foundTask.save()
-  return res.json({ message: 'Task edited.' })
 
 }
