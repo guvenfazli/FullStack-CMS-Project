@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-
+import Link from "next/link"
 
 
 export default function SearchBar() {
@@ -15,6 +15,10 @@ export default function SearchBar() {
 
     lastChange.current = setTimeout(async () => {
       lastChange.current = null
+      if (e.target.value === '') {
+        setSearchResult(undefined)
+        return
+      }
       const response = await fetch(`http://localhost:8080/projects?project=${e.target.value}`, {
         method: 'GET',
         credentials: 'include'
@@ -25,20 +29,18 @@ export default function SearchBar() {
 
   }
 
-  console.log(searchResult)
-
-
-
-
-
   return (
-    <div className="border">
-      <input ref={lastChange} onChange={(e) => searchBarFunction(e)} id="searchProjectBar" className="px-4 py-1 bg-gray-700 text-white w-96 rounded-2xl  max-[470px]:w-64 max-[350px]:w-48" placeholder="Search for Projects"></input>
+    <div>
+      <input ref={lastChange} onChange={(e) => searchBarFunction(e)} id="searchProjectBar"
+        className={`px-4 py-1 bg-gray-700 text-white w-96 max-[470px]:w-64 max-[350px]:w-48 ${searchResult ? 'rounded-b-none rounded-t-2xl' : 'rounded-2xl'}`}
+        placeholder="Search for Projects">
 
-      <div className="absolute w-[385px] p-3 z-20 border max-[470px]:w-[255px] max-[350px]:w-[195px] bg-slate-700">
+      </input>
+
+      <div className={`absolute duration-75 rounded-b-md flex flex-col w-[385px] z-20  max-[470px]:w-[255px] max-[350px]:w-[195px] bg-gray-700 ${searchResult ? 'opacity-100' : 'opacity-0'}`}>
         {searchResult?.map(result => {
           return (
-            <p key={result.id}>{result.projectName}</p>
+            <Link className="p-2 duration-75 hover:bg-gray-800" href={`/projects/${result.id}`} key={result.id}>{result.projectName}</Link>
           )
         })}
       </div>
