@@ -12,10 +12,8 @@ export default function Projects() {
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
   const [isLoading, setIsLoading] = useState(false)
-  const [isCreateTask, setIsCreateTask] = useState(false)
 
   useEffect(() => {
-
     async function fetchAllProjects() {
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/projects', {
@@ -30,10 +28,16 @@ export default function Projects() {
     }
 
     fetchAllProjects()
-
   }, [])
 
-
+  async function searchProjects(searchParam) {
+    const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+    const resData = await response.json()
+    setFetchedProjects(resData.projects)
+  }
 
   return (
     <div>
@@ -41,13 +45,8 @@ export default function Projects() {
         <p className="text-2xl mb-5">Projects</p>
       </div>
 
-      <TableNav isLogged={isLogged} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
+      <TableNav isLogged={isLogged} searchFn={searchProjects} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
       {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} />}
-
- 
-
-
-
     </div>
   )
 }
