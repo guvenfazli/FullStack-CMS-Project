@@ -17,6 +17,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
@@ -33,6 +39,21 @@ export default function ProjectTable({ isLogged, fetchedProjects, }) {
     const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
       method: 'DELETE',
       credentials: 'include'
+    })
+  }
+
+  async function changeProjectStatus(status, project) {
+
+    const data = project
+    data.projectStatus = status
+
+    const response = await fetch(`http://localhost:8080/admin/editProject/${project.id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: JSON.stringify(project),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
   }
 
@@ -64,7 +85,22 @@ export default function ProjectTable({ isLogged, fetchedProjects, }) {
               <TableCell>{project.projectName}</TableCell>
               <TableCell>{dateFormatter(project.createdAt)}</TableCell>
               <TableCell>{dateFormatter(project.deadLine)}</TableCell>
-              <TableCell><ProjectStatus status={project.projectStatus}>{project.projectStatus}</ProjectStatus></TableCell>
+
+              <TableCell>
+
+                <HoverCard>
+                  <HoverCardTrigger><ProjectStatus status={project.projectStatus}>{project.projectStatus}</ProjectStatus></HoverCardTrigger>
+                  <HoverCardContent className="flex flex-col justify-start items-start bg-gray-900 border-none gap-2 w-[135px]">
+                    <ProjectStatus editTaskStatus={changeProjectStatus} task={project} status='Active'>Active</ProjectStatus>
+                    <ProjectStatus editTaskStatus={changeProjectStatus} task={project} status='Pending'>Pending</ProjectStatus>
+                    <ProjectStatus editTaskStatus={changeProjectStatus} task={project} status='Completed'>Completed</ProjectStatus>
+                    <ProjectStatus editTaskStatus={changeProjectStatus} task={project} status='Cancelled'>Cancelled</ProjectStatus>
+                  </HoverCardContent>
+                </HoverCard>
+              </TableCell>
+
+
+
               <TableCell className="text-center">{project.tasks.length}</TableCell>
               {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}
               <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>

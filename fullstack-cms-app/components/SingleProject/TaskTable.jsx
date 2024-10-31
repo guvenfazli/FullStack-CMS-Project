@@ -94,9 +94,9 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
 
 
             </TableCell>
-            {isLogged.isAdmin === true && <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>}
+            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button>{trashCan}</button></TableCell>}
 
-            {isLogged.isAdmin === true &&
+            {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">
 
                 <Dialog>

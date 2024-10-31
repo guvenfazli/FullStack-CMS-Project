@@ -90,6 +90,34 @@ exports.createProject = (req, res, next) => {
 
 }
 
+exports.editProject = async (req, res, next) => {
+  const chosenProjectId = req.params.chosenProjectId
+
+  const { projectName, deadLine, projectStatus } = req.body
+
+  try {
+    const foundProject = await Project.findByPk(chosenProjectId)
+    const taskCheck = await Task.findOne({ where: { taskStatus: 'Active' || 'Pending', projectId: chosenProjectId } })
+
+    if (taskCheck && projectStatus === 'Completed' || projectStatus === 'Cancelled') {
+      const error = new Error('There are remaining tasks!')
+      error.statusCode = 434
+      throw error
+    }
+
+    foundProject.projectName = projectName
+    foundProject.deadLine = deadLine
+    foundProject.projectStatus = projectStatus
+
+    foundProject.save()
+    return res.json({ message: 'Status Updated' })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 exports.deleteProject = (req, res, next) => {
   const chosenProjectId = req.params.chosenProjectId
 
@@ -101,7 +129,7 @@ exports.deleteProject = (req, res, next) => {
     }
     foundProject.destroy()
     return res.json({ message: 'Project deleted successfully.' })
-  })
+  }).catch(err => next(err))
 
 }
 
@@ -129,7 +157,7 @@ exports.createTaskToProject = (req, res, next) => {
     foundProject.projectStatus = 'Pending'
     foundProject.save()
     return res.json({ message: 'Task created successfully.' })
-  })
+  }).catch(err => next(err))
 }
 
 exports.editProjectTask = async (req, res, next) => {
