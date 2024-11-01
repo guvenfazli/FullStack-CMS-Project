@@ -49,7 +49,7 @@ export default function AssignEmployees({ task }) {
       </div>
 
       <div className="flex justify-center items-center w-full">
-        <button className="p-2 rounded-md bg-gray-300 text-gray-900">Assign Employee</button>
+        <button className="p-2 rounded-md duration-75 bg-gray-300 text-gray-900 hover:bg-gray-600 hover:text-gray-300">Assign Employee</button>
       </div>
 
     </div>
