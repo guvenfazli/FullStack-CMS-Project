@@ -149,7 +149,7 @@ exports.deleteProject = async (req, res, next) => {
 
 }
 
-exports.createTaskToProject = async (req, res, next) => {
+exports.createTaskProject = async (req, res, next) => {
   const chosenProjectId = req.params.chosenProjectId
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body

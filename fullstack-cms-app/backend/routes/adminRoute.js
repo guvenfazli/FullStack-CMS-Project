@@ -23,7 +23,7 @@ router.delete('/deleteProject/:chosenProjectId', authCheck, adminCheck, adminCon
 router.post('/createTask/:chosenProjectId', [
   body('taskTitle').notEmpty().isLength({ min: 1 }),
   body('deadline').notEmpty().isDate()
-], authCheck, adminCheck, adminController.createTaskToProject)
+], authCheck, adminCheck, adminController.createTaskProject)
 
 router.put('/editTask/:chosenTaskId', [
   body('taskTitle').notEmpty().isLength({ min: 1 }),
