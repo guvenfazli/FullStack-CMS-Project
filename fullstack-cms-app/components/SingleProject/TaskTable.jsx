@@ -109,7 +109,7 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
                     <DialogHeader>
                       <DialogTitle>Edit Task</DialogTitle>
                     </DialogHeader>
-                    <AssignEmployees task={task} />
+                    <AssignEmployees task={task} isLogged={isLogged} />
                   </DialogContent>
                 </Dialog>
 

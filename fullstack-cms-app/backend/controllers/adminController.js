@@ -2,6 +2,7 @@ const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
+const EmployeeTask = require('../models/EmployeeTask')
 
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
@@ -229,4 +230,28 @@ exports.deleteProjectTask = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+exports.assignEmployees = async (req, res, next) => {
+  const chosenTaskId = req.params.chosenTaskId
+  const assignedEmployeeList = req.body
+
+  const foundTask = await Task.findByPk(chosenTaskId)
+
+  try {
+    assignedEmployeeList.forEach(async (employee) => {
+      const foundEmployee = await Employee.findByPk(employee)
+      if (!foundEmployee) {
+        const error = new Error('Employee could not found!')
+        error.statusCode = 420
+        throw error
+      }
+      foundEmployee.addTask(foundTask)
+    });
+
+    return res.json({ message: 'Employees assigned.' })
+  } catch (err) {
+    next(err)
+  }
+
 }

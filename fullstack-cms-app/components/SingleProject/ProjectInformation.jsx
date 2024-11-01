@@ -37,7 +37,6 @@ export default function ProjectInformation() {
   }, [])
 
 
-
   return (
 
     <div>
