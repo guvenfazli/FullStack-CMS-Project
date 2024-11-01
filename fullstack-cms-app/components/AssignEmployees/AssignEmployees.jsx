@@ -49,15 +49,26 @@ export default function AssignEmployees({ task, isLogged }) {
 
   return (
     <div className="flex flex-col p-2 justify-start items-start">
-      {task.employees.length === 0 ? <p className="mb-5">No one assigned to this task.</p> : <AssignedEmployees />}
+      <div className="flex flex-row items-start gap-2">
+        {task.employees.length === 0 ? <p className="mb-5">No one assigned to this task.</p> :
+          task.employees.map((emp) => {
+            return (
+              <AssignedEmployees key={emp.id} task={task} employee={emp} />
+            )
+          })
+        }
+      </div>
 
       {isLogged.isAdmin &&
         <>
           <div className="flex w-full p-2 flex-row justify-around items-start mb-5">
             {employeeList?.map((emp) => {
-              return (
-                <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} removeEmployee={removeEmployee} chosenEmployees={chosenEmployees} />
-              )
+              const alreadyAssigned = task.employees.some((assignedEmp) => assignedEmp.id === emp.id)
+              if (!alreadyAssigned) {
+                return (
+                  <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} removeEmployee={removeEmployee} chosenEmployees={chosenEmployees} />
+                )
+              }
             })}
           </div>
 

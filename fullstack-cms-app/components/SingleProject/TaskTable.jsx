@@ -107,10 +107,11 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
                   <DialogTrigger>{profileIcon}</DialogTrigger>
                   <DialogContent className="bg-gray-900 border-none">
                     <DialogHeader>
-                      <DialogTitle>Edit Task</DialogTitle>
+                      <DialogTitle>Assigned Employees</DialogTitle>
                     </DialogHeader>
                     <AssignEmployees task={task} isLogged={isLogged} />
                   </DialogContent>
+     
                 </Dialog>
 
               </TableCell>
