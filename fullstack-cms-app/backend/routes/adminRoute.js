@@ -31,6 +31,8 @@ router.put('/editTask/:chosenTaskId', [
 ], authCheck, adminCheck, adminController.editProjectTask)
 
 router.put('/assignEmployees/:chosenTaskId', authCheck, adminCheck, adminController.assignEmployees)
+router.put('/resignEmployees/:chosenTaskId/:chosenEmployeeId', authCheck, adminCheck, adminController.reassignEmployees)
+
 
 router.delete('/deleteTask/:chosenTaskId', authCheck, adminCheck, adminController.deleteProjectTask)
 

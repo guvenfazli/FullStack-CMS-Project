@@ -47,13 +47,20 @@ export default function AssignEmployees({ task, isLogged }) {
     })
   }
 
+  async function resignEmployees(taskId, employeeId) {
+    const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}`, {
+      method: 'PUT',
+      credentials: 'include'
+    })
+  }
+
   return (
     <div className="flex flex-col p-2 justify-start items-start">
       <div className="flex flex-row items-start gap-2">
         {task.employees.length === 0 ? <p className="mb-5">No one assigned to this task.</p> :
           task.employees.map((emp) => {
             return (
-              <AssignedEmployees key={emp.id} task={task} employee={emp} />
+              <AssignedEmployees key={emp.id} task={task} employee={emp} resignEmployees={resignEmployees} />
             )
           })
         }
@@ -66,7 +73,12 @@ export default function AssignEmployees({ task, isLogged }) {
               const alreadyAssigned = task.employees.some((assignedEmp) => assignedEmp.id === emp.id)
               if (!alreadyAssigned) {
                 return (
-                  <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} removeEmployee={removeEmployee} chosenEmployees={chosenEmployees} />
+                  <EmployeeCard
+                    key={emp.id}
+                    employee={emp}
+                    chooseEmployee={chooseEmployee}
+                    removeEmployee={removeEmployee}
+                    chosenEmployees={chosenEmployees} />
                 )
               }
             })}

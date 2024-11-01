@@ -255,3 +255,21 @@ exports.assignEmployees = async (req, res, next) => {
   }
 
 }
+
+exports.reassignEmployees = async (req, res, next) => {
+  const chosenTaskId = req.params.chosenTaskId
+  const chosenEmployeeId = req.params.chosenEmployeeId
+
+  const foundTask = await Task.findByPk(chosenTaskId)
+  const foundEmployee = await Employee.findByPk(chosenEmployeeId)
+
+  try {
+
+    foundEmployee.removeTask(foundTask)
+
+    return res.json({ message: 'Employees assigned.' })
+  } catch (err) {
+    next(err)
+  }
+
+}
