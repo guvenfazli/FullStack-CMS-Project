@@ -1,4 +1,5 @@
 export default function ProjectStatus({ status, editTaskStatus, task, children }) {
+  
   if (status === 'Active') {
     return (
       <button onClick={() => editTaskStatus('Active', task)} className="py-1 px-4 duration-75 bg-blue-400 rounded-lg text-blue-800 font-bold hover:bg-blue-200">{children}</button>

@@ -23,10 +23,11 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { trashCan, filterUp, editIcon } from "@/components/Icons/Icons"
+import { trashCan, filterUp, editIcon, profileIcon } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
 import EditTask from "./EditTask"
+import AssignEmployees from "../AssignEmployees/AssignEmployees"
 import dateFormatter from "@/utils/dateFormatter"
 
 
@@ -35,7 +36,6 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
   const [filterType, setFilterType] = useState()
 
   async function editTaskStatus(status, task) {
-
     const data = task
     data.taskStatus = status
 
@@ -99,6 +99,23 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
             </TableCell>
 
             {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id)}>{trashCan}</button></TableCell>}
+
+            {isLogged.isAdmin &&
+              <TableCell className="text-right w-[10px]">
+
+                <Dialog>
+                  <DialogTrigger>{profileIcon}</DialogTrigger>
+                  <DialogContent className="bg-gray-900 border-none">
+                    <DialogHeader>
+                      <DialogTitle>Edit Task</DialogTitle>
+                    </DialogHeader>
+                    <AssignEmployees task={task} />
+                  </DialogContent>
+                </Dialog>
+
+              </TableCell>
+            }
+
 
             {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">
