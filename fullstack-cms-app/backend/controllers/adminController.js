@@ -8,7 +8,7 @@ const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const path = require('path')
-const { Op } = require('sequelize')
+const { Op, where } = require('sequelize')
 
 const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
@@ -248,7 +248,8 @@ exports.assignEmployees = async (req, res, next) => {
       }
       foundEmployee.addTask(foundTask)
     });
-
+    foundTask.taskStatus = 'Pending'
+    foundTask.save()
     return res.json({ message: 'Employees assigned.' })
   } catch (err) {
     next(err)
@@ -256,7 +257,7 @@ exports.assignEmployees = async (req, res, next) => {
 
 }
 
-exports.reassignEmployees = async (req, res, next) => {
+exports.resignEmployees = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
   const chosenEmployeeId = req.params.chosenEmployeeId
 
@@ -264,10 +265,16 @@ exports.reassignEmployees = async (req, res, next) => {
   const foundEmployee = await Employee.findByPk(chosenEmployeeId)
 
   try {
+    await foundEmployee.removeTask(foundTask)
 
-    foundEmployee.removeTask(foundTask)
+    const currentTaskStatus = await EmployeeTask.findOne({ where: { taskId: foundTask.id } })
 
-    return res.json({ message: 'Employees assigned.' })
+    if (currentTaskStatus === null) {
+      foundTask.taskStatus = 'Active'
+      foundTask.save()
+    }
+
+    return res.json({ message: 'Employees resigned.' })
   } catch (err) {
     next(err)
   }
