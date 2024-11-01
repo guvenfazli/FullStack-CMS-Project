@@ -45,23 +45,11 @@ export default function AssignEmployees({ task }) {
       <div className="flex w-full p-2 flex-row justify-around items-start mb-5">
         {employeeList?.map((emp) => {
           return (
-            <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} />
+            <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} removeEmployee={removeEmployee} chosenEmployees={chosenEmployees} />
           )
         })}
       </div>
 
-      <div className="flex p-2 w-full flex-col justify-start items-center mb-5 border-t">
-        <p>Chosen Employees</p>
-
-
-        <div className="flex w-full flex-row items-start gap-x-2 mb-5">
-          {chosenEmployees.length === 0 ? <p>You did not choose anyone.</p> : chosenEmployees.map((emp) => {
-            return (
-              <ChosenEmployees key={emp.id} employee={emp} removeEmployee={removeEmployee} />
-            )
-          })}
-        </div>
-      </div>
     </div>
   )
 }
