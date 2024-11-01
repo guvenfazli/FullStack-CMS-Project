@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import AssignedEmployees from "./AssignedEmployees"
 import EmployeeCard from "./EmployeeCard"
-import ChosenEmployees from "./ChosenEmployees"
 
 export default function AssignEmployees({ task }) {
 
@@ -48,6 +46,10 @@ export default function AssignEmployees({ task }) {
             <EmployeeCard key={emp.id} employee={emp} chooseEmployee={chooseEmployee} removeEmployee={removeEmployee} chosenEmployees={chosenEmployees} />
           )
         })}
+      </div>
+
+      <div className="flex justify-center items-center w-full">
+        <button className="p-2 rounded-md bg-gray-300 text-gray-900">Assign Employee</button>
       </div>
 
     </div>
