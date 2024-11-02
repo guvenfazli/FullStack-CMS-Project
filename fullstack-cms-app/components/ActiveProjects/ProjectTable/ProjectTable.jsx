@@ -31,7 +31,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 
 
-export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects }) {
+export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setIsLoading }) {
 
   const [filterType, setFilterType] = useState()
 
@@ -71,7 +71,6 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
   useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
 
     async function filterProjects() {
-
       if (filterType) {
         const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
           method: 'GET',
@@ -87,7 +86,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
         const resData = await response.json()
         setFetchedProjects(resData.projects)
       }
-      
+
     }
 
     filterProjects()
