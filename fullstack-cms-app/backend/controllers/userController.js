@@ -6,32 +6,64 @@ const Task = require('../models/Task')
 const { Op } = require('sequelize')
 
 exports.fetchUserData = async (req, res, next) => {
+  try {
+    const countedEmployees = await Employee.count()
 
-  const countedEmployees = await Employee.count()
-  return res.json({ totalUsers: countedEmployees })
+    if (!countedEmployees) {
+      const error = new Error('Something went wrong while filtering!')
+      error.statusCode = 444
+      throw error
+    }
 
+    return res.json({ totalUsers: countedEmployees })
+
+  } catch (err) {
+    next(err)
+  }
 }
 
 exports.fetchAllUser = async (req, res, next) => {
 
   const searchParam = req.query.employee
+  let foundEmployees
+  let allEmployees
+  try {
+    if (searchParam) {
+      foundEmployees = await Employee.findAll({ where: { [Op.or]: [{ name: { [Op.like]: `%${searchParam}%` } }, { surname: { [Op.like]: `%${searchParam}%` } }] } })
+      return res.json({ employees: foundEmployees })
+    }
 
-  if (searchParam) {
-    const foundEmployees = await Employee.findAll({ where: { [Op.or]: [{ name: { [Op.like]: `%${searchParam}%` } }, { surname: { [Op.like]: `%${searchParam}%` } }] } })
-    return res.json({ employees: foundEmployees })
+    allEmployees = await Employee.findAll()
+
+    if (foundEmployees && allEmployees) {
+      const error = new Error('Employees could not found!')
+      error.statusCode = 444
+      throw error
+    }
+
+    return res.json({ employees: allEmployees })
+  } catch (err) {
+    next(err)
   }
-
-  const allEmployees = await Employee.findAll()
-  return res.json({ employees: allEmployees })
-
 
 }
 
 exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
+  try {
+    const filteredUsers = await Employee.findAll({ order: [filterParam] })
 
-  const filteredUsers = await Employee.findAll({ order: [filterParam] })
-  return res.json({ employees: filteredUsers })
+    if (!filteredUsers) {
+      const error = new Error('Something went wrong while filtering!')
+      error.statusCode = 444
+      throw error
+    }
+
+    return res.json({ employees: filteredUsers })
+  } catch (err) {
+    next(err)
+  }
+
 
 }
 
@@ -62,8 +94,8 @@ exports.fetchProjects = async (req, res, next) => {
       throw error
     }
 
-
     return res.json({ projects: allProjects })
+
   } catch (err) {
     next(err)
   }
@@ -73,16 +105,43 @@ exports.fetchProjects = async (req, res, next) => {
 }
 
 exports.fetchProjectStats = async (req, res, next) => {
-  const totalProjects = await Project.count()
-  const projectStatusData = await Project.findAll({ attributes: ['projectStatus', [sequelize.fn('COUNT', sequelize.col('projectStatus')), 'counted']], group: ['projectStatus'] })
+  try {
+    const totalProjects = await Project.count()
+    const projectStatusData = await Project.findAll({ attributes: ['projectStatus', [sequelize.fn('COUNT', sequelize.col('projectStatus')), 'counted']], group: ['projectStatus'] })
 
-  return res.json({ totalProjects, projectStatusData })
+    if (!totalProjects || !projectStatusData) {
+      const error = new Error('Could not fetch stats!')
+      error.statusCode = 424
+      throw error
+    }
+
+    return res.json({ totalProjects, projectStatusData })
+
+  } catch (err) {
+    next(err)
+  }
+
 }
 
 exports.fetchSingleProject = async (req, res, next) => {
+
   const projectId = req.params.projectId
-  const fetchedProject = await Project.findByPk(projectId, { include: { all: true, nested: true } })
-  return res.json({ fetchedProject })
+
+  try {
+    const fetchedProject = await Project.findByPk(projectId, { include: { all: true, nested: true } })
+
+    if (!fetchedProject) {
+      const error = new Error('Project not found!')
+      error.statusCode = 404
+      throw error
+    }
+
+    return res.json({ fetchedProject })
+
+  } catch (err) {
+    next(err)
+  }
+
 
 }
 
