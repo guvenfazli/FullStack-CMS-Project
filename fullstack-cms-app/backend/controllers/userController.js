@@ -38,10 +38,17 @@ exports.filterEmployees = async (req, res, next) => {
 exports.fetchProjects = async (req, res, next) => {
 
   const searchParam = req.query.project
+  const filterParam = req.query.filterParam
 
   if (searchParam) {
     const foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: { nested: true, all: true } })
     return res.json({ projects: foundProjects })
+  }
+
+  if (filterParam) {
+    const foundProjects = await Project.findAll({ order: [filterParam], include: { nested: true, all: true } })
+    return res.json({ projects: foundProjects })
+
   }
 
   const allProjects = await Project.findAll({ include: { nested: true, all: true } })

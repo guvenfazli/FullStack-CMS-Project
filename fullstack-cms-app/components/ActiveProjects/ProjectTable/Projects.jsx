@@ -46,7 +46,7 @@ export default function Projects() {
       </div>
 
       <TableNav isLogged={isLogged} searchFn={searchProjects} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
-      {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} />}
+      {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} setFetchedProjects={setFetchedProjects} />}
     </div>
   )
 }
