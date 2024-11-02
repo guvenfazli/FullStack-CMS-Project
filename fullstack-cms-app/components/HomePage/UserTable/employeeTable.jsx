@@ -67,7 +67,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
 
       const resData = await response.json()
       toast({
-        title: 'Something went wrong.',
+        title: 'Employee deleted.',
         description: resData.message,
       })
 

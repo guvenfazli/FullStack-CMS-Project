@@ -14,9 +14,11 @@ const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
   try {
     fs.unlink(filePath, (err) => {
-      const error = new Error('Something happened')
-      error.statusCode = 420
-      throw error
+      if (err) {
+        const error = new Error('Something happened')
+        error.statusCode = 420
+        throw error
+      }
     })
   } catch (err) {
     next(err)
@@ -66,7 +68,7 @@ exports.deleteEmployee = async (req, res, next) => {
     foundUser.destroy()
     clearImage(foundUser.profilePic)
     return res.json({ message: 'Employee deleted successfully.' })
-  
+
   } catch (err) {
     next(err)
   }

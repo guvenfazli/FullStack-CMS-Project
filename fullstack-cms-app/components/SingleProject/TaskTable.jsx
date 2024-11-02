@@ -25,6 +25,7 @@ import {
 
 import { trashCan, filterUp, editIcon, profileIcon } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
 import EditTask from "./EditTask"
 import AssignEmployees from "../AssignEmployees/AssignEmployees"
@@ -34,30 +35,66 @@ import dateFormatter from "@/utils/dateFormatter"
 export default function TaskTable({ fetchedTasks, isLogged }) {
 
   const [filterType, setFilterType] = useState()
+  const { toast } = useToast()
 
   async function editTaskStatus(status, task) {
     const data = task
     data.taskStatus = status
 
-    const response = await fetch(`http://localhost:8080/tasks/${task.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      const response = await fetch(`http://localhost:8080/tasks/${task.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
       }
+      const resData = await response.json()
+      toast({
+        title: 'Success!',
+        description: resData.message,
+      })
+    } catch (err) {
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
+    }
 
-    })
-
-    const resData = await response.json()
 
   }
 
   async function deleteTask(taskId) {
-    const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    })
+    try {
+      const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+      const resData = await response.json()
+      toast({
+        title: 'Success!',
+        description: resData.message,
+      })
+    } catch (err) {
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
+    }
   }
 
   return (
