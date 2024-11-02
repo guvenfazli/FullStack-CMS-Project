@@ -8,7 +8,7 @@ const fs = require('fs')
 const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const path = require('path')
-const { Op, where } = require('sequelize')
+const { Op } = require('sequelize')
 
 const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
@@ -25,31 +25,34 @@ const clearImage = (imageUrl) => {
   }
 }
 
-exports.createEmployee = (req, res, next) => {
+exports.createEmployee = async (req, res, next) => {
   const { name, surname, email, password, jobTitle } = req.body;
   const profilePic = req.files[0].path
 
+  try {
+    const foundUser = await Employee.findOne({ where: { email: email } })
 
-  Employee.findOne({ where: { email: email } }).then(foundUser => {
     if (foundUser) {
       const error = new Error('Email Already Exists!')
       error.statusCode = 415
       throw error
     }
 
-    bcrypt.hash(password, 12).then(hashedPw => {
-      Employee.create({
-        name: name,
-        surname: surname,
-        email: email,
-        password: hashedPw,
-        job_title: jobTitle,
-        profilePic: profilePic
-      }).then(createdUser => {
-        return res.json({ message: 'Account Successfully Created!' })
-      })
+    const hashedPw = await bcrypt.hash(password, 12)
+
+    Employee.create({
+      name: name,
+      surname: surname,
+      email: email,
+      password: hashedPw,
+      job_title: jobTitle,
+      profilePic: profilePic
     })
-  }).catch(err => next(err))
+
+    return res.json({ message: 'Account Successfully Created!' })
+  } catch (err) {
+    next(err)
+  }
 
 }
 

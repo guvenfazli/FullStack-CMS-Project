@@ -25,18 +25,35 @@ exports.fetchUserData = async (req, res, next) => {
 exports.fetchAllUser = async (req, res, next) => {
 
   const searchParam = req.query.employee
+  let employeeName = searchParam
+  let employeeSurname;
   let foundEmployees
   let allEmployees
 
+
   try {
     if (searchParam) {
-      foundEmployees = await Employee.findAll({ where: { [Op.or]: [{ name: { [Op.like]: `%${searchParam}%` } }, { surname: { [Op.like]: `%${searchParam}%` } }] } })
+
+      if (searchParam.includes(' ')) {
+        const fullName = searchParam.split(' ')
+        employeeName = fullName[0]
+        employeeSurname = fullName[1]
+      }
+
+      foundEmployees = await Employee.findAll({
+        where: {
+          [Op.or]: [
+            { name: { [Op.like]: `%${employeeName}%` } },
+            { surname: { [Op.like]: `%${employeeSurname}%` } }]
+        }
+      })
+      
       return res.json({ employees: foundEmployees })
     }
 
     allEmployees = await Employee.findAll()
 
-    if (foundEmployees && allEmployees) {
+    if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
       error.statusCode = 444
       throw error
@@ -51,7 +68,7 @@ exports.fetchAllUser = async (req, res, next) => {
 
 exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
- 
+
   try {
     const filteredUsers = await Employee.findAll({ order: [filterParam] })
 
