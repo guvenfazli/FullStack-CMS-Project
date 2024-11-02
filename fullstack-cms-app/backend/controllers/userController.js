@@ -54,8 +54,6 @@ exports.fetchProjects = async (req, res, next) => {
   const allProjects = await Project.findAll({ include: { nested: true, all: true } })
   return res.json({ projects: allProjects })
 
-
-
 }
 
 exports.fetchProjectStats = async (req, res, next) => {
