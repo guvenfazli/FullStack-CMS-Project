@@ -137,7 +137,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
 
 
 
-              <TableCell className="text-center">{project.tasks?.length}</TableCell>
+              <TableCell className="text-center">{project.tasks.length}</TableCell>
               {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}
               <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
               <TableCell className="text-center w-[10px]">

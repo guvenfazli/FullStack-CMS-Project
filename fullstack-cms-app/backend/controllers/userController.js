@@ -39,20 +39,36 @@ exports.fetchProjects = async (req, res, next) => {
 
   const searchParam = req.query.project
   const filterParam = req.query.filterParam
+  let foundProjects;
+  let allProjects;
 
-  if (searchParam) {
-    const foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: { nested: true, all: true } })
-    return res.json({ projects: foundProjects })
+  try {
+
+    if (searchParam) {
+      foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: { nested: true, all: true } })
+      return res.json({ projects: foundProjects })
+    }
+
+    if (filterParam) {
+      foundProjects = await Project.findAll({ order: [filterParam], include: { nested: true, all: true } })
+      return res.json({ projects: foundProjects })
+    }
+
+    allProjects = await Project.findAll({ include: { nested: true, all: true } })
+
+    if (!foundProjects && !allProjects) {
+      const error = new Error('Could not fetch projects!')
+      error.statusCode = 404
+      throw error
+    }
+
+
+    return res.json({ projects: allProjects })
+  } catch (err) {
+    next(err)
   }
 
-  if (filterParam) {
-    const foundProjects = await Project.findAll({ order: [filterParam], include: { nested: true, all: true } })
-    return res.json({ projects: foundProjects })
 
-  }
-
-  const allProjects = await Project.findAll({ include: { nested: true, all: true } })
-  return res.json({ projects: allProjects })
 
 }
 
