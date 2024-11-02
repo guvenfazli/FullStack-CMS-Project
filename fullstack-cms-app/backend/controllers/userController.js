@@ -30,8 +30,8 @@ exports.fetchAllUser = async (req, res, next) => {
   let foundEmployees
   let allEmployees
 
-
   try {
+
     if (searchParam) {
 
       if (searchParam.includes(' ')) {
@@ -47,7 +47,7 @@ exports.fetchAllUser = async (req, res, next) => {
             { surname: { [Op.like]: `%${employeeSurname}%` } }]
         }
       })
-      
+
       return res.json({ employees: foundEmployees })
     }
 
