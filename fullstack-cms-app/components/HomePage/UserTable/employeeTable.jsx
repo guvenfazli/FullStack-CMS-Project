@@ -10,13 +10,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
 
 export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
 
   const [filterType, setFilterType] = useState()
-
+  const { toast } = useToast()
 
   function filterTable(filter) {
     setFilterType(prev => {
@@ -52,10 +53,31 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
   }, [filterType])
 
   async function deleteEmployee(employeeId) {
-    const response = await fetch(`http://localhost:8080/admin/deleteEmployee/${employeeId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    })
+    try {
+      const response = await fetch(`http://localhost:8080/admin/deleteEmployee/${employeeId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+      toast({
+        title: 'Something went wrong.',
+        description: resData.message,
+      })
+
+    } catch (err) {
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
+    }
+
   }
 
 

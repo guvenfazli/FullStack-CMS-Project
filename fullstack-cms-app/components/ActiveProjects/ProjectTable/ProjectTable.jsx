@@ -23,25 +23,21 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
+import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
 import dateFormatter from "@/utils/dateFormatter"
-import { useEffect, useState } from "react"
 import Link from "next/link"
 
 
 export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setIsLoading }) {
 
   const [filterType, setFilterType] = useState()
-  const [isError, setIsError] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
   const { toast } = useToast()
 
   async function deleteProject(projectId) {
-
     try {
       const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
         method: 'DELETE',
@@ -54,14 +50,12 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       }
 
       const responseData = await response.json()
-
       toast({
         title: 'Success!',
         description: responseData.message,
       })
 
     } catch (err) {
-      setIsError(err.message)
       toast({
         title: 'Something went wrong.',
         description: err.message,
@@ -70,18 +64,36 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
   }
 
   async function changeProjectStatus(status, project) {
-
     const data = project
     data.projectStatus = status
 
-    const response = await fetch(`http://localhost:8080/admin/editProject/${project.id}`, {
-      method: 'PUT',
-      credentials: 'include',
-      body: JSON.stringify(project),
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      const response = await fetch(`http://localhost:8080/admin/editProject/${project.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(project),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+      if (!response.ok) {
+        const responseData = await response.json()
+        throw new Error(responseData.message)
       }
-    })
+
+      const responseData = await response.json()
+      toast({
+        title: 'Success!',
+        description: responseData.message,
+      })
+
+    } catch (err) {
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
+    }
   }
 
   function filterTable(filter) {

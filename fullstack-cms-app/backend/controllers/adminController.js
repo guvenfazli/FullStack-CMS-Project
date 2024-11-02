@@ -51,19 +51,25 @@ exports.createEmployee = (req, res, next) => {
 
 }
 
-exports.deleteEmployee = (req, res, next) => {
+exports.deleteEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.employeeId
 
-  Employee.findByPk(chosenEmployeeId).then(foundUser => {
+  try {
+    const foundUser = await Employee.findByPk(chosenEmployeeId)
+
     if (!foundUser) {
       const error = new Error('User could not found!')
       error.statusCode = 414
       throw error
     }
-    clearImage(foundUser.profilePic)
+
     foundUser.destroy()
+    clearImage(foundUser.profilePic)
     return res.json({ message: 'Employee deleted successfully.' })
-  })
+  
+  } catch (err) {
+    next(err)
+  }
 
 }
 
