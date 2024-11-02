@@ -12,6 +12,7 @@ export default function UserTable() {
   const { isLogged } = useAppContext()
   const [allEmployees, setAllEmployees] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     async function fetchAllEmployees() {

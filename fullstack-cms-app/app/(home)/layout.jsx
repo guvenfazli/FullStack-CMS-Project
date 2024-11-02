@@ -5,6 +5,7 @@ import Header from "@/components/Header/Header";
 import NavBar from "@/components/NavBar/NavBar";
 import { AppWrapper } from "@/context";
 import { usePathname } from "next/navigation";
+import { Toaster } from "@/components/ui/toaster"
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -36,10 +37,11 @@ export default function RootLayout({ children }) {
 
             <div className="w-full p-5">
               {children}
+              <Toaster />
+
             </div>
 
           </div>
-
         </AppWrapper>
       </body>
     </html>

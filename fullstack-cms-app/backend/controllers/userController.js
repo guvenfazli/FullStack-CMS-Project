@@ -27,6 +27,7 @@ exports.fetchAllUser = async (req, res, next) => {
   const searchParam = req.query.employee
   let foundEmployees
   let allEmployees
+
   try {
     if (searchParam) {
       foundEmployees = await Employee.findAll({ where: { [Op.or]: [{ name: { [Op.like]: `%${searchParam}%` } }, { surname: { [Op.like]: `%${searchParam}%` } }] } })
@@ -50,6 +51,7 @@ exports.fetchAllUser = async (req, res, next) => {
 
 exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
+ 
   try {
     const filteredUsers = await Employee.findAll({ order: [filterParam] })
 
@@ -63,7 +65,6 @@ exports.filterEmployees = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
 
 }
 

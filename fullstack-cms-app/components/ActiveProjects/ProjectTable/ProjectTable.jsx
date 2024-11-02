@@ -23,6 +23,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
+import { useToast } from "@/hooks/use-toast"
+
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
@@ -34,12 +36,37 @@ import Link from "next/link"
 export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setIsLoading }) {
 
   const [filterType, setFilterType] = useState()
+  const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const { toast } = useToast()
 
   async function deleteProject(projectId) {
-    const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
-      method: 'DELETE',
-      credentials: 'include'
-    })
+
+    try {
+      const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const responseData = await response.json()
+        throw new Error(responseData.message)
+      }
+
+      const responseData = await response.json()
+
+      toast({
+        title: 'Success!',
+        description: responseData.message,
+      })
+
+    } catch (err) {
+      setIsError(err.message)
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
+    }
   }
 
   async function changeProjectStatus(status, project) {
@@ -58,7 +85,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
   }
 
   function filterTable(filter) {
-    
+
     setFilterType(prev => {
       if (prev === filter) {
         return undefined
@@ -104,12 +131,13 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
           <TableHead className="w-[300px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('projectName')}>TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'projectName' && 'rotate-180'}`}>{filterUp}</span></TableHead>
 
           <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75 w-[200px]" onClick={() => filterTable('createdAt')}>CREATED AT <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'createdAt' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+
           <TableHead className="hover:cursor-pointer w-[200px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('deadLine')}>DEADLINE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'deadLine' && 'rotate-180'}`}>{filterUp}</span></TableHead>
 
           <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75 w-[200px]" onClick={() => filterTable('projectStatus')}>STATUS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'projectStatus' && 'rotate-180'}`}>{filterUp}</span></TableHead>
 
-          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>NUMBER OF TASKS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span></TableHead>
-
+          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>NUMBER OF TASKS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
         </TableRow>
       </TableHeader>
 
@@ -123,7 +151,6 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
               <TableCell>{dateFormatter(project.deadLine)}</TableCell>
 
               <TableCell>
-
                 <HoverCard>
                   <HoverCardTrigger><ProjectStatus status={project.projectStatus}>{project.projectStatus}</ProjectStatus></HoverCardTrigger>
                   <HoverCardContent className="flex flex-col justify-start items-start bg-gray-900 border-none gap-2 w-[135px]">
@@ -138,10 +165,12 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
 
 
               <TableCell className="text-center">{project.tasks.length}</TableCell>
-              {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button></TableCell>}
-              <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
-              <TableCell className="text-center w-[10px]">
+              {isLogged?.isAdmin === true && <TableCell className="text-center w-[10px]"><button onClick={() => deleteProject(project.id)}>{trashCan}</button>
+              </TableCell>}
 
+              <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
+
+              <TableCell className="text-center w-[10px]">
                 <Dialog>
                   <DialogTrigger>{taskIcon}</DialogTrigger>
                   <DialogContent className="bg-gray-900 border-none">
@@ -151,7 +180,6 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
                     <CreateTask projectId={project.id} />
                   </DialogContent>
                 </Dialog>
-
               </TableCell>
 
             </TableRow>
