@@ -66,11 +66,11 @@ exports.loginAccount = (req, res, next) => {
       throw error
     }
 
-    const token = jwt.sign({ name: user.name, email: user.email, userId: user.id, userPp: user.profilePic, isAdmin: user.isAdmin }, 'secretswithcms')
+    const token = jwt.sign({ name: user.name, email: user.email, userId: user.id, userPp: user.profilePic, isAdmin: user.isAdmin }, 'secretswithcms', { expiresIn: '1h' })
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 60 * 60 * 1000,
     })
     res.json({ token: token, message: 'You are logged in!' })
 
