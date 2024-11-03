@@ -45,13 +45,14 @@ exports.fetchAllUser = async (req, res, next) => {
           [Op.or]: [
             { name: { [Op.like]: `%${employeeName}%` } },
             { surname: { [Op.like]: `%${employeeSurname}%` } }]
-        }
+        },
+        attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title']
       })
 
       return res.json({ employees: foundEmployees })
     }
 
-    allEmployees = await Employee.findAll()
+    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'] })
 
     if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
@@ -70,7 +71,7 @@ exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
 
   try {
-    const filteredUsers = await Employee.findAll({ order: [filterParam] })
+    const filteredUsers = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'] })
 
     if (!filteredUsers) {
       const error = new Error('Something went wrong while filtering!')
@@ -95,16 +96,16 @@ exports.fetchProjects = async (req, res, next) => {
   try {
 
     if (searchParam) {
-      foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: { nested: true, all: true } })
+      foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: [{ model: Task, }] })
       return res.json({ projects: foundProjects })
     }
 
     if (filterParam) {
-      foundProjects = await Project.findAll({ order: [filterParam], include: { nested: true, all: true } })
+      foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
       return res.json({ projects: foundProjects })
     }
 
-    allProjects = await Project.findAll({ include: { nested: true, all: true } })
+    allProjects = await Project.findAll({ include: { model: Task } })
 
     if (!foundProjects && !allProjects) {
       const error = new Error('Could not fetch projects!')
@@ -117,8 +118,6 @@ exports.fetchProjects = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
-
 
 }
 
@@ -146,7 +145,19 @@ exports.fetchSingleProject = async (req, res, next) => {
   const projectId = req.params.projectId
 
   try {
-    const fetchedProject = await Project.findByPk(projectId, { include: { all: true, nested: true } })
+    const fetchedProject = await Project.findByPk(projectId, {
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: Employee,
+              attributes: ['id', 'name', 'surname', 'profilePic']
+            }
+          ]
+        }
+      ]
+    })
 
     if (!fetchedProject) {
       const error = new Error('Project not found!')
