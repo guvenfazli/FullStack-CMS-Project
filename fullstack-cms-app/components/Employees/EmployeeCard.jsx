@@ -12,8 +12,8 @@ export default function EmployeeCard({ employee }) {
       </div>
 
       <div className="flex flex-row w-full justify-between items-center">
-        <p>{employee.name + ' ' + employee.surname}</p>
-        <p>{employee.job_title}</p>
+        <p className="text-lg">{employee.name + ' ' + employee.surname}</p>
+        <p className="text-lg">{employee.job_title}</p>
       </div>
 
       <div className="flex flex-row w-full justify-between items-center">
@@ -29,7 +29,6 @@ export default function EmployeeCard({ employee }) {
       <div className="flex flex-row w-full justify-between items-center">
         <p>Pending Tasks:</p>
         <p>{employee.tasks.length}</p>
-
       </div>
 
     </div>

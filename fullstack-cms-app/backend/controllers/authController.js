@@ -90,7 +90,7 @@ exports.cookieCheck = async (req, res, next) => {
   try {
     const cookie = req.cookies['jwt']
 
-    const resolvedCookie = jwt.decode(cookie)
+    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
 
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')
@@ -98,7 +98,7 @@ exports.cookieCheck = async (req, res, next) => {
       throw error
     }
 
-    return res.json({ user: resolvedCookie })
+    return res.json({ user: cookie })
 
   } catch (err) {
     next(err)

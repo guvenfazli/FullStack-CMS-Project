@@ -8,7 +8,7 @@ export default async function AuthCheck() {
     })
 
     if (!response.ok) {
-      const resData = await sendRequest.json()
+      const resData = await response.json()
       throw new Error(resData.message)
     }
 

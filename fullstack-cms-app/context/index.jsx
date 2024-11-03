@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import AuthCheck from "@/utils/authCheck";
 const AppContext = createContext()
 
@@ -7,7 +8,7 @@ export function AppWrapper({ children }) {
 
   useEffect(() => {
     AuthCheck().then(resp => {
-      setIsLogged(resp.user)
+      setIsLogged(jwtDecode(resp.user))
     })
   }, [])
 
