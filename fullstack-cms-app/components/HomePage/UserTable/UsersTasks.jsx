@@ -1,7 +1,12 @@
-export default function UsersTasks(){
+import AssignedTasks from "./AssignedTasks"
+export default function UsersTasks({ tasks }) {
   return (
-    <div>
-      <p>Here will be the tasks.</p>
+    <div className="flex flex-col w-full gap-2 justify-center items-start">
+      {tasks.map((task) => {
+        return (
+          <AssignedTasks key={task.id} task={task} />
+        )
+      })}
     </div>
   )
 }

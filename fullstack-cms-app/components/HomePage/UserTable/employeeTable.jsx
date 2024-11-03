@@ -138,7 +138,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
                   <DialogHeader>
                     <DialogTitle>Users Tasks</DialogTitle>
                   </DialogHeader>
-                  <UsersTasks />
+                  <UsersTasks tasks={employee.tasks}/>
                 </DialogContent>
               </Dialog>
             </TableCell>
