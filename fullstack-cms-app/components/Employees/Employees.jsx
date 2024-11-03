@@ -7,6 +7,7 @@ export default function Employees() {
 
   const [employees, setEmployees] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  
   useEffect(() => {
     async function fetchEmployees() {
       setIsLoading(true)
