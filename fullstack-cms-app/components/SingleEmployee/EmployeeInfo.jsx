@@ -33,7 +33,11 @@ export default function EmployeeInfo() {
             <SingleEmployeeCard fetchedEmployee={fetchedEmployee} />
           </div>
 
-          <div className="w-1/2 p-2">
+          <div className="w-1/2">
+            <div className="flex border-t border-b p-3 w-full justify-center items-center">
+              <p className="text-xl">Assigned Tasks</p>
+            </div>
+
             <EmployeeTasks tasks={fetchedEmployee?.tasks} />
           </div>
 
