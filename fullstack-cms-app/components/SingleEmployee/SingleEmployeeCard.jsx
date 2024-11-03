@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SingleEmployee from "./SingleEmployee"
 import dateFormatter from "@/utils/dateFormatter"
 export default function SingleEmployeeCard({ fetchedEmployee }) {
+
   return (
     <div className="p-2 w-full mb-10 rounded-lg bg-slate-900">
       <div className="flex w-full justify-center items-start">
