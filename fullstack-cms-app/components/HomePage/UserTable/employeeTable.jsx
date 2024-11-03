@@ -7,10 +7,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import UsersTasks from "./UsersTasks"
 import Link from "next/link"
 
 
@@ -115,7 +127,21 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button onClick={() => deleteEmployee(employee.id)}>{trashCan}</button></TableCell> : ''}
 
             <TableCell className="text-right w-[10px]"><button><Link href={`/users/${employee.id}`}>{eyeIcon}</Link></button></TableCell>
-            <TableCell className="text-right w-[10px]"><button>{taskIcon}</button></TableCell>
+
+            <TableCell className="text-right w-[10px]">
+              <Dialog>
+                <DialogTrigger>
+                  {taskIcon}
+                </DialogTrigger>
+
+                <DialogContent className="bg-gray-900 border-none">
+                  <DialogHeader>
+                    <DialogTitle>Users Tasks</DialogTitle>
+                  </DialogHeader>
+                  <UsersTasks />
+                </DialogContent>
+              </Dialog>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>
