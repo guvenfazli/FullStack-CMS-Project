@@ -1,5 +1,6 @@
-export default function SingleEmployeePage(){
+import EmployeeInfo from "@/components/SingleEmployee/EmployeeInfo"
+export default function SingleEmployeePage() {
   return (
-    <p>Here will be the chosen Employee informations.</p>
+    <EmployeeInfo />
   )
 }
