@@ -52,7 +52,7 @@ exports.fetchAllUser = async (req, res, next) => {
       return res.json({ employees: foundEmployees })
     }
 
-    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'], include: {model: Task} })
+    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
 
     if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
