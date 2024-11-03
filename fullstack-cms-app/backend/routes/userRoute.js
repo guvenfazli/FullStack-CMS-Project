@@ -9,6 +9,7 @@ router.get('/home', authCheck, userController.fetchUserData)
 router.get('/employees/filtering', authCheck, userController.filterEmployees)
 router.get('/employees/:chosenEmployeeId', authCheck, userController.fetchSingleEmployee)
 router.get('/employees', authCheck, userController.fetchAllUser)
+router.get('/admins', authCheck, userController.fetchAllAdmins)
 
 /* Projects */
 router.get('/projects/:projectId', authCheck, userController.fetchSingleProject)

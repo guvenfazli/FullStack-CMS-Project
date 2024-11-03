@@ -3,6 +3,7 @@ import Link from "next/link"
 
 
 export default function EmployeeCard({ employee }) {
+
   return (
     <div className="flex border p-2 w-1/3 flex-col gap-5 items-start justify-center bg-gray-900 rounded-md shadow-md">
       <div className="flex w-full justify-center">
@@ -29,7 +30,7 @@ export default function EmployeeCard({ employee }) {
 
       <div className="flex flex-row w-full justify-between items-center">
         <p>Pending Tasks:</p>
-        <p>{employee.tasks.length}</p>
+        <p>{employee.tasks?.length}</p>
       </div>
 
       <div className="flex flex-row w-full justify-center items-center">

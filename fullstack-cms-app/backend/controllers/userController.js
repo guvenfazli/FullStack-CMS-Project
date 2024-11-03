@@ -5,6 +5,28 @@ const sequelize = require('../utils/database')
 const Task = require('../models/Task')
 const { Op } = require('sequelize')
 
+exports.fetchAllAdmins = async (req, res, next) => {
+  try {
+
+    const allAdmins = await Admin.findAll({
+      include: [
+        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'profilePic', 'createdAt', 'isAdmin'] }
+      ]
+    })
+
+    if (!allAdmins) {
+      const error = new Error('Admins could not found!')
+      error.statusCode = 444
+      throw error
+    }
+
+    return res.json({ allAdmins })
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 exports.fetchUserData = async (req, res, next) => {
   try {
     const countedEmployees = await Employee.count()
