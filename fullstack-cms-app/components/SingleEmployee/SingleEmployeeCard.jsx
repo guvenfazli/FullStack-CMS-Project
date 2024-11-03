@@ -4,8 +4,8 @@ import dateFormatter from "@/utils/dateFormatter"
 export default function SingleEmployeeCard({ fetchedEmployee }) {
 
   return (
-    <div className="p-2 w-full mb-10 rounded-lg bg-slate-900">
-      <div className="flex w-full justify-center items-start">
+    <div className="w-full mb-10 rounded-lg bg-slate-900">
+      <div className="flex w-full justify-center items-start border-b border-b-gray-500 py-3">
         <Avatar className="w-24 h-24">
           <AvatarImage src={`http://localhost:8080/${fetchedEmployee?.profilePic}`} />
           <AvatarFallback>PP</AvatarFallback>
@@ -13,23 +13,23 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
       </div>
 
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
+      <div className="flex w-full border-b border-b-gray-500">
         <SingleEmployee information={'Name:'}>{fetchedEmployee?.name}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
+      <div className="flex w-full border-b border-b-gray-500 ">
         <SingleEmployee information={'Surname:'}>{fetchedEmployee?.surname}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
+      <div className="flex w-full border-b border-b-gray-500 ">
         <SingleEmployee information={'Email:'}>{fetchedEmployee?.email}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
+      <div className="flex w-full border-b border-b-gray-500 ">
         <SingleEmployee information={'Role:'}>{fetchedEmployee?.isAdmin ? 'Admin' : 'Employee'}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
+      <div className="flex w-full border-b border-b-gray-500 ">
         <SingleEmployee information={'Job Title:'}>{fetchedEmployee?.job_title}</SingleEmployee>
       </div>
 

@@ -29,12 +29,12 @@ export default function EmployeeInfo() {
     <div className="flex flex-row items-start justify-around bg-slate-900 rounded-xl">
       {isLoading ? <LoadingComp /> :
         <>
-          <div className="w-1/2 border-r p-2">
+          <div className="w-1/2 border-r border-r-gray-500 p-2">
             <SingleEmployeeCard fetchedEmployee={fetchedEmployee} />
           </div>
 
           <div className="w-1/2">
-            <div className="flex border-t border-b p-3 w-full justify-center items-center">
+            <div className="flex border-t border-t-gray-500 rounded-tr-xl border-b border-b-gray-500 p-3 w-full justify-center items-center">
               <p className="text-xl">Assigned Tasks</p>
             </div>
 
