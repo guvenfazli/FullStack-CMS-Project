@@ -67,6 +67,12 @@ exports.fetchAllUser = async (req, res, next) => {
 
 }
 
+exports.fetchSingleEmployee = (req, res, next) => {
+  const chosenEmployeeId = req.params.chosenEmployeeId
+  console.log(chosenEmployeeId)
+
+}
+
 exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
 
