@@ -1,36 +1,41 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SingleEmployee from "./SingleEmployee"
-import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
-
-export default function SingleEmployeeCard() {
+import dateFormatter from "@/utils/dateFormatter"
+export default function SingleEmployeeCard({ fetchedEmployee }) {
   return (
-    <div className="p-2 mb-10 rounded-lg bg-slate-900">
+    <div className="p-2 w-full mb-10 rounded-lg bg-slate-900">
+      <div className="flex w-full justify-center items-start">
+        <Avatar className="w-24 h-24">
+          <AvatarImage src={`http://localhost:8080/${fetchedEmployee?.profilePic}`} />
+          <AvatarFallback>PP</AvatarFallback>
+        </Avatar>
+      </div>
+
+
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Name:'}>{fetchedProject?.projectName}</SingleEmployee>
+        <SingleEmployee information={'Name:'}>{fetchedEmployee?.name}</SingleEmployee>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Deadline:'}>{dateFormatter(fetchedProject?.deadLine)}</SingleEmployee>
+        <SingleEmployee information={'Surname:'}>{fetchedEmployee?.surname}</SingleEmployee>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Created At:'}>{dateFormatter(fetchedProject?.createdAt)}</SingleEmployee>
+        <SingleEmployee information={'Email:'}>{fetchedEmployee?.email}</SingleEmployee>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Last Update:'}>{dateFormatter(fetchedProject?.updatedAt)}</SingleEmployee>
+        <SingleEmployee information={'Role:'}>{fetchedEmployee?.isAdmin ? 'Admin' : 'Employee'}</SingleEmployee>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Number of Tasks:'}>{fetchedProject?.tasks.length}</SingleEmployee>
+        <SingleEmployee information={'Job Title:'}>{fetchedEmployee?.job_title}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Project Status:'}><ProjectStatus status={fetchedProject?.projectStatus}>{fetchedProject?.projectStatus}</ProjectStatus></SingleEmployee>
+      <div className="flex w-full border-b border-b-gray-500">
+        <SingleEmployee information={'Created At:'}>{dateFormatter(fetchedEmployee?.createdAt)}</SingleEmployee>
       </div>
 
-      <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <SingleEmployee title={'Project ID:'}>{fetchedProject?.id}</SingleEmployee>
-      </div>
     </div>
   )
 }

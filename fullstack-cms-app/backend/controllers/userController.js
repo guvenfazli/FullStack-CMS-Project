@@ -67,9 +67,23 @@ exports.fetchAllUser = async (req, res, next) => {
 
 }
 
-exports.fetchSingleEmployee = (req, res, next) => {
+exports.fetchSingleEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
-  console.log(chosenEmployeeId)
+
+  try {
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
+
+    if (!foundEmployee) {
+      const error = new Error('User not found!')
+      error.statusCode = 404
+      throw error
+    }
+
+    return res.json({ foundEmployee })
+
+  } catch (err) {
+    next(err)
+  }
 
 }
 
