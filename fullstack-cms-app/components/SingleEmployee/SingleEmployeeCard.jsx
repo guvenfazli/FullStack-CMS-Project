@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { mailIcon, employeeRoleIcon, dateIcon } from "../Icons/Icons"
+import { mailIcon, employeeRoleIcon, dateIcon, phoneIcon } from "../Icons/Icons"
 import SingleEmployee from "./SingleEmployee"
 import dateFormatter from "@/utils/dateFormatter"
 export default function SingleEmployeeCard({ fetchedEmployee }) {
@@ -16,12 +16,17 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
 
         <div className="flex flex-col text-center p-3">
           <SingleEmployee>{fetchedEmployee?.name + ' ' + fetchedEmployee?.surname}</SingleEmployee>
-          <p className="text-base text-gray-500">{fetchedEmployee?.job_title}</p>
+          <p className="text-base text-gray-500">{fetchedEmployee?.jobTitle}</p>
         </div>
 
         <div className="flex w-full items-center gap-5 p-3 justify-start">
           <p>{mailIcon}</p>
           <SingleEmployee>{fetchedEmployee?.email}</SingleEmployee>
+        </div>
+
+        <div className="flex w-full items-center gap-5 p-3 justify-start">
+          <p>{phoneIcon}</p>
+          <SingleEmployee>{fetchedEmployee?.phoneNumber}</SingleEmployee>
         </div>
 
         <div className="flex w-full items-center gap-5 p-3 justify-start">
@@ -31,7 +36,11 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
 
         <div className="flex w-full items-center gap-5 p-3 justify-start">
           <p>{dateIcon}</p>
-          <SingleEmployee>{dateFormatter(fetchedEmployee?.createdAt)}</SingleEmployee>
+          <SingleEmployee>{dateFormatter(fetchedEmployee?.birthDate)}</SingleEmployee>
+        </div>
+
+        <div className="flex w-full justify-center items-center text-center">
+          <p className="text-sm text-gray-500">Joined at {dateFormatter(fetchedEmployee?.createdAt)}</p>
         </div>
 
       </div>

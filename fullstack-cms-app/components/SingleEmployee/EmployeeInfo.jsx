@@ -23,7 +23,6 @@ export default function EmployeeInfo() {
 
     fetchSingleEmployee()
   }, [])
-  console.log(fetchedEmployee)
 
   return (
     <div className="flex flex-row items-start justify-between rounded-xl max-md:flex-col max-md:gap-5">
