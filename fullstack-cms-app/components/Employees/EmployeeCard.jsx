@@ -5,18 +5,18 @@ import Link from "next/link"
 export default function EmployeeCard({ employee }) {
 
   return (
-    <div className="flex w-1/3 flex-col items-start justify-center p-0.5 rounded-md shadow-md bg-gradient-to-r from-gray-600 via-gray-700 to-gray-800">
+    <div className="flex w-1/3 flex-col items-start justify-center p-0.5 rounded-md shadow-md bg-gradient-to-r from-gray-600 via-gray-700 to-gray-800 max-md:w-full">
       <div className="flex w-full h-full flex-col gap-5 p-2 items-start justify-center bg-gray-900 rounded-md shadow-md">
         <div className="flex w-full justify-center">
-          <Avatar className="w-32 h-32 rounded-lg hover:cursor-pointer">
+          <Avatar className="w-32 h-32 rounded-lg hover:cursor-pointer max-lg:w-16 max-lg:h-16 max-md:w-32 max-md:h-32">
             <AvatarImage src={`http://localhost:8080/${employee.profilePic}`} />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>
         </div>
 
-        <div className="flex flex-row w-full justify-between items-center">
-          <p className="text-lg">{employee.name + ' ' + employee.surname}</p>
-          <p className="text-lg">{employee.job_title}</p>
+        <div className="flex flex-row w-full justify-between items-center max-sm:flex-col">
+          <p className="text-lg max-lg:text-sm max-md:text-lg">{employee.name + ' ' + employee.surname}</p>
+          <p className="text-lg max-lg:text-sm max-md:text-lg">{employee.job_title}</p>
         </div>
 
         <div className="flex flex-row w-full justify-between items-center">
@@ -35,7 +35,7 @@ export default function EmployeeCard({ employee }) {
         </div>
 
         <div className="flex flex-row w-full justify-center items-center">
-          <Link className="p-2 duration-75 bg-gray-600 rounded-lg hover:bg-gray-300 hover:text-gray-700" href={`/employees/${employee.id}`}>See More Details</Link>
+          <Link className="p-2 duration-75 bg-gray-600 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>See More Details</Link>
         </div>
       </div>
     </div>
