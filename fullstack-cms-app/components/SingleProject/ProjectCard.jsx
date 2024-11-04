@@ -10,7 +10,7 @@ export default function ProjectCard({ fetchedProject }) {
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Deadline:'}>{dateFormatter(fetchedProject?.deadLine)}</ProjectInfo>
+        <ProjectInfo title={'Deadline:'}>{dateFormatter(fetchedProject?.deadline)}</ProjectInfo>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">

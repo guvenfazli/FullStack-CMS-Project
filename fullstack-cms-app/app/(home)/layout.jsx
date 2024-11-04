@@ -33,12 +33,9 @@ export default function RootLayout({ children }) {
               <NavBar />
             </div>
 
-
-
             <div className="w-full p-5">
               {children}
               <Toaster />
-
             </div>
 
           </div>

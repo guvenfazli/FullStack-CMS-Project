@@ -10,7 +10,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
     const allAdmins = await Admin.findAll({
       include: [
-        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'job_title' , 'profilePic', 'createdAt', 'isAdmin'] }
+        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'jobTitle' , 'profilePic', 'createdAt', 'isAdmin'] }
       ]
     })
 
@@ -68,13 +68,13 @@ exports.fetchAllUser = async (req, res, next) => {
             { name: { [Op.like]: `%${employeeName}%` } },
             { surname: { [Op.like]: `%${employeeSurname}%` } }]
         },
-        attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title']
+        attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle']
       })
 
       return res.json({ employees: foundEmployees })
     }
 
-    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
+    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
 
     if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
@@ -93,7 +93,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
 
   try {
-    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
     if (!foundEmployee) {
       const error = new Error('User not found!')
@@ -113,12 +113,12 @@ exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
 
   try {
-    const filteredUsers = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'job_title'] })
+    const filteredUsers = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'] })
 
     if (!filteredUsers) {
       const error = new Error('Something went wrong while filtering!')
       error.statusCode = 444
-      throw error
+      throw error 
     }
 
     return res.json({ employees: filteredUsers })

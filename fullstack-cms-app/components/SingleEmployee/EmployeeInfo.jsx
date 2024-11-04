@@ -26,10 +26,10 @@ export default function EmployeeInfo() {
   console.log(fetchedEmployee)
 
   return (
-    <div className="flex flex-row items-start justify-around bg-slate-900 rounded-xl max-md:flex-col max-md:gap-5">
+    <div className="flex flex-row items-start justify-between rounded-xl max-md:flex-col max-md:gap-5">
       {isLoading ? <LoadingComp /> :
         <>
-          <div className="w-1/2 border-r border-r-gray-500 p-2 max-md:w-full max-md:border-r-0">
+          <div className="w-1/4 bg-zinc-800 max-md:w-full max-md:border-r-0">
             <SingleEmployeeCard fetchedEmployee={fetchedEmployee} />
           </div>
 

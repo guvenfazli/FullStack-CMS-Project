@@ -23,12 +23,20 @@ const Employee = sequelize.define('employee', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  job_title: {
+  jobTitle: {
     type: DataTypes.STRING,
     allowNull: false
   },
   profilePic: {
     type: DataTypes.STRING,
+    allowNull: false
+  },
+  phoneNumber: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  birthDate: {
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   isAdmin: {

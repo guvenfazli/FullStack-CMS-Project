@@ -77,6 +77,13 @@ export default function RegisterForm({ newUserCreation }) {
           <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
           <AuthInput customName={'jobTitle'} customPlace={"Enter Employee's Title"} setErrorState={setErrorState} isError={errorState} />
 
+          <AuthLabel customFor={"birthdate"}>Date of Birth*</AuthLabel>
+          <AuthInput customName={'birthdate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />
+
+
+          <AuthLabel customFor={"phoneNumber"}>Contact Number*</AuthLabel>
+          <AuthInput customName={'phoneNumber'} customPlace={"1234567890"} setErrorState={setErrorState} isError={errorState} />
+
           <AuthLabel>Profile Pic*</AuthLabel>
           <FileUploader setFileState={gatherFiles} customName={'profilePic'} customPlace={"Employee's Picture"} inputType={'file'} setErrorState={setErrorState} isError={errorState} />
 
@@ -107,6 +114,13 @@ export default function RegisterForm({ newUserCreation }) {
 
           <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
           <AuthInput customName={'jobTitle'} customPlace={'Your Title'} setErrorState={setErrorState} isError={errorState} />
+
+          <AuthLabel customFor={"birthDate"}>Date of Birth*</AuthLabel>
+          <AuthInput customName={'birthDate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />
+
+          <AuthLabel customFor={"phoneNumber"}>Contact Number*</AuthLabel>
+          <AuthInput customName={'phoneNumber'} customPlace={"1234567890"} setErrorState={setErrorState} isError={errorState} />
+
 
           <AuthLabel>Profile Pic*</AuthLabel>
           <FileUploader setFileState={gatherFiles} customName={'profilePic'} customPlace={'Profile Picture'} inputType={'file'} setErrorState={setErrorState} isError={errorState} />

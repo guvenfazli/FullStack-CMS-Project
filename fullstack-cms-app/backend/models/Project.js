@@ -15,7 +15,7 @@ const Project = sequelize.define('project', {
     type: DataTypes.STRING,
     defaultValue: 'Active'
   },
-  deadLine: {
+  deadline: {
     type: DataTypes.DATEONLY,
     allowNull: false
   }

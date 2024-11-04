@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 
 exports.createAccount = (req, res, next) => {
-  const { name, surname, email, password, jobTitle } = req.body;
+  const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
   const profilePic = req.files[0].path
   const errors = validationResult(req)
 
@@ -29,7 +29,9 @@ exports.createAccount = (req, res, next) => {
         surname: surname,
         email: email,
         password: hashedPw,
-        job_title: jobTitle,
+        jobTitle: jobTitle,
+        birthDate: birthDate,
+        phoneNumber: phoneNumber,
         profilePic: profilePic
       }).then(createdUser => {
         return res.json({ message: 'Account Successfully Created!' })

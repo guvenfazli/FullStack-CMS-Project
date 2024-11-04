@@ -26,7 +26,7 @@ const clearImage = (imageUrl) => {
 }
 
 exports.createEmployee = async (req, res, next) => {
-  const { name, surname, email, password, jobTitle } = req.body;
+  const { name, surname, email, password, jobTitle, birthdate, phoneNumber } = req.body;
   const profilePic = req.files[0].path
 
   try {
@@ -45,7 +45,9 @@ exports.createEmployee = async (req, res, next) => {
       surname: surname,
       email: email,
       password: hashedPw,
-      job_title: jobTitle,
+      jobTitle: jobTitle,
+      birthDate: birthdate,
+      phoneNumber: phoneNumber,
       profilePic: profilePic
     })
 
@@ -92,7 +94,7 @@ exports.createProject = async (req, res, next) => {
 
     const createdProject = await Project.create({
       projectName: projectTitle,
-      deadLine: deadline
+      deadline: deadline
     })
 
     if (!createdProject) {

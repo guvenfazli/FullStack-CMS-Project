@@ -81,7 +81,5 @@ Task.belongsToMany(Employee, { through: EmployeeTask })
 
 sequelize.sync().then(async res => {
 
-  
-
   app.listen(8080)
 }).catch(err => console.log(err));
