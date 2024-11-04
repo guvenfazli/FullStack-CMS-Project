@@ -10,7 +10,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
     const allAdmins = await Admin.findAll({
       include: [
-        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'jobTitle' , 'profilePic', 'createdAt', 'isAdmin'] }
+        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'jobTitle', 'profilePic', 'createdAt', 'isAdmin'] }
       ]
     })
 
@@ -93,7 +93,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
 
   try {
-    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber' , 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
     if (!foundEmployee) {
       const error = new Error('User not found!')
@@ -118,7 +118,7 @@ exports.filterEmployees = async (req, res, next) => {
     if (!filteredUsers) {
       const error = new Error('Something went wrong while filtering!')
       error.statusCode = 444
-      throw error 
+      throw error
     }
 
     return res.json({ employees: filteredUsers })
@@ -168,7 +168,7 @@ exports.fetchProjectStats = async (req, res, next) => {
     const totalProjects = await Project.count()
     const projectStatusData = await Project.findAll({ attributes: ['projectStatus', [sequelize.fn('COUNT', sequelize.col('projectStatus')), 'counted']], group: ['projectStatus'] })
 
-    if (!totalProjects || !projectStatusData) {
+    if (totalProjects === undefined || projectStatusData === undefined) {
       const error = new Error('Could not fetch stats!')
       error.statusCode = 424
       throw error

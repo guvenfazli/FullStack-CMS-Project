@@ -15,6 +15,7 @@ export default function StatShowcase() {
         credentials: 'include'
       })
       const resData = await response.json()
+      console.log(resData)
       setProjectStats(resData)
     }
 
