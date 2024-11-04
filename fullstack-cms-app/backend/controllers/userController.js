@@ -143,6 +143,7 @@ exports.fetchProjects = async (req, res, next) => {
     }
 
     if (filterParam) {
+      console.log(filterParam)
       foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
       return res.json({ projects: foundProjects })
     }

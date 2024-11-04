@@ -116,6 +116,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
           credentials: 'include'
         })
         const resData = await response.json()
+        console.log(resData)
         setFetchedProjects(resData.projects)
       } else {
         const response = await fetch('http://localhost:8080/projects', {
