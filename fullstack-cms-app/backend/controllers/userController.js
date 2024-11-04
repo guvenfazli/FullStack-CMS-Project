@@ -10,7 +10,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
     const allAdmins = await Admin.findAll({
       include: [
-        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'profilePic', 'createdAt', 'isAdmin'] }
+        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'job_title' , 'profilePic', 'createdAt', 'isAdmin'] }
       ]
     })
 

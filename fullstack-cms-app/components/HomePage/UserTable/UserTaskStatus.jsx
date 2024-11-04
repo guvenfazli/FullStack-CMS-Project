@@ -1,7 +1,7 @@
 export default function UserTaskStatus({ status, children }) {
   if (status === 'Active') {
     return (
-      <button className="py-1 px-4 duration-75 bg-blue-400 rounded-lg text-blue-800 font-bold hover:bg-blue-200">{children}</button>
+      <button className={`py-1 px-4 duration-75 bg-blue-400 rounded-lg text-blue-800 font-bold hover:bg-blue-200`}>{children}</button>
     )
   } else if (status === 'Pending') {
     return (

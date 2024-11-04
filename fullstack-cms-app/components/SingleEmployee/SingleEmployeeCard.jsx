@@ -34,7 +34,7 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
       </div>
 
       <div className="flex w-full border-b border-b-gray-500">
-        <SingleEmployee information={'Created At:'}>{dateFormatter(fetchedEmployee?.createdAt)}</SingleEmployee>
+        <SingleEmployee information={'Joined At:'}>{dateFormatter(fetchedEmployee?.createdAt)}</SingleEmployee>
       </div>
     </div>
   )
