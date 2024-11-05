@@ -1,9 +1,17 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { mailIcon, employeeRoleIcon, dateIcon, phoneIcon, profileTaskIcon, completedTask, editProfileIcon } from "../Icons/Icons"
 import { useAppContext } from "@/context"
+import EditProfile from "./EditProfile"
 import SingleEmployee from "./SingleEmployee"
 import dateFormatter from "@/utils/dateFormatter"
-import { useState } from "react"
 
 export default function SingleEmployeeCard({ fetchedEmployee }) {
 
@@ -15,7 +23,15 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
         isLogged?.userId === fetchedEmployee?.id &&
 
         <div className="flex w-full pt-4 pr-4 items-center justify-end">
-          <button onClick={() => setIsEdit(prev => !prev)}>{editProfileIcon}</button>
+          <Dialog>
+            <DialogTrigger>{editProfileIcon}</DialogTrigger>
+            <DialogContent className="bg-gray-900 border-none">
+              <DialogHeader>
+                <DialogTitle>Edit Profile</DialogTitle>
+              </DialogHeader>
+              <EditProfile employee={fetchedEmployee} />
+            </DialogContent>
+          </Dialog>
         </div>
       }
 
