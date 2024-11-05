@@ -110,6 +110,36 @@ exports.fetchSingleEmployee = async (req, res, next) => {
 
 }
 
+exports.editEmployeeAccount = async (req, res, next) => {
+  const chosenEmployeeId = req.params.chosenEmployeeId
+  const { name, surname, email, jobTitle, birthDate, phoneNumber } = req.body;
+
+  try {
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId)
+
+    if (!foundEmployee) {
+      const error = new Error('User not found!')
+      error.statusCode = 404
+      throw error
+    }
+
+
+    foundEmployee.name = name
+    foundEmployee.surname = surname
+    foundEmployee.email = email
+    foundEmployee.jobTitle = jobTitle
+    foundEmployee.birthDate = birthDate
+    foundEmployee.phoneNumber = phoneNumber
+
+    await foundEmployee.save()
+
+    return res.json({ message: 'Changes saved!' })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
 

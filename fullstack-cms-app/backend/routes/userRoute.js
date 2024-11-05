@@ -11,6 +11,9 @@ router.get('/employees/:chosenEmployeeId', authCheck, userController.fetchSingle
 router.get('/employees', authCheck, userController.fetchAllUser)
 router.get('/admins', authCheck, userController.fetchAllAdmins)
 
+router.put('/employees/:chosenEmployeeId', authCheck, userController.editEmployeeAccount)
+
+
 /* Projects */
 router.get('/projects/:projectId', authCheck, userController.fetchSingleProject)
 router.get('/projects', authCheck, userController.fetchProjects)
