@@ -181,6 +181,10 @@ exports.createTaskProject = async (req, res, next) => {
       const error = new Error('Project could not found!')
       error.statusCode = 420
       throw error
+    } else if (foundProject.deadline < deadline) {
+      const error = new Error('Task Deadline can not be greater than Project Deadline!')
+      error.statusCode = 418
+      throw error
     }
 
     foundProject.createTask({

@@ -1,6 +1,7 @@
 import ProjectInfo from "./ProjectInfo"
-import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
+import UserTaskStatus from "../HomePage/UserTable/UserTaskStatus"
 import dateFormatter from "@/utils/dateFormatter"
+
 export default function ProjectCard({ fetchedProject }) {
 
   return (
@@ -26,7 +27,7 @@ export default function ProjectCard({ fetchedProject }) {
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">
-        <ProjectInfo title={'Project Status:'}><ProjectStatus status={fetchedProject?.projectStatus}>{fetchedProject?.projectStatus}</ProjectStatus></ProjectInfo>
+        <ProjectInfo title={'Project Status:'}><UserTaskStatus status={fetchedProject?.projectStatus}>{fetchedProject?.projectStatus}</UserTaskStatus></ProjectInfo>
       </div>
 
       <div className="flex w-full border-b border-b-gray-500 mb-4">

@@ -222,17 +222,17 @@ exports.changeTaskStatus = async (req, res, next) => {
   const { taskStatus } = req.body
   const taskId = req.params.taskId
   const foundTask = await Task.findByPk(taskId)
-  const taskEmployees = await EmployeeTask.findAll({ where: { taskId: taskId } })
-  if(taskStatus === 'Completed') {
-    taskEmployees.forEach(async (task) => {
+
+  if (taskStatus === 'Completed') {
+    const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
+
+    for (const task of assignedEmployeesList) {
       const assignedEmployee = await Employee.findByPk(task.employeeId)
       assignedEmployee.completedTasks += 1
-      assignedEmployee.save()
-    })
+      await assignedEmployee.save()
+    }
+
   }
-
-
-
 
   foundTask.taskStatus = taskStatus
   foundTask.save()
