@@ -32,8 +32,8 @@ export default function EmployeeInfo() {
             <SingleEmployeeCard fetchedEmployee={fetchedEmployee} />
           </div>
 
-          <div className="w-1/2 bg-gray-900 shadow-md shadow-slate-950 max-md:w-full">
-            <div className="flex border-t border-t-yellow-600  border-b border-b-yellow-600 p-3 w-full justify-center items-center max-md:rounded-tr-none">
+          <div className="w-1/2 bg-gray-900 shadow-md rounded-md shadow-slate-950 max-md:w-full">
+            <div className="flex border-t border-t-yellow-600 rounded-tl-md rounded-tr-md  border-b border-b-yellow-600 p-3 w-full justify-center items-center max-md:rounded-tr-none">
               <p className="text-xl">Assigned Tasks</p>
             </div>
             <EmployeeTasks tasks={fetchedEmployee?.tasks} />
