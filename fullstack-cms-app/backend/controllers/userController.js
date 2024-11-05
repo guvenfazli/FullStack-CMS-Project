@@ -232,7 +232,12 @@ exports.changeTaskStatus = async (req, res, next) => {
       await assignedEmployee.save()
     }
 
+    assignedEmployeesList.forEach((completedTask) => {
+      completedTask.destroy()
+    })
+
   }
+
 
   foundTask.taskStatus = taskStatus
   foundTask.save()
