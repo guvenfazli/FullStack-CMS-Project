@@ -30,6 +30,11 @@ export default function EmployeeCard({ employee }) {
             <p>{employee.tasks?.length}</p>
           </div>
 
+          <div className="flex flex-row w-full justify-between items-center">
+            <p className="text-sm text-gray-500">Completed Tasks:</p>
+            <p>{employee?.completedTasks}</p>
+          </div>
+
           <div className="flex flex-row w-full justify-center items-center">
             <Link className="p-2 duration-75 bg-zinc-800 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>More Details</Link>
           </div>

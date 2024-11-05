@@ -10,7 +10,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
     const allAdmins = await Admin.findAll({
       include: [
-        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'jobTitle', 'profilePic', 'createdAt', 'isAdmin'] }
+        { model: Employee, include: [{ model: Task, attributes: ['id'] }], attributes: ['id', 'name', 'surname', 'email', 'jobTitle', 'profilePic', 'createdAt', 'completedTasks', 'isAdmin'] }
       ]
     })
 
@@ -74,7 +74,7 @@ exports.fetchAllUser = async (req, res, next) => {
       return res.json({ employees: foundEmployees })
     }
 
-    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
+    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'completedTasks', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
 
     if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
