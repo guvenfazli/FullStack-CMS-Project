@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { mailIcon, employeeRoleIcon, dateIcon, phoneIcon } from "../Icons/Icons"
+import { mailIcon, employeeRoleIcon, dateIcon, phoneIcon, profileTaskIcon, completedTask } from "../Icons/Icons"
 import SingleEmployee from "./SingleEmployee"
 import dateFormatter from "@/utils/dateFormatter"
 export default function SingleEmployeeCard({ fetchedEmployee }) {
@@ -8,7 +8,7 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
     <div className="flex flex-col shadow-xl w-full rounded-lg bg-gray-900">
       <div className="flex flex-col justify-start items-center py-3 px-4">
         <div>
-          <Avatar className="w-44 h-44 border-yellow-600 border-4">
+          <Avatar className="w-40 h-40 border-yellow-600 border-4">
             <AvatarImage src={`http://localhost:8080/${fetchedEmployee?.profilePic}`} />
             <AvatarFallback>PP</AvatarFallback>
           </Avatar>
@@ -37,6 +37,17 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
         <div className="flex w-full items-center gap-5 p-3 justify-start">
           <p>{dateIcon}</p>
           <SingleEmployee>{dateFormatter(fetchedEmployee?.birthDate)}</SingleEmployee>
+        </div>
+
+
+        <div className="flex w-full items-center gap-5 p-3 justify-start">
+          <p>{profileTaskIcon}</p>
+          <SingleEmployee>{fetchedEmployee?.tasks.length}</SingleEmployee>
+        </div>
+
+        <div className="flex w-full items-center gap-5 p-3 justify-start">
+          <p>{completedTask}</p>
+          <SingleEmployee>{fetchedEmployee?.completedTasks}</SingleEmployee>
         </div>
 
         <div className="flex w-full justify-center items-center text-center">
