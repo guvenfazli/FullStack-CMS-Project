@@ -1,8 +1,9 @@
 const Employee = require('../models/Employee')
 const Admin = require('../models/Admin')
 const Project = require('../models/Project')
-const sequelize = require('../utils/database')
 const Task = require('../models/Task')
+const EmployeeTask = require('../models/EmployeeTask')
+const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
 
 exports.fetchAllAdmins = async (req, res, next) => {
@@ -221,6 +222,18 @@ exports.changeTaskStatus = async (req, res, next) => {
   const { taskStatus } = req.body
   const taskId = req.params.taskId
   const foundTask = await Task.findByPk(taskId)
+  const taskEmployees = await EmployeeTask.findAll({ where: { taskId: taskId } })
+  if(taskStatus === 'Completed') {
+    taskEmployees.forEach(async (task) => {
+      const assignedEmployee = await Employee.findByPk(task.employeeId)
+      assignedEmployee.completedTasks += 1
+      assignedEmployee.save()
+    })
+  }
+
+
+
+
   foundTask.taskStatus = taskStatus
   foundTask.save()
   return res.json({ message: 'Status changed.' })
