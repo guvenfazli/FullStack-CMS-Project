@@ -5,7 +5,7 @@ import dateFormatter from "@/utils/dateFormatter"
 export default function SingleEmployeeCard({ fetchedEmployee }) {
 
   return (
-    <div className="flex flex-col shadow-xl w-full rounded-lg bg-gray-900">
+    <div className="flex flex-col shadow-md shadow-slate-950 w-full rounded-lg bg-gray-900">
       <div className="flex flex-col justify-start items-center py-3 px-4">
         <div>
           <Avatar className="w-40 h-40 border-yellow-600 border-4">
