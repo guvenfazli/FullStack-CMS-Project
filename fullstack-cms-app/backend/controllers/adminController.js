@@ -256,7 +256,8 @@ exports.assignEmployees = async (req, res, next) => {
   const foundTask = await Task.findByPk(chosenTaskId)
 
   try {
-    assignedEmployeeList.forEach(async (employee) => {
+
+    for (const employee of assignedEmployeeList) {
       const foundEmployee = await Employee.findByPk(employee)
       if (!foundEmployee) {
         const error = new Error('Employee could not found!')
@@ -264,9 +265,12 @@ exports.assignEmployees = async (req, res, next) => {
         throw error
       }
       foundEmployee.addTask(foundTask)
-    });
+    }
+
     foundTask.taskStatus = 'Pending'
+    
     foundTask.save()
+
     return res.json({ message: 'Employees assigned.' })
   } catch (err) {
     next(err)

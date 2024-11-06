@@ -7,6 +7,8 @@ export default function AssignEmployees({ task, isLogged }) {
 
   const [employeeList, setEmployeeList] = useState()
   const [chosenEmployees, setChosenEmployees] = useState([])
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [isError, setIsError] = useState(false)
   const { toast } = useToast()
 
 
@@ -40,22 +42,50 @@ export default function AssignEmployees({ task, isLogged }) {
   }
 
   async function assignEmployees(taskId) {
-    const response = await fetch(`http://localhost:8080/admin/assignEmployees/${taskId}`, {
-      method: 'PUT',
-      credentials: 'include',
-      body: JSON.stringify(chosenEmployees),
-      headers: {
-        'Content-Type': 'application/json',
+    try {
+      const response = await fetch(`http://localhost:8080/admin/assignEmployees/${taskId}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: JSON.stringify(chosenEmployees),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
       }
-    })
+
+      const resData = await response.json()
+      setIsSuccess(resData.message)
+    } catch (err) {
+      setIsError(err)
+    }
+
 
   }
 
   async function resignEmployees(taskId, employeeId) {
-    const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}`, {
-      method: 'PUT',
-      credentials: 'include'
-    })
+
+    try {
+      const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}`, {
+        method: 'PUT',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+      setIsSuccess(resData.message)
+    } catch (err) {
+      setIsError(err)
+    }
   }
 
   return (
@@ -90,6 +120,11 @@ export default function AssignEmployees({ task, isLogged }) {
 
           <div className="flex justify-center items-center w-full">
             <button onClick={() => assignEmployees(task.id)} className="p-2 rounded-md duration-75 bg-gray-300 text-gray-900 hover:bg-gray-600 hover:text-gray-300">Assign Employee</button>
+          </div>
+
+          <div className="flex w-full justify-center mt-4 items-center">
+            {isSuccess && <p className="text-green-500">{isSuccess}</p>}
+            {isError && <p className="text-red-500">{isError}</p>}
           </div>
         </>
       }
