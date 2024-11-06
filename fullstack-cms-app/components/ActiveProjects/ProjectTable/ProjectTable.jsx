@@ -32,36 +32,47 @@ import dateFormatter from "@/utils/dateFormatter"
 import Link from "next/link"
 
 
-export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setIsLoading }) {
+export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects }) {
 
   const [filterType, setFilterType] = useState()
   const { toast } = useToast()
 
-  async function deleteProject(projectId) {
-    try {
-      const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      })
+  function filterTable(filter) {
 
-      if (!response.ok) {
-        const responseData = await response.json()
-        throw new Error(responseData.message)
+    setFilterType(prev => {
+      if (prev === filter) {
+        return undefined
+      } else {
+        return filter
+      }
+    })
+  }
+
+  useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
+
+    async function filterProjects() {
+      if (filterType) {
+        const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
+          method: 'GET',
+          credentials: 'include'
+        })
+        const resData = await response.json()
+
+
+        setFetchedProjects(resData.projects)
+      } else {
+        const response = await fetch('http://localhost:8080/projects', {
+          method: 'GET',
+          credentials: 'include'
+        })
+        const resData = await response.json()
+        setFetchedProjects(resData.projects)
       }
 
-      const responseData = await response.json()
-      toast({
-        title: 'Success!',
-        description: responseData.message,
-      })
-
-    } catch (err) {
-      toast({
-        title: 'Something went wrong.',
-        description: err.message,
-      })
     }
-  }
+
+    filterProjects()
+  }, [filterType])
 
   async function changeProjectStatus(status, project) {
     const data = project
@@ -96,43 +107,31 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
     }
   }
 
-  function filterTable(filter) {
+  async function deleteProject(projectId) {
+    try {
+      const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      })
 
-    setFilterType(prev => {
-      if (prev === filter) {
-        return undefined
-      } else {
-        return filter
-      }
-    })
-  }
-
-  useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
-
-    async function filterProjects() {
-      if (filterType) {
-        const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
-          method: 'GET',
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        console.log(resData)
-        setFetchedProjects(resData.projects)
-      } else {
-        const response = await fetch('http://localhost:8080/projects', {
-          method: 'GET',
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        setFetchedProjects(resData.projects)
+      if (!response.ok) {
+        const responseData = await response.json()
+        throw new Error(responseData.message)
       }
 
+      const responseData = await response.json()
+      toast({
+        title: 'Success!',
+        description: responseData.message,
+      })
+
+    } catch (err) {
+      toast({
+        title: 'Something went wrong.',
+        description: err.message,
+      })
     }
-
-    filterProjects()
-  }, [filterType])
-
-
+  }
 
   return (
     <Table>

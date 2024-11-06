@@ -123,7 +123,6 @@ exports.editEmployeeAccount = async (req, res, next) => {
       throw error
     }
 
-
     foundEmployee.name = name
     foundEmployee.surname = surname
     foundEmployee.email = email
@@ -174,7 +173,6 @@ exports.fetchProjects = async (req, res, next) => {
     }
 
     if (filterParam) {
-      console.log(filterParam)
       foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
       return res.json({ projects: foundProjects })
     }
@@ -185,7 +183,8 @@ exports.fetchProjects = async (req, res, next) => {
       const error = new Error('Could not fetch projects!')
       error.statusCode = 404
       throw error
-    }
+    } 
+
 
     return res.json({ projects: allProjects })
 

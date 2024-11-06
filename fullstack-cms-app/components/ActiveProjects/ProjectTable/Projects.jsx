@@ -15,15 +15,27 @@ export default function Projects() {
 
   useEffect(() => {
     async function fetchAllProjects() {
-      setIsLoading(true)
-      const response = await fetch('http://localhost:8080/projects', {
-        method: 'GET',
-        credentials: 'include'
-      })
 
-      const resData = await response.json()
-      setFetchedProjects(resData.projects)
-      setIsLoading(false)
+      try {
+        setIsLoading(true)
+        const response = await fetch('http://localhost:8080/projects', {
+          method: 'GET',
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
+        const resData = await response.json()
+        setFetchedProjects(resData.projects)
+        setIsLoading(false)
+
+      } catch (err) {
+        setIsLoading(false)
+      }
 
     }
 
@@ -31,12 +43,26 @@ export default function Projects() {
   }, [])
 
   async function searchProjects(searchParam) {
-    const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
-      method: 'GET',
-      credentials: 'include'
-    })
-    const resData = await response.json()
-    setFetchedProjects(resData.projects)
+    try {
+
+      const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
+        method: 'GET',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+      setFetchedProjects(resData.projects)
+
+    } catch (err) {
+      setIsLoading(false)
+    }
+
   }
 
   return (

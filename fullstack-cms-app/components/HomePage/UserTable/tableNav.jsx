@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/dialog"
 
 import RegisterForm from "@/components/Authentication/RegisterForm"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 
 
-export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle, projectId, searchFn }) {
+export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle, projectId, searchFn, isError }) {
 
   const lastChange = useRef()
 
