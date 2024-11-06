@@ -62,7 +62,7 @@ app.use('/', employeeRouter)
 app.use((error, req, res, next) => {
   const message = error.message
   const statusCode = error.statusCode || 500
-  res.status(statusCode).json({ message: message })
+  res.status(statusCode).json({ message })
 })
 
 

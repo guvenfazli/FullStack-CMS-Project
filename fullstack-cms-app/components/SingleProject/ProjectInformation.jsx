@@ -13,6 +13,7 @@ export default function ProjectInformation() {
   const { isLogged } = useAppContext()
   const projectId = useParams().projectId
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
 
   useEffect(() => {
@@ -24,10 +25,18 @@ export default function ProjectInformation() {
           method: 'GET',
           credentials: 'include'
         })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
         const resData = await response.json()
         setFetchedProject(resData.fetchedProject)
         setIsLoading(false)
       } catch (err) {
+        setIsError(err.message)
         setIsLoading(false)
       }
 
@@ -40,7 +49,12 @@ export default function ProjectInformation() {
   return (
 
     <div>
-      {isLoading || !fetchedProject ? <LoadingComp /> :
+
+      {isError ?
+        <div className="flex w-full justify-center items-center p-5">
+          <p>{isError}</p>
+        </div> :
+
         <>
           <div>
             <p className="text-3xl mb-3">{fetchedProject?.projectName}</p>
@@ -52,9 +66,11 @@ export default function ProjectInformation() {
             <p className="text-3xl mb-5">Tasks</p>
           </div>
           <TableNav isLogged={isLogged} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
-          <TaskTable fetchedTasks={fetchedProject.tasks} isLogged={isLogged} />
+          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} />
         </>
+
       }
+
     </div>
   )
 }
