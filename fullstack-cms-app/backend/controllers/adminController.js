@@ -34,7 +34,7 @@ exports.createEmployee = async (req, res, next) => {
 
     if (foundUser) {
       const error = new Error('Email Already Exists!')
-      error.statusCode = 415
+      error.statusCode = 400
       throw error
     }
 
@@ -66,7 +66,7 @@ exports.deleteEmployee = async (req, res, next) => {
 
     if (!foundUser) {
       const error = new Error('User could not found!')
-      error.statusCode = 414
+      error.statusCode = 404
       throw error
     }
 
@@ -88,7 +88,7 @@ exports.createProject = async (req, res, next) => {
 
     if (!errors.isEmpty()) {
       const error = new Error(errors.array()[0].msg)
-      error.statusCode = 410
+      error.statusCode = 400
       throw error
     }
 
@@ -99,7 +99,7 @@ exports.createProject = async (req, res, next) => {
 
     if (!createdProject) {
       const error = new Error('Something went wrong.')
-      error.statusCode = 420
+      error.statusCode = 409
       throw error
     }
 
@@ -122,7 +122,7 @@ exports.editProject = async (req, res, next) => {
 
     if (taskCheck && projectStatus === ('Completed' || 'Cancelled')) {
       const error = new Error('There are remaining tasks!')
-      error.statusCode = 434
+      error.statusCode = 400
       throw error
     }
 
@@ -149,7 +149,7 @@ exports.deleteProject = async (req, res, next) => {
 
     if (!foundProject) {
       const error = new Error('Project could not found!')
-      error.statusCode = 420
+      error.statusCode = 404
       throw error
     }
 
@@ -171,7 +171,7 @@ exports.createTaskProject = async (req, res, next) => {
 
     if (!errors.isEmpty()) {
       const error = new Error(errors.array()[0].msg)
-      error.statusCode = 410
+      error.statusCode = 400
       throw error
     }
 
@@ -179,11 +179,11 @@ exports.createTaskProject = async (req, res, next) => {
 
     if (!foundProject) {
       const error = new Error('Project could not found!')
-      error.statusCode = 420
+      error.statusCode = 404
       throw error
     } else if (foundProject.deadline < deadline) {
       const error = new Error('Task Deadline can not be greater than Project Deadline!')
-      error.statusCode = 418
+      error.statusCode = 409
       throw error
     }
 
@@ -213,7 +213,7 @@ exports.editProjectTask = async (req, res, next) => {
 
     if (!errors.isEmpty()) {
       const error = new Error(errors.array()[0].msg)
-      error.statusCode = 410
+      error.statusCode = 400
       throw error
     }
 
@@ -237,7 +237,7 @@ exports.deleteProjectTask = async (req, res, next) => {
     const foundTask = await Task.findByPk(chosenTaskId)
     if (!foundTask) {
       const error = new Error('Task could not found!')
-      error.statusCode = 420
+      error.statusCode = 404
       throw error
     }
 
@@ -261,7 +261,7 @@ exports.assignEmployees = async (req, res, next) => {
       const foundEmployee = await Employee.findByPk(employee)
       if (!foundEmployee) {
         const error = new Error('Employee could not found!')
-        error.statusCode = 420
+        error.statusCode = 404
         throw error
       }
       foundEmployee.addTask(foundTask)

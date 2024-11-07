@@ -3,6 +3,7 @@ const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
+
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
 
@@ -17,7 +18,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
     if (!allAdmins) {
       const error = new Error('Admins could not found!')
-      error.statusCode = 444
+      error.statusCode = 404
       throw error
     }
 
@@ -33,8 +34,8 @@ exports.fetchUserData = async (req, res, next) => {
     const countedEmployees = await Employee.count()
 
     if (!countedEmployees) {
-      const error = new Error('Something went wrong while filtering!')
-      error.statusCode = 444
+      const error = new Error('Could not fetch the stats!')
+      error.statusCode = 404
       throw error
     }
 
@@ -79,7 +80,7 @@ exports.fetchAllUser = async (req, res, next) => {
 
     if (!foundEmployees && !allEmployees) {
       const error = new Error('Employees could not found!')
-      error.statusCode = 444
+      error.statusCode = 404
       throw error
     }
 
@@ -147,7 +148,7 @@ exports.filterEmployees = async (req, res, next) => {
 
     if (!filteredUsers) {
       const error = new Error('Something went wrong while filtering!')
-      error.statusCode = 444
+      error.statusCode = 404
       throw error
     }
 
@@ -201,7 +202,7 @@ exports.fetchProjectStats = async (req, res, next) => {
 
     if (totalProjects === undefined || projectStatusData === undefined) {
       const error = new Error('Could not fetch stats!')
-      error.statusCode = 424
+      error.statusCode = 404
       throw error
     }
 
