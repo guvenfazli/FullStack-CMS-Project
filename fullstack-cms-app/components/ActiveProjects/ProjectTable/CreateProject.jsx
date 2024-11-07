@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 import AuthLabel from "@/components/Authentication/AuthLabel"
 import AuthInput from "@/components/Authentication/AuthInput"
 import AuthError from "@/components/Authentication/AuthError"

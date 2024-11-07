@@ -19,7 +19,7 @@ export default function RegisterForm({ newUserCreation }) {
     e.preventDefault()
     const fd = new FormData(e.target)
     fd.append('profilePic', fileState)
-    let createAccount
+    let createAccount;
 
     try {
       setIsLoading(true)
@@ -35,11 +35,13 @@ export default function RegisterForm({ newUserCreation }) {
           body: fd,
         })
       }
+
       if (!createAccount.ok) {
         setIsLoading(false)
         const responseData = await createAccount.json()
         throw new Error(responseData.message)
       }
+
       const responseData = await createAccount.json()
       setIsSuccess(responseData.message)
       setIsLoading(false)
@@ -57,7 +59,7 @@ export default function RegisterForm({ newUserCreation }) {
     })
   }
 
-  if (newUserCreation) {
+  if (newUserCreation) { // Admin employee creation form.
     return (
       <div className="flex flex-col items-center w-full max-lg:w-full max-sm:w-full">
         <form onSubmit={(e) => createAccount(e)} className="flex flex-col text-xl  w-full bg-gray-900 rounded-lg max-lg:text-base max-sm:text-sm">

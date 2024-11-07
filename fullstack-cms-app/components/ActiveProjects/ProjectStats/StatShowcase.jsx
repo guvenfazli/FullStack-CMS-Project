@@ -1,8 +1,8 @@
 "use client"
+import { useState, useEffect } from "react"
 import CompletedProjects from "./Stats/CompletedProjects"
 import TotalProjects from "./Stats/TotalProjects"
 import TaskStatus from "./Stats/TaskStatus"
-import { useState, useEffect } from "react"
 
 export default function StatShowcase() {
 

@@ -7,8 +7,8 @@ export default function AuthNavigate({ authType, navHref, isLoading, newUserCrea
       {newUserCreation ?
         <button className="font-bold border border-gray-800 px-5 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-500 duration-150 max-xl:mb-5 max-lg:mb-5" >
           {isLoading ? 'Logging..' : 'Create Employee'}
-        </button>
-        :
+        </button> :
+
         <button className="font-bold border border-gray-800 px-5 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-500 duration-150 max-xl:mb-5 max-lg:mb-5" >
           {isLoading ? 'Logging..' : authType}
         </button>

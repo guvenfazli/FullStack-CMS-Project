@@ -48,14 +48,14 @@ export default function ProjectInformation() {
 
   return (
 
-    <div>
+    <>
 
       {isError ?
         <div className="flex w-full justify-center items-center p-5">
           <p>{isError}</p>
         </div> :
 
-        <>
+        <div>
           <div>
             <p className="text-3xl mb-3">{fetchedProject?.projectName}</p>
           </div>
@@ -67,10 +67,10 @@ export default function ProjectInformation() {
           </div>
           <TableNav isLogged={isLogged} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
           <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} />
-        </>
+        </div>
 
       }
 
-    </div>
+    </>
   )
 }

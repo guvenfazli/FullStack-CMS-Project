@@ -12,7 +12,6 @@ export default function Employees() {
     async function fetchEmployees() {
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
-        method: 'GET',
         credentials: 'include'
       })
       const resData = await response.json()

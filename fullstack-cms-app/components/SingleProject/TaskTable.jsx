@@ -102,20 +102,34 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
       <TableCaption>Employee Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('id')}>ID <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'id' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('id')}>
+            ID <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'id' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
-          <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('name')}>TASK TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'name' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('name')}>
+            TASK TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'name' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('surname')}>CREATED AT <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'surname' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('surname')}>
+            CREATED AT <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'surname' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('email')}>DEADLINE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'email' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('email')}>
+            DEADLINE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'email' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
-          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>LAST UPDATE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>
+            LAST UPDATE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[300px] text-center whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>EMPLOYEES ASSIGNED <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="hover:cursor-pointer w-[300px] text-center whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>
+            EMPLOYEES ASSIGNED <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
 
 
-          <TableHead className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('job_title')}>TASK STATUS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'job_title' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('job_title')}>
+            TASK STATUS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'job_title' && 'rotate-180'}`}>{filterUp}</span>
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -153,7 +167,6 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
                     </DialogHeader>
                     <AssignEmployees task={task} isLogged={isLogged} />
                   </DialogContent>
-
                 </Dialog>
 
               </TableCell>

@@ -20,7 +20,6 @@ export default function SearchBar() {
         return
       }
       const response = await fetch(`http://localhost:8080/projects?project=${e.target.value}`, {
-        method: 'GET',
         credentials: 'include'
       })
       const resData = await response.json()

@@ -46,14 +46,12 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
     async function filterEmployees() {
       if (filterType) {
         const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
-          method: 'GET',
           credentials: 'include'
         })
         const resData = await response.json()
         setAllEmployees(resData.employees)
       } else {
         const response = await fetch('http://localhost:8080/employees', {
-          method: 'GET',
           credentials: 'include'
         })
         const resData = await response.json()

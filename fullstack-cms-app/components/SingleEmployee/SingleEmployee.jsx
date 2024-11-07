@@ -1,4 +1,4 @@
-export default function SingleEmployee({ information, children }) {
+export default function SingleEmployee({ children }) {
   return (
     <div>
       <p className="text-xl max-[425px]:text-sm">{children}</p>

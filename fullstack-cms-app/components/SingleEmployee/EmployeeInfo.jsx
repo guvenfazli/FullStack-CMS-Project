@@ -16,7 +16,6 @@ export default function EmployeeInfo() {
       try {
         setIsLoading(true)
         const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
-          method: 'GET',
           credentials: 'include'
         })
 
@@ -41,6 +40,8 @@ export default function EmployeeInfo() {
 
   return (
     <div className="flex flex-row items-start justify-around rounded-xl max-md:flex-col max-md:gap-5">
+
+      {isLoading && <LoadingComp />}
 
       {isError ?
         <div className="flex w-full justify-center items-center p-5">

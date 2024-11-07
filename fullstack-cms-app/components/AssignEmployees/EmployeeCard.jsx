@@ -6,7 +6,7 @@ export default function EmployeeCard({ employee, chooseEmployee, removeEmployee,
 
   const [isChosen, setIsChosen] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { // Adds chosen effect to the employee.
     const foundEmployee = chosenEmployees?.some((emp) => emp === employee.id)
     setIsChosen(foundEmployee)
   }, [chosenEmployees])

@@ -18,7 +18,6 @@ export default function UserTable() {
     async function fetchAllEmployees() {
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
-        method: 'GET',
         credentials: 'include'
       })
       const resData = await response.json()
@@ -32,7 +31,6 @@ export default function UserTable() {
   async function searchEmployees(searchParam) {
 
     const response = await fetch(`http://localhost:8080/employees?employee=${searchParam}`, {
-      method: 'GET',
       credentials: 'include'
     })
     const resData = await response.json()

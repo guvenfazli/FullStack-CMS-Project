@@ -11,7 +11,6 @@ export default function StatsData() {
   useEffect(() => {
     async function fetchEmployeeCounts() {
       const response = await fetch('http://localhost:8080/home', {
-        method: 'GET',
         credentials: 'include'
       })
       const resData = await response.json()

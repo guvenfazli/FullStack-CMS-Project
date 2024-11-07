@@ -10,20 +10,16 @@ export default function Admins() {
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-
     async function fetchAdmins() {
-
       try {
-
         setIsLoading(true)
         const response = await fetch('http://localhost:8080/admins', {
-          method: 'GET',
           credentials: 'include'
         })
 
         if (!response.ok) {
           const resData = await response.json()
-          const error = resData.json(resData.message)
+          const error = new Error(resData.message)
           throw error
         }
 
@@ -33,12 +29,10 @@ export default function Admins() {
         setIsLoading(false)
 
       } catch (err) {
-        setIsError(err)
+        setIsError(err.message)
         setIsLoading(false)
       }
-
     }
-
 
     fetchAdmins()
   }, [])
