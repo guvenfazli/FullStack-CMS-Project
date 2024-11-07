@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const path = require('path')
 const { Op } = require('sequelize')
+const { throwError } = require('../middleware/throwError')
 
 const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
@@ -25,6 +26,8 @@ const clearImage = (imageUrl) => {
   }
 }
 
+
+
 exports.createEmployee = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthdate, phoneNumber } = req.body;
   const profilePic = req.files[0].path
@@ -33,9 +36,7 @@ exports.createEmployee = async (req, res, next) => {
     const foundUser = await Employee.findOne({ where: { email: email } })
 
     if (foundUser) {
-      const error = new Error('Email Already Exists!')
-      error.statusCode = 400
-      throw error
+      throwError('Email Aready Exists!', 400)
     }
 
     const hashedPw = await bcrypt.hash(password, 12)
@@ -65,9 +66,7 @@ exports.deleteEmployee = async (req, res, next) => {
     const foundUser = await Employee.findByPk(chosenEmployeeId)
 
     if (!foundUser) {
-      const error = new Error('User could not found!')
-      error.statusCode = 404
-      throw error
+      throwError('User could not found!', 400)
     }
 
     foundUser.destroy()
@@ -98,9 +97,7 @@ exports.createProject = async (req, res, next) => {
     })
 
     if (!createdProject) {
-      const error = new Error('Something went wrong.')
-      error.statusCode = 409
-      throw error
+      throwError('Something went wrong.', 400)
     }
 
     return res.json({ message: 'Project Created!' })
@@ -121,9 +118,7 @@ exports.editProject = async (req, res, next) => {
     const taskCheck = await Task.findOne({ where: { taskStatus: { [Op.or]: ['Active', 'Pending'] }, projectId: chosenProjectId } })
 
     if (taskCheck && projectStatus === ('Completed' || 'Cancelled')) {
-      const error = new Error('There are remaining tasks!')
-      error.statusCode = 400
-      throw error
+      throwError('There are remaining tasks!', 400)
     }
 
     foundProject.projectName = projectName
@@ -148,9 +143,7 @@ exports.deleteProject = async (req, res, next) => {
     const foundProject = await Project.findByPk(chosenProjectId)
 
     if (!foundProject) {
-      const error = new Error('Project could not found!')
-      error.statusCode = 404
-      throw error
+      throwError('Project could not found!', 404)
     }
 
     foundProject.destroy()
@@ -178,13 +171,10 @@ exports.createTaskProject = async (req, res, next) => {
     const foundProject = await Project.findByPk(chosenProjectId)
 
     if (!foundProject) {
-      const error = new Error('Project could not found!')
-      error.statusCode = 404
-      throw error
+      throwError('Project could not found!', 404)
+
     } else if (foundProject.deadline < deadline) {
-      const error = new Error('Task Deadline can not be greater than Project Deadline!')
-      error.statusCode = 409
-      throw error
+      throwError('Task Deadline can not be greater than Project Deadline!', 409)
     }
 
     foundProject.createTask({
@@ -212,9 +202,7 @@ exports.editProjectTask = async (req, res, next) => {
   try {
 
     if (!errors.isEmpty()) {
-      const error = new Error(errors.array()[0].msg)
-      error.statusCode = 400
-      throw error
+      throwError(errors.array()[0].msg, 400)
     }
 
     const foundTask = await Task.findByPk(chosenTaskId)
@@ -236,9 +224,7 @@ exports.deleteProjectTask = async (req, res, next) => {
   try {
     const foundTask = await Task.findByPk(chosenTaskId)
     if (!foundTask) {
-      const error = new Error('Task could not found!')
-      error.statusCode = 404
-      throw error
+      throwError('Task could not found', 404)
     }
 
     foundTask.destroy()
@@ -260,15 +246,13 @@ exports.assignEmployees = async (req, res, next) => {
     for (const employee of assignedEmployeeList) {
       const foundEmployee = await Employee.findByPk(employee)
       if (!foundEmployee) {
-        const error = new Error('Employee could not found!')
-        error.statusCode = 404
-        throw error
+        throwError('Employee could not found!', 404)
       }
       foundEmployee.addTask(foundTask)
     }
 
     foundTask.taskStatus = 'Pending'
-    
+
     foundTask.save()
 
     return res.json({ message: 'Employees assigned.' })

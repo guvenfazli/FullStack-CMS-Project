@@ -6,6 +6,8 @@ const EmployeeTask = require('../models/EmployeeTask')
 
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
+const { throwError } = require('../middleware/throwError')
+
 
 exports.fetchAllAdmins = async (req, res, next) => {
   try {
@@ -16,10 +18,8 @@ exports.fetchAllAdmins = async (req, res, next) => {
       ]
     })
 
-    if (!allAdmins) {
-      const error = new Error('Admins could not found!')
-      error.statusCode = 404
-      throw error
+    if (allAdmins.length === 0) {
+      throwError('Admins could not found!', 404)
     }
 
     return res.json({ allAdmins })
@@ -34,9 +34,7 @@ exports.fetchUserData = async (req, res, next) => {
     const countedEmployees = await Employee.count()
 
     if (!countedEmployees) {
-      const error = new Error('Could not fetch the stats!')
-      error.statusCode = 404
-      throw error
+      throwError('Could not fetch the stats!', 404)
     }
 
     return res.json({ totalUsers: countedEmployees })
@@ -73,15 +71,17 @@ exports.fetchAllUser = async (req, res, next) => {
         attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle']
       })
 
+      if (foundEmployees.length === 0) {
+        throwError('Employees could not found!', 404)
+      }
+
       return res.json({ employees: foundEmployees })
     }
 
     allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'completedTasks', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
 
-    if (!foundEmployees && !allEmployees) {
-      const error = new Error('Employees could not found!')
-      error.statusCode = 404
-      throw error
+    if (allEmployees.length === 0) {
+      throwError('Employees could not found!', 404)
     }
 
     return res.json({ employees: allEmployees })
@@ -98,9 +98,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
     if (!foundEmployee) {
-      const error = new Error('User not found!')
-      error.statusCode = 404
-      throw error
+      throwError('User not found!', 404)
     }
 
     return res.json({ foundEmployee })
@@ -119,9 +117,7 @@ exports.editEmployeeAccount = async (req, res, next) => {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId)
 
     if (!foundEmployee) {
-      const error = new Error('User not found!')
-      error.statusCode = 404
-      throw error
+      throwError('User not found!', 404)
     }
 
     foundEmployee.name = name
@@ -146,10 +142,8 @@ exports.filterEmployees = async (req, res, next) => {
   try {
     const filteredUsers = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'] })
 
-    if (!filteredUsers) {
-      const error = new Error('Something went wrong while filtering!')
-      error.statusCode = 404
-      throw error
+    if (filteredUsers.length === 0) {
+      throwError('Something went wrong while filtering!', 404)
     }
 
     return res.json({ employees: filteredUsers })
@@ -170,21 +164,25 @@ exports.fetchProjects = async (req, res, next) => {
 
     if (searchParam) {
       foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: [{ model: Task, }] })
+      if (foundProjects.length === 0) {
+        throwError('Could not fetch projects!', 404)
+      }
       return res.json({ projects: foundProjects })
     }
 
     if (filterParam) {
       foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
+      if (foundProjects.length === 0) {
+        throwError('Could not fetch projects!', 404)
+      }
       return res.json({ projects: foundProjects })
     }
 
     allProjects = await Project.findAll({ include: { model: Task } })
 
-    if (!foundProjects && !allProjects) {
-      const error = new Error('Could not fetch projects!')
-      error.statusCode = 404
-      throw error
-    } 
+    if (allProjects.length === 0) {
+      throwError('Could not fetch projects!', 404)
+    }
 
 
     return res.json({ projects: allProjects })
@@ -201,9 +199,7 @@ exports.fetchProjectStats = async (req, res, next) => {
     const projectStatusData = await Project.findAll({ attributes: ['projectStatus', [sequelize.fn('COUNT', sequelize.col('projectStatus')), 'counted']], group: ['projectStatus'] })
 
     if (totalProjects === undefined || projectStatusData === undefined) {
-      const error = new Error('Could not fetch stats!')
-      error.statusCode = 404
-      throw error
+      throwError('Could not fetch stats!', 404)
     }
 
     return res.json({ totalProjects, projectStatusData })
@@ -234,9 +230,7 @@ exports.fetchSingleProject = async (req, res, next) => {
     })
 
     if (!fetchedProject) {
-      const error = new Error('Project not found!')
-      error.statusCode = 404
-      throw error
+      throwError('Project not found!', 404)
     }
 
     return res.json({ fetchedProject })
@@ -244,8 +238,6 @@ exports.fetchSingleProject = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
-
 }
 
 exports.changeTaskStatus = async (req, res, next) => {
@@ -272,9 +264,7 @@ exports.changeTaskStatus = async (req, res, next) => {
     for (const cancelledTask of assignedEmployeesList) {
       await cancelledTask.destroy()
     }
-
   }
-
 
   foundTask.taskStatus = taskStatus
   foundTask.save()
