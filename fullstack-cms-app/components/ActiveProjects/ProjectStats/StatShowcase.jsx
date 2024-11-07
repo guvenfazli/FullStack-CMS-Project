@@ -11,7 +11,6 @@ export default function StatShowcase() {
   useEffect(() => {
     async function fetchProjectStats() {
       const response = await fetch('http://localhost:8080/projectStats', {
-        method: 'GET',
         credentials: 'include'
       })
       const resData = await response.json()

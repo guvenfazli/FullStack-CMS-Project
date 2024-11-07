@@ -14,9 +14,7 @@ export default function Projects() {
 
   async function searchProjects(searchParam) {
     try {
-
       const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
-        method: 'GET',
         credentials: 'include'
       })
 

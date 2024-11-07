@@ -22,7 +22,6 @@ export default function ProjectInformation() {
       try {
         setIsLoading(true)
         const response = await fetch(`http://localhost:8080/projects/${projectId}`, {
-          method: 'GET',
           credentials: 'include'
         })
 
