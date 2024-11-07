@@ -61,7 +61,7 @@ export default function AssignEmployees({ task, isLogged }) {
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
-      setIsError(err)
+      setIsError(err.message)
     }
 
 
@@ -84,7 +84,7 @@ export default function AssignEmployees({ task, isLogged }) {
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
-      setIsError(err)
+      setIsError(err.message)
     }
   }
 
