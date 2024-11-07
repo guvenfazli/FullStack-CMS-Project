@@ -254,9 +254,9 @@ exports.changeTaskStatus = async (req, res, next) => {
       await assignedEmployee.save()
     }
 
-    assignedEmployeesList.forEach((completedTask) => {
-      completedTask.destroy()
-    })
+    for (const completedTask of assignedEmployeesList) {
+      await completedTask.destroy()
+    }
 
   } else if (taskStatus === 'Cancelled') {
     const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
@@ -267,6 +267,6 @@ exports.changeTaskStatus = async (req, res, next) => {
   }
 
   foundTask.taskStatus = taskStatus
-  foundTask.save()
+  await foundTask.save()
   return res.json({ message: 'Status changed.' })
 }

@@ -65,9 +65,6 @@ app.use((error, req, res, next) => {
   res.status(statusCode).json({ message })
 })
 
-
-
-
 // R E L A T I O N S 
 
 Employee.hasOne(Admin, { onDelete: 'CASCADE', foreignKey: 'employeeId' })

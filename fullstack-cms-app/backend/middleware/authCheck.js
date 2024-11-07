@@ -5,14 +5,11 @@ module.exports = (req, res, next) => {
     const cookie = req.cookies['jwt']
     const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
 
-
     if (!resolvedCookie) {
-      console.log('yes')
       const error = new Error('Please log in first!')
-      error.statusCode = 402
+      error.statusCode = 401 //Unauthorized Error code.
       throw error
     }
-    
 
     req.user = resolvedCookie
 
