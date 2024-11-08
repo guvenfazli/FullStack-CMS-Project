@@ -99,7 +99,6 @@ exports.logOut = (req, res, next) => {
 }
 
 exports.cookieCheck = async (req, res, next) => {
-
   try {
     const cookie = req.cookies['jwt']
 
