@@ -58,7 +58,7 @@ export default function UserTable() {
       </div>
 
       <TableNav isLogged={isLogged} searchFn={searchEmployees} FormComponent={RegisterForm} buttonText="Create Employee" inputPlaceHolder="Search Employees" socket={socket} />
-      {isLoading ? <LoadingComp /> : <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} />}
+      {isLoading ? <LoadingComp /> : <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} socket={socket} />}
     </div>
   )
 }

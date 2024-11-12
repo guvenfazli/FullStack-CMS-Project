@@ -106,6 +106,10 @@ homePage.on('connection', (connectedEmployee) => {
     console.log(emp)
   })
 
+  connectedEmployee.on('employeeDeleted', (emp) => {
+    homePage.emit('refreshEmployees', emp)
+  })
+
 
 
 

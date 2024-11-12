@@ -26,7 +26,7 @@ import UsersTasks from "./UsersTasks"
 import Link from "next/link"
 
 
-export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees }) {
+export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees, socket }) {
 
   const [filterType, setFilterType] = useState()
   const { toast } = useToast()
@@ -76,6 +76,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
       }
 
       const resData = await response.json()
+      socket.emit('employeeDeleted')
       toast({
         title: 'Employee deleted.',
         description: resData.message,
