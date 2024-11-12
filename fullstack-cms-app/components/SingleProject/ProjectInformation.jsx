@@ -43,23 +43,23 @@ export default function ProjectInformation() {
     }
 
     fetchSingleProject()
-    
-
-    if (projectId) {
-      socket = io('http://localhost:8080/singleProjectPage', { query: { projectId: projectId } })
-      socket.emit('joinRoom', projectId)
-
-      socket.on('refreshTasks', (emp) => {
-        fetchSingleProject()
-      })
 
 
-      return () => {
-        socket.off('disconnect')
-      }
+
+    socket = io('http://localhost:8080/singleProjectPage')
+    socket.emit('joinRoom', projectId)
+
+    socket.on('refreshTasks', (emp) => {
+      fetchSingleProject()
+    })
+
+
+    return () => {
+      socket.off('disconnect')
     }
 
-  }, [])
+
+  }, [projectId])
 
 
 
@@ -84,7 +84,7 @@ export default function ProjectInformation() {
             <p className="text-3xl mb-5">Tasks</p>
           </div>
           <TableNav isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
-          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} />
+          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} projectId={projectId} />
         </div>
 
       }
