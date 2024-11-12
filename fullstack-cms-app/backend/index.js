@@ -127,8 +127,24 @@ projectsPage.on('connection', (connectedEmployee) => {
     projectsPage.emit('refreshProjects', emp)
   })
 
-  connectedEmployee.on('disconnect', () => {
-    console.log('Disconnected')
+})
+
+const singleProjectPage = io.of('/singleProjectPage')
+
+singleProjectPage.on('connection', (connectedEmployee) => {
+  const projectId = connectedEmployee.handshake.query.projectId
+  connectedEmployee.join(projectId)
+
+  connectedEmployee.on('taskStatusChanged', (emp) => {
+    singleProjectPage.to(projectId).emit('refreshTasks', emp)
+  })
+
+  connectedEmployee.on('taskDeleted', (emp) => {
+    singleProjectPage.to(projectId).emit('refreshTasks', emp)
+  })
+
+  connectedEmployee.on('taskEdited', (emp) => {
+    singleProjectPage.to(projectId).emit('refreshTasks', emp)
   })
 
 })

@@ -32,7 +32,7 @@ import AssignEmployees from "../AssignEmployees/AssignEmployees"
 import dateFormatter from "@/utils/dateFormatter"
 
 
-export default function TaskTable({ fetchedTasks, isLogged }) {
+export default function TaskTable({ fetchedTasks, isLogged, socket }) {
 
   const [filterType, setFilterType] = useState()
   const { toast } = useToast()
@@ -58,6 +58,7 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
         throw error
       }
       const resData = await response.json()
+      socket.emit('taskStatusChanged', 'Status Successfully Changed!')
       toast({
         title: 'Success!',
         description: resData.message,
@@ -85,6 +86,7 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
         throw error
       }
       const resData = await response.json()
+      socket.emit('taskDeleted', 'Task Successfully Deleted!')
       toast({
         title: 'Success!',
         description: resData.message,
@@ -182,7 +184,7 @@ export default function TaskTable({ fetchedTasks, isLogged }) {
                     <DialogHeader>
                       <DialogTitle>Edit Task</DialogTitle>
                     </DialogHeader>
-                    <EditTask task={task} />
+                    <EditTask task={task} socket={socket} />
                   </DialogContent>
                 </Dialog>
 

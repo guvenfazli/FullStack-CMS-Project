@@ -2,7 +2,7 @@ import EditLabel from "./EditLabel"
 import EditInput from "./EditInput"
 import DatePicker from "@/components/ActiveProjects/ProjectTable/DatePicker"
 import { useState } from "react"
-export default function EditForm({ task }) {
+export default function EditForm({ task, socket }) {
 
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -30,6 +30,7 @@ export default function EditForm({ task }) {
       }
 
       const resData = await response.json()
+      socket.emit('taskEdited', 'Task Successfully Edited!')
       setIsSuccess(resData.message)
     } catch (err) {
       setIsError(err.message)

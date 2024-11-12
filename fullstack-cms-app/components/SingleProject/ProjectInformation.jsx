@@ -8,7 +8,9 @@ import ProjectCard from "./ProjectCard"
 import TableNav from "../HomePage/UserTable/tableNav"
 import TaskTable from "./TaskTable"
 import CreateTask from "../ActiveProjects/ProjectTable/CreateTask"
+import io from "socket.io-client"
 
+let socket;
 export default function ProjectInformation() {
   const { isLogged } = useAppContext()
   const projectId = useParams().projectId
@@ -42,6 +44,17 @@ export default function ProjectInformation() {
     }
 
     fetchSingleProject()
+
+    socket = io('http://localhost:8080/singleProjectPage', { query: { projectId: `${projectId}` } })
+
+    socket.on('refreshTasks', (emp) => {
+      fetchSingleProject()
+    })
+
+
+    return () => {
+      socket.disconnect()
+    }
   }, [])
 
 
@@ -64,8 +77,8 @@ export default function ProjectInformation() {
           <div>
             <p className="text-3xl mb-5">Tasks</p>
           </div>
-          <TableNav isLogged={isLogged} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
-          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} />
+          <TableNav isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
+          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} />
         </div>
 
       }
