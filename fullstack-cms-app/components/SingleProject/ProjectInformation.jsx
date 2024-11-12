@@ -17,7 +17,6 @@ export default function ProjectInformation() {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
-
   useEffect(() => {
     async function fetchSingleProject() {
 
@@ -44,19 +43,26 @@ export default function ProjectInformation() {
     }
 
     fetchSingleProject()
+    
 
-    socket = io('http://localhost:8080/singleProjectPage')
-    socket.emit('joinRoom', projectId)
+    if (projectId) {
+      socket = io('http://localhost:8080/singleProjectPage', { query: { projectId: projectId } })
+      socket.emit('joinRoom', projectId)
 
-    socket.on('refreshTasks', (emp) => {
-      fetchSingleProject()
-      console.log('test')
-    })
+      socket.on('refreshTasks', (emp) => {
+        fetchSingleProject()
+      })
 
 
-    return () => {
-      socket.off('disconnect')
+      return () => {
+        socket.off('disconnect')
+      }
     }
+
+
+
+
+
   }, [])
 
 

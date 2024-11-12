@@ -132,26 +132,28 @@ projectsPage.on('connection', (connectedEmployee) => {
 const singleProjectPage = io.of('/singleProjectPage')
 
 singleProjectPage.on('connection', (connectedEmployee) => {
-
-  connectedEmployee.on('joinRoom', (projectId) => {
+  const projectId = connectedEmployee.handshake.query.projectId
+  console.log(connectedEmployee)
+  connectedEmployee.on('joinRoom', (emp) => {
     connectedEmployee.join(projectId)
+    console.log(projectId)
   })
 
 
-  connectedEmployee.on('taskStatusChanged', (projectId) => {
+  connectedEmployee.on('taskStatusChanged', (emp) => {
     console.log(projectId)
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('taskDeleted', (projectId) => {
+  connectedEmployee.on('taskDeleted', (emp) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('taskEdited', (projectId) => {
+  connectedEmployee.on('taskEdited', (emp) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('disconnect', (projectId) => {
+  connectedEmployee.on('disconnect', (emp) => {
     connectedEmployee.leave(projectId)
   })
 
