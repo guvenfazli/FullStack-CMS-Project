@@ -49,11 +49,12 @@ export default function ProjectInformation() {
 
     socket.on('refreshTasks', (emp) => {
       fetchSingleProject()
+      console.log('test')
     })
 
 
     return () => {
-      socket.disconnect()
+      socket.off('disconnect')
     }
   }, [])
 

@@ -147,4 +147,8 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks', emp)
   })
 
+  connectedEmployee.on('disconnect', (emp) => {
+    connectedEmployee.leave(projectId)
+  })
+
 })
