@@ -101,9 +101,12 @@ const homePage = io.of('/homePage')
 
 homePage.on('connection', (connectedEmployee) => {
 
-  connectedEmployee.on('testSocket', (emp) => {
+  connectedEmployee.on('employeeCreated', (emp) => {
+    homePage.emit('refreshEmployees', emp)
     console.log(emp)
   })
+
+
 
 
 })

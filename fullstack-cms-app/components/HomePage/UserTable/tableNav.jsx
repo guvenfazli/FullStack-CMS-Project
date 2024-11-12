@@ -11,7 +11,7 @@ import RegisterForm from "@/components/Authentication/RegisterForm"
 import { useRef } from "react"
 
 
-export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle, projectId, searchFn, isError }) {
+export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormComponent, dialogTitle, projectId, searchFn, isError, socket }) {
 
   const lastChange = useRef()
 
@@ -39,7 +39,7 @@ export default function TableNav({ isLogged, inputPlaceHolder, buttonText, FormC
             <DialogHeader>
               <DialogTitle>{dialogTitle}</DialogTitle>
             </DialogHeader>
-            <FormComponent newUserCreation={true} projectId={projectId} />
+            <FormComponent newUserCreation={true} projectId={projectId} socket={socket} />
           </DialogContent>
         </Dialog>
       }

@@ -8,20 +8,14 @@ import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import io from "socket.io-client"
 
-
+let socket;
 export default function UserTable() {
-  const socket = io('http://localhost:8080/homePage')
   const { isLogged } = useAppContext()
   const [allEmployees, setAllEmployees] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
-    function testSocket() {
-      socket.emit('testSocket', 'I am here, socket is working.')
-    }
-
-
     async function fetchAllEmployees() {
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
@@ -32,9 +26,20 @@ export default function UserTable() {
       setIsLoading(false)
     }
 
+    socket = io('http://localhost:8080/homePage')
+    socket.on('refreshEmployees', (emp) => {
+      fetchAllEmployees()
+    })
+
+
     fetchAllEmployees()
-    testSocket()
+
+    return () => {
+      socket.disconnect()
+    }
   }, [])
+
+
 
   async function searchEmployees(searchParam) {
 
@@ -52,7 +57,7 @@ export default function UserTable() {
         <p className="text-2xl mb-5">Users</p>
       </div>
 
-      <TableNav isLogged={isLogged} searchFn={searchEmployees} FormComponent={RegisterForm} buttonText="Create Employee" inputPlaceHolder="Search Employees" />
+      <TableNav isLogged={isLogged} searchFn={searchEmployees} FormComponent={RegisterForm} buttonText="Create Employee" inputPlaceHolder="Search Employees" socket={socket} />
       {isLoading ? <LoadingComp /> : <EmployeeTable fetchedEmployees={allEmployees} isLogged={isLogged} setAllEmployees={setAllEmployees} />}
     </div>
   )

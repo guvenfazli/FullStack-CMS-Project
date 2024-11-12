@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import AuthInput from "./AuthInput"
 import FileUploader from "./FileUploader"
@@ -7,13 +7,20 @@ import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
 import AuthNavigate from "./AuthNavigate"
-
-export default function RegisterForm({ newUserCreation }) {
+import io from "socket.io-client"
+export default function RegisterForm({ newUserCreation, socket }) {
 
   const [isLoading, setIsLoading] = useState(false)
   const [fileState, setFileState] = useState()
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
+
+  useEffect(() => {
+    return () => {
+      socket.disconnect()
+    }
+  }, [])
+
 
   async function createAccount(e) {
     e.preventDefault()
@@ -29,6 +36,7 @@ export default function RegisterForm({ newUserCreation }) {
           body: fd,
           credentials: 'include'
         })
+        socket.emit('employeeCreated', 'Employee Created')
       } else {
         createAccount = await fetch('http://localhost:8080/auth/createAccount', {
           method: 'POST',
