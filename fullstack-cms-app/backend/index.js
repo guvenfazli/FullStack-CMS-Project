@@ -100,17 +100,21 @@ io.use((socket, next) => {
 const homePage = io.of('/homePage')
 
 homePage.on('connection', (connectedEmployee) => {
-
   connectedEmployee.on('employeeCreated', (emp) => {
     homePage.emit('refreshEmployees', emp)
-    console.log(emp)
   })
-
   connectedEmployee.on('employeeDeleted', (emp) => {
     homePage.emit('refreshEmployees', emp)
   })
 
+})
 
+const projectsPage = io.of('/projectsPage')
 
+projectsPage.on('connection', (connectedEmployee) => {
+
+  connectedEmployee.on('projectCreated', (emp) => {
+    projectsPage.emit('refreshProjects', emp)
+  })
 
 })

@@ -31,8 +31,7 @@ import CreateTask from "./CreateTask"
 import dateFormatter from "@/utils/dateFormatter"
 import Link from "next/link"
 
-
-export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects }) {
+export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, socket }) {
 
   const [filterType, setFilterType] = useState()
   const { toast } = useToast()
@@ -65,9 +64,26 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
         setFetchedProjects(resData.projects)
       }
     }
-
     filterProjects()
   }, [filterType])
+
+  useEffect(() => {
+
+    async function filterProjects() {
+      const response = await fetch('http://localhost:8080/projects', {
+        credentials: 'include'
+      })
+      const resData = await response.json()
+      setFetchedProjects(resData.projects)
+    }
+
+
+    socket.on('refreshProjects', (emp) => {
+      filterProjects()
+    })
+
+
+  }, [])
 
   async function changeProjectStatus(status, project) {
     const data = project
@@ -131,7 +147,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
   return (
     <Table>
       <TableCaption>Project Table</TableCaption>
-      
+
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('id')}>

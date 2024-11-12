@@ -5,7 +5,7 @@ import AuthError from "@/components/Authentication/AuthError"
 import AuthSuccess from "@/components/Authentication/AuthSuccess"
 import DatePicker from "./DatePicker"
 
-export default function CreateProjectForm({ projectId }) {
+export default function CreateProjectForm({ projectId, socket }) {
 
   const [errorState, setErrorState] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -29,7 +29,7 @@ export default function CreateProjectForm({ projectId }) {
         const resData = await response.json()
         throw new Error(resData.message)
       }
-
+      socket.emit('projectCreated', 'Project successfully created.')
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
@@ -52,12 +52,12 @@ export default function CreateProjectForm({ projectId }) {
           'Content-Type': 'application/json',
         }
       })
-      
+
       if (!response.ok) {
         const resData = await response.json()
         throw new Error(resData.message)
       }
-
+      socket.emit('projectCreated', 'Task successfully created.')
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
