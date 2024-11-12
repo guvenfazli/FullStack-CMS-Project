@@ -76,7 +76,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
       }
 
       const resData = await response.json()
-      socket.emit('employeeDeleted')
+      socket.emit('employeeDeleted', 'Employee Deleted')
       toast({
         title: 'Employee deleted.',
         description: resData.message,

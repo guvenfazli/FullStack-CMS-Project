@@ -15,11 +15,7 @@ export default function RegisterForm({ newUserCreation, socket }) {
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
 
-  useEffect(() => {
-    return () => {
-      socket.disconnect()
-    }
-  }, [])
+
 
 
   async function createAccount(e) {

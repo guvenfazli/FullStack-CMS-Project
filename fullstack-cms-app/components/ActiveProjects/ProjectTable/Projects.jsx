@@ -12,7 +12,7 @@ export default function Projects() {
 
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
-
+  const [isLoading, setIsLoading] = useState(true)
   async function searchProjects(searchParam) {
 
     const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
@@ -30,7 +30,17 @@ export default function Projects() {
   }
 
   useEffect(() => {
-    socket = io('http://localhost:8080/projectsPage')
+    async function fetchProjects() {
+      const response = await fetch('http://localhost:8080/projects', {
+        credentials: 'include'
+      })
+      const resData = await response.json()
+      socket = io('http://localhost:8080/projectsPage')
+      setFetchedProjects(resData.projects)
+      setIsLoading(false)
+    }
+
+    fetchProjects()
 
     return () => {
       socket.disconnect()
@@ -45,7 +55,7 @@ export default function Projects() {
 
       <TableNav isLogged={isLogged} socket={socket} searchFn={searchProjects} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
 
-      {!socket ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} setFetchedProjects={setFetchedProjects} socket={socket} />}
+      {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} setFetchedProjects={setFetchedProjects} socket={socket} />}
     </div>
   )
 }

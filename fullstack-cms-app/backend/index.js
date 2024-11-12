@@ -103,6 +103,7 @@ homePage.on('connection', (connectedEmployee) => {
   connectedEmployee.on('employeeCreated', (emp) => {
     homePage.emit('refreshEmployees', emp)
   })
+
   connectedEmployee.on('employeeDeleted', (emp) => {
     homePage.emit('refreshEmployees', emp)
   })
@@ -112,17 +113,22 @@ homePage.on('connection', (connectedEmployee) => {
 const projectsPage = io.of('/projectsPage')
 
 projectsPage.on('connection', (connectedEmployee) => {
+  console.log('It is here')
 
   connectedEmployee.on('projectCreated', (emp) => {
-    connectedEmployee.emit('refreshProjects', emp)
+    projectsPage.emit('refreshProjects', emp)
   })
 
   connectedEmployee.on('projectDeleted', (emp) => {
-    connectedEmployee.emit('refreshProjects', emp)
+    projectsPage.emit('refreshProjects', emp)
   })
 
   connectedEmployee.on('projectStatusChanged', (emp) => {
-    connectedEmployee.emit('refreshProjects', emp)
+    projectsPage.emit('refreshProjects', emp)
+  })
+
+  connectedEmployee.on('disconnect', () => {
+    console.log('Disconnected')
   })
 
 })
