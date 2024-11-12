@@ -114,7 +114,15 @@ const projectsPage = io.of('/projectsPage')
 projectsPage.on('connection', (connectedEmployee) => {
 
   connectedEmployee.on('projectCreated', (emp) => {
-    projectsPage.emit('refreshProjects', emp)
+    connectedEmployee.emit('refreshProjects', emp)
+  })
+
+  connectedEmployee.on('projectDeleted', (emp) => {
+    connectedEmployee.emit('refreshProjects', emp)
+  })
+
+  connectedEmployee.on('projectStatusChanged', (emp) => {
+    connectedEmployee.emit('refreshProjects', emp)
   })
 
 })

@@ -12,25 +12,20 @@ export default function Projects() {
 
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
-  const [isLoading, setIsLoading] = useState(false)
 
   async function searchProjects(searchParam) {
-    try {
-      const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
-        credentials: 'include'
-      })
-      if (!response.ok) {
-        const resData = await response.json()
-        const error = new Error(resData.message)
-        throw error
-      }
 
+    const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
+      credentials: 'include'
+    })
+    if (!response.ok) {
       const resData = await response.json()
-      setFetchedProjects(resData.projects)
-
-    } catch (err) {
-      setIsLoading(false)
+      const error = new Error(resData.message)
+      throw error
     }
+
+    const resData = await response.json()
+    setFetchedProjects(resData.projects)
 
   }
 

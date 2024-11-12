@@ -105,6 +105,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       }
 
       const responseData = await response.json()
+      socket.emit('projectStatusChanged', 'Status Changed')
       toast({
         title: 'Success!',
         description: responseData.message,
@@ -131,6 +132,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       }
 
       const responseData = await response.json()
+      socket.emit('projectDeleted', 'Project successfully deleted.')
       toast({
         title: 'Success!',
         description: responseData.message,
