@@ -58,7 +58,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket }) {
         throw error
       }
       const resData = await response.json()
-      socket.emit('taskStatusChanged', 'Status Successfully Changed!')
+      socket.emit('taskStatusChanged', `${2}`)
       toast({
         title: 'Success!',
         description: resData.message,

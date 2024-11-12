@@ -45,7 +45,8 @@ export default function ProjectInformation() {
 
     fetchSingleProject()
 
-    socket = io('http://localhost:8080/singleProjectPage', { query: { projectId: `${projectId}` } })
+    socket = io('http://localhost:8080/singleProjectPage')
+    socket.emit('joinRoom', projectId)
 
     socket.on('refreshTasks', (emp) => {
       fetchSingleProject()
