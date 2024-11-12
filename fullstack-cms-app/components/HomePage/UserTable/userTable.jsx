@@ -6,15 +6,22 @@ import LoadingComp from "@/components/Loading/LoadingComp"
 
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
+import io from "socket.io-client"
 
 
 export default function UserTable() {
+  const socket = io('http://localhost:8080/homePage')
   const { isLogged } = useAppContext()
   const [allEmployees, setAllEmployees] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
+    function testSocket() {
+      socket.emit('testSocket', 'I am here, socket is working.')
+    }
+
+
     async function fetchAllEmployees() {
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
@@ -26,6 +33,7 @@ export default function UserTable() {
     }
 
     fetchAllEmployees()
+    testSocket()
   }, [])
 
   async function searchEmployees(searchParam) {

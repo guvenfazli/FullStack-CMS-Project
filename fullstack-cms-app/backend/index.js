@@ -6,6 +6,9 @@ const cors = require('cors')
 const path = require('path')
 const cookieparser = require('cookie-parser')
 const multer = require('multer')
+const http = require('http')
+const server = http.createServer(app)
+const { Server } = require('socket.io')
 
 // M O D E L S 
 const Admin = require('./models/Admin.js')
@@ -76,7 +79,31 @@ Employee.belongsToMany(Task, { through: EmployeeTask })
 Task.belongsToMany(Employee, { through: EmployeeTask })
 
 
-sequelize.sync().then(async res => {
-
-  app.listen(8080)
+sequelize.sync().then(async (res) => {
+  server.listen(8080)
 }).catch(err => console.log(err));
+
+
+// W E B    S O C K E T S 
+
+const io = require('./io').init(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  }
+})
+
+io.use((socket, next) => {
+  next()
+})
+
+const homePage = io.of('/homePage')
+
+homePage.on('connection', (connectedEmployee) => {
+
+  connectedEmployee.on('testSocket', (emp) => {
+    console.log(emp)
+  })
+
+
+})
