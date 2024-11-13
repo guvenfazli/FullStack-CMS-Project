@@ -82,6 +82,10 @@ Task.belongsToMany(Employee, { through: EmployeeTask })
 Employee.hasMany(Notification, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 Notification.belongsTo(Employee, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 
+Task.hasMany(Notification, { onDelete: 'CASCADE', foreignKey: 'taskId' })
+Notification.belongsTo(Task, { onDelete: 'CASCADE', foreignKey: 'taskId' })
+
+
 
 sequelize.sync().then(async (res) => {
 
@@ -152,8 +156,12 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('taskDeleted', (projectId) => {
+  connectedEmployee.on('taskDeleted', (projectId, empList) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
+    for (const chosenEmp of empList) {
+      notifs.to(chosenEmp.id).emit('sendNotif')
+    }
+
   })
 
   connectedEmployee.on('taskEdited', (projectId) => {
