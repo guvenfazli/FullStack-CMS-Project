@@ -8,6 +8,11 @@ const Notification = sequelize.define('notification', {
     autoIncrement: true
   },
 
+  notificationMessage: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+
   isRead: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

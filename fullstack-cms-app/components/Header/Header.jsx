@@ -27,7 +27,7 @@ export default function Header() {
 
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
-  const [isNotifications, setIsNotifications] = useState(false)
+  const [notificationMessage, setNotificationMessage] = useState()
   const [notifications, setNotifications] = useState([])
   console.log(notifications)
   useEffect(() => {
@@ -58,6 +58,7 @@ export default function Header() {
       socket.emit('createNotificationRoom', isLogged.userId)
       socket.on('sendNotif', (emp) => {
         getNotifications()
+        setNotificationMessage(emp)
       })
 
       return () => {
@@ -92,9 +93,9 @@ export default function Header() {
               <DropdownMenuContent className="bg-gray-700 text-white z-10">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {notifications.length <= 0 ? <p>There is no notification</p> : notifications.map((notify) => {
+                {notifications.length <= 0 ? <p>Seems quite...</p> : notifications.map((notify) => {
                   return (
-                    <DropdownMenuItem key={notify.id}><Link href={`/projects/${notify.projectId}`}>A Task Assigned To You!</Link></DropdownMenuItem>
+                    <DropdownMenuItem className="p-1" key={notify.id}><Link href={`/projects/${notify.projectId}`}>{notify.notificationMessage}</Link></DropdownMenuItem>
                   )
                 })}
               </DropdownMenuContent>

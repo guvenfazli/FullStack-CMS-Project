@@ -254,6 +254,7 @@ exports.assignEmployees = async (req, res, next) => {
       }
       foundEmployee.addTask(foundTask)
       const createdNotification = await foundEmployee.createNotification({
+        notificationMessage: 'A Task Assigned To You!',
         assignedBy: req.user.userId,
         projectId: +assignedProjectId,
         taskId: chosenTaskId
