@@ -2,11 +2,13 @@
 import SearchBar from "./Searchbar"
 import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
+import Notifications from "./Notifications"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
 import { useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { notificationIcon } from "../Icons/Icons"
 
 export default function Header() {
   const { isLogged } = useAppContext()
@@ -31,13 +33,19 @@ export default function Header() {
 
         <SearchBar />
 
-        <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
-          <Avatar className="max-[700px]:hidden">
-            <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
-            <AvatarFallback>PP</AvatarFallback>
-          </Avatar>
-          <p className="text-lg text-gray-300 ml-2 mr-2">{isLogged && isLogged.name}</p>
-          <button>+</button>
+        <div className="flex flex-row items-center justify-evenly  w-1/6 max-sm:hidden">
+          <div className="relative">
+            <button>{notificationIcon}</button>
+            <Notifications />
+          </div>
+          <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
+            <Avatar className="max-[700px]:hidden ml-5">
+              <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
+              <AvatarFallback>PP</AvatarFallback>
+            </Avatar>
+            <p className="text-lg text-gray-300 ml-2 mr-2">{isLogged && isLogged.name}</p>
+            <button>+</button>
+          </div>
           <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} />
 
         </div>
