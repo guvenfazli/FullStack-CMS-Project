@@ -4,6 +4,7 @@ import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -56,11 +57,7 @@ export default function Header() {
       socket = io('http://localhost:8080/notifs')
       socket.emit('createNotificationRoom', isLogged.userId)
       socket.on('sendNotif', (emp) => {
-        setNotifications(prev => {
-          const updated = [...prev]
-          updated.push('Another Task')
-          return updated
-        })
+        getNotifications()
       })
 
       return () => {
@@ -95,10 +92,11 @@ export default function Header() {
               <DropdownMenuContent className="bg-gray-700 text-white z-10">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>A Task Assigned To You!</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                {notifications.length <= 0 ? <p>There is no notification</p> : notifications.map((notify) => {
+                  return (
+                    <DropdownMenuItem key={notify.id}><Link href={`/projects/${notify.projectId}`}>A Task Assigned To You!</Link></DropdownMenuItem>
+                  )
+                })}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
