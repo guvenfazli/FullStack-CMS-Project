@@ -57,7 +57,7 @@ export default function CreateProjectForm({ projectId, socket }) {
         const resData = await response.json()
         throw new Error(resData.message)
       }
-      socket.emit('projectCreated', 'Task successfully created.')
+      socket.emit('taskCreated', projectId)
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {

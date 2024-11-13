@@ -142,6 +142,11 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     connectedEmployee.join(projectId)
   })
 
+  connectedEmployee.on('taskCreated', (projectId) => {
+    console.log('Here')
+    singleProjectPage.to(projectId).emit('refreshTasks')
+  })
+
   connectedEmployee.on('taskStatusChanged', (projectId) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
