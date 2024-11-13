@@ -14,7 +14,7 @@ export default function HomePage() {
     setSocket(connectedSocket)
 
     return () => {
-      socket.disconnect()
+      connectedSocket.disconnect()
     }
   }, [])
 

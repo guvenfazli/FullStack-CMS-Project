@@ -6,8 +6,6 @@ import LoadingComp from "@/components/Loading/LoadingComp"
 
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
-import io from "socket.io-client"
-
 
 export default function UserTable({socket}) {
   const { isLogged } = useAppContext()
