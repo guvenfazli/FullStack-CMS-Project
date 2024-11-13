@@ -88,7 +88,6 @@ Notification.belongsTo(Task, { onDelete: 'CASCADE', foreignKey: 'taskId' })
 
 
 sequelize.sync().then(async (res) => {
-
   server.listen(8080)
 }).catch(err => console.log(err));
 
@@ -111,6 +110,12 @@ const projectsPage = io.of('/projectsPage')
 const singleProjectPage = io.of('/singleProjectPage')
 const homePage = io.of('/homePage')
 
+notifs.on('connection', (connectedEmployee) => { // Room is being created for notifications at the beginning.
+  connectedEmployee.on('createNotificationRoom', (userId) => {
+    connectedEmployee.join(userId)
+  })
+})
+
 homePage.on('connection', (connectedEmployee) => {
   connectedEmployee.on('employeeCreated', (emp) => {
     homePage.emit('refreshEmployees', emp)
@@ -124,7 +129,6 @@ homePage.on('connection', (connectedEmployee) => {
 
 
 projectsPage.on('connection', (connectedEmployee) => {
-  console.log('It is here')
 
   connectedEmployee.on('projectCreated', (emp) => {
     projectsPage.emit('refreshProjects', emp)
@@ -148,7 +152,6 @@ singleProjectPage.on('connection', (connectedEmployee) => {
   })
 
   connectedEmployee.on('taskCreated', (projectId) => {
-    console.log('Here')
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
@@ -188,12 +191,3 @@ singleProjectPage.on('connection', (connectedEmployee) => {
 
 
 
-notifs.on('connection', (connectedEmployee) => {
-  connectedEmployee.on('createNotificationRoom', (userId) => {
-    console.log(userId)
-    connectedEmployee.join(userId)
-  })
-
-
-
-})
