@@ -3,7 +3,7 @@ import { useToast } from "@/hooks/use-toast"
 import AssignedEmployees from "./AssignedEmployees"
 import EmployeeCard from "./EmployeeCard"
 
-export default function AssignEmployees({ task, isLogged }) {
+export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
   const [employeeList, setEmployeeList] = useState()
   const [chosenEmployees, setChosenEmployees] = useState([])
@@ -57,7 +57,7 @@ export default function AssignEmployees({ task, isLogged }) {
         const error = new Error(resData.message)
         throw error
       }
-
+      socket.emit('employeeAssigned', projectId)
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
@@ -81,6 +81,7 @@ export default function AssignEmployees({ task, isLogged }) {
         throw error
       }
 
+      socket.emit('employeeReassigned', projectId)
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {

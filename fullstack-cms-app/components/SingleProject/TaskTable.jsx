@@ -167,7 +167,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
                     <DialogHeader>
                       <DialogTitle>Assigned Employees</DialogTitle>
                     </DialogHeader>
-                    <AssignEmployees task={task} isLogged={isLogged} />
+                    <AssignEmployees task={task} isLogged={isLogged} socket={socket} projectId={projectId} />
                   </DialogContent>
                 </Dialog>
 

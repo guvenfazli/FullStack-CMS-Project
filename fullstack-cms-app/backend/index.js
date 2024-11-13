@@ -159,6 +159,14 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
+  connectedEmployee.on('employeeAssigned', (projectId) => {
+    singleProjectPage.to(projectId).emit('refreshTasks')
+  })
+
+  connectedEmployee.on('employeeReassigned', (projectId) => {
+    singleProjectPage.to(projectId).emit('refreshTasks')
+  })
+
   connectedEmployee.on('disconnect', (projectId) => {
     connectedEmployee.leave(projectId)
   })
