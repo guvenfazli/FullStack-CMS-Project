@@ -2,8 +2,10 @@
 import { useAppContext } from "@/context";
 import DataCard from "./DataCard";
 import { useEffect, useState } from "react";
+import io from "socket.io-client"
 
-export default function StatsData() {
+
+export default function StatsData({socket}) {
 
   const { isLogged } = useAppContext()
   const [totalUsers, setTotalUsers] = useState()
@@ -18,6 +20,14 @@ export default function StatsData() {
     }
 
     fetchEmployeeCounts()
+
+    socket.on('refreshEmployees', (emp) => {
+      fetchEmployeeCounts()
+    })
+
+    return () => {
+      socket.disconnect()
+    }
   }, [])
 
 

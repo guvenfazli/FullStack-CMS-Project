@@ -8,8 +8,8 @@ import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import io from "socket.io-client"
 
-let socket;
-export default function UserTable() {
+
+export default function UserTable({socket}) {
   const { isLogged } = useAppContext()
   const [allEmployees, setAllEmployees] = useState()
   const [isLoading, setIsLoading] = useState(false)
@@ -26,11 +26,9 @@ export default function UserTable() {
       setIsLoading(false)
     }
 
-    socket = io('http://localhost:8080/homePage')
     socket.on('refreshEmployees', (emp) => {
       fetchAllEmployees()
     })
-
 
     fetchAllEmployees()
 
