@@ -3,6 +3,7 @@ const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
+const Notification = require('../models/Notification')
 
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
@@ -269,4 +270,21 @@ exports.changeTaskStatus = async (req, res, next) => {
   foundTask.taskStatus = taskStatus
   await foundTask.save()
   return res.json({ message: 'Status changed.' })
+}
+
+exports.fetchNotifications = async (req, res, next) => {
+  try {
+    const fetchedNotifications = await Notification.findAll({ where: { employeeId: req.user.userId } })
+
+    if (!fetchedNotifications) {
+      throwError('Could not get notifications!', 404)
+
+    }
+
+    return res.json({ fetchedNotifications })
+
+  } catch (err) {
+    next(err)
+  }
+
 }

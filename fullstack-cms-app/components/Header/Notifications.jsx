@@ -1,8 +1,8 @@
 import Notification from "./Notification"
 
-export default function Notifications() {
+export default function Notifications({ isNotifications, setIsNotifications }) {
   return (
-    <div className="flex flex-col justify-start items-start absolute border w-80 z-10 -left-60 bg-gray-700 p-2">
+    <div className={`flex flex-col justify-start items-start absolute border w-80 z-10 -left-60 bg-gray-700 p-2`}>
       <Notification />
       <Notification />
       <Notification />

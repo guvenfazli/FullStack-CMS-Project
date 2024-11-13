@@ -2,19 +2,56 @@
 import SearchBar from "./Searchbar"
 import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
-import Notifications from "./Notifications"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { notificationIcon } from "../Icons/Icons"
+import { notificationIcon, shakingNotificationIcon } from "../Icons/Icons"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Header() {
   const { isLogged } = useAppContext()
 
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
+  const [isNotifications, setIsNotifications] = useState(false)
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    async function getNotifications() {
+      try {
+        const response = await fetch('http://localhost:8080/notifications', {
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
+        const resData = await response.json()
+        setNotifications(resData)
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+
+
+
+    getNotifications()
+  }, [])
+
+
 
   if (isLogged) {
     return (
@@ -35,8 +72,17 @@ export default function Header() {
 
         <div className="flex flex-row items-center justify-evenly  w-1/6 max-sm:hidden">
           <div className="relative">
-            <button>{notificationIcon}</button>
-            <Notifications />
+            <DropdownMenu>
+              <DropdownMenuTrigger>{notifications > 0 ? shakingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-gray-700 text-white z-10">
+                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>A Task Assigned To You!</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
             <Avatar className="max-[700px]:hidden ml-5">
