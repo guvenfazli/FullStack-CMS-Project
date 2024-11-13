@@ -43,7 +43,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
   async function assignEmployees(taskId) {
     try {
-      const response = await fetch(`http://localhost:8080/admin/assignEmployees/${taskId}`, {
+      const response = await fetch(`http://localhost:8080/admin/assignEmployees/${taskId}/${projectId}`, {
         method: 'PUT',
         credentials: 'include',
         body: JSON.stringify(chosenEmployees),
@@ -57,7 +57,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
         const error = new Error(resData.message)
         throw error
       }
-      socket.emit('employeeAssigned', projectId)
+      socket.emit('employeeAssigned', projectId, chosenEmployees)
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {

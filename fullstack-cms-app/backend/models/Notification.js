@@ -8,6 +8,11 @@ const Notification = sequelize.define('notification', {
     autoIncrement: true
   },
 
+  isRead: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+
   assignedBy: {
     type: DataTypes.STRING,
     allowNull: false
@@ -21,7 +26,8 @@ const Notification = sequelize.define('notification', {
   taskId: {
     type: DataTypes.INTEGER,
     allowNull: false
-  }
+  },
+
 })
 
 module.exports = Notification

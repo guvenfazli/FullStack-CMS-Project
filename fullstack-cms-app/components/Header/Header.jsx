@@ -7,7 +7,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { notificationIcon, shakingNotificationIcon } from "../Icons/Icons"
+import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
 
 import {
   DropdownMenu,
@@ -18,6 +18,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import io from "socket.io-client"
+
+let socket;
 export default function Header() {
   const { isLogged } = useAppContext()
 
@@ -25,7 +28,7 @@ export default function Header() {
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
   const [isNotifications, setIsNotifications] = useState(false)
   const [notifications, setNotifications] = useState([])
-
+  console.log(notifications)
   useEffect(() => {
     async function getNotifications() {
       try {
@@ -40,17 +43,32 @@ export default function Header() {
         }
 
         const resData = await response.json()
-        setNotifications(resData)
+        const notificationArray = resData.fetchedNotifications
+        setNotifications(notificationArray)
       } catch (err) {
         console.log(err.message)
       }
     }
 
-
-
     getNotifications()
-  }, [])
 
+    if (isLogged) {
+      socket = io('http://localhost:8080/notifs')
+      socket.emit('createNotificationRoom', isLogged.userId)
+      socket.on('sendNotif', (emp) => {
+        setNotifications(prev => {
+          const updated = [...prev]
+          updated.push('Another Task')
+          return updated
+        })
+      })
+
+      return () => {
+        socket.disconnect()
+      }
+    }
+
+  }, [isLogged])
 
 
   if (isLogged) {
@@ -73,7 +91,7 @@ export default function Header() {
         <div className="flex flex-row items-center justify-evenly  w-1/6 max-sm:hidden">
           <div className="relative">
             <DropdownMenu>
-              <DropdownMenuTrigger>{notifications > 0 ? shakingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
+              <DropdownMenuTrigger>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
               <DropdownMenuContent className="bg-gray-700 text-white z-10">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />

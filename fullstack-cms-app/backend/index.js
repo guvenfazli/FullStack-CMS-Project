@@ -102,6 +102,9 @@ io.use((socket, next) => {
   next()
 })
 
+const notifs = io.of('/notifs')
+const projectsPage = io.of('/projectsPage')
+const singleProjectPage = io.of('/singleProjectPage')
 const homePage = io.of('/homePage')
 
 homePage.on('connection', (connectedEmployee) => {
@@ -115,7 +118,6 @@ homePage.on('connection', (connectedEmployee) => {
 
 })
 
-const projectsPage = io.of('/projectsPage')
 
 projectsPage.on('connection', (connectedEmployee) => {
   console.log('It is here')
@@ -134,7 +136,6 @@ projectsPage.on('connection', (connectedEmployee) => {
 
 })
 
-const singleProjectPage = io.of('/singleProjectPage')
 
 singleProjectPage.on('connection', (connectedEmployee) => {
 
@@ -159,8 +160,12 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('employeeAssigned', (projectId) => {
+  connectedEmployee.on('employeeAssigned', (projectId, chosenEmployees) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
+    
+    for (const chosenEmp of chosenEmployees) {
+      notifs.to(chosenEmp).emit('sendNotif')
+    }
   })
 
   connectedEmployee.on('employeeReassigned', (projectId) => {
@@ -170,5 +175,17 @@ singleProjectPage.on('connection', (connectedEmployee) => {
   connectedEmployee.on('disconnect', (projectId) => {
     connectedEmployee.leave(projectId)
   })
+
+})
+
+
+
+notifs.on('connection', (connectedEmployee) => {
+  connectedEmployee.on('createNotificationRoom', (userId) => {
+    console.log(userId)
+    connectedEmployee.join(userId)
+  })
+
+
 
 })

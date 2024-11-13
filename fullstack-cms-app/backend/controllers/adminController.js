@@ -3,6 +3,7 @@ const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
+const Notification = require('../models/Notification')
 
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
@@ -196,6 +197,7 @@ exports.createTaskProject = async (req, res, next) => {
 
 exports.editProjectTask = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
+  const assignedProjectId = req.params.assignedProjectId
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body
 
@@ -237,6 +239,8 @@ exports.deleteProjectTask = async (req, res, next) => {
 
 exports.assignEmployees = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
+  const assignedProjectId = req.params.assignedProjectId
+  console.log(assignedProjectId)
   const assignedEmployeeList = req.body
 
   const foundTask = await Task.findByPk(chosenTaskId)
@@ -249,6 +253,11 @@ exports.assignEmployees = async (req, res, next) => {
         throwError('Employee could not found!', 404)
       }
       foundEmployee.addTask(foundTask)
+      const createdNotification = await foundEmployee.createNotification({
+        assignedBy: req.user.userId,
+        projectId: +assignedProjectId,
+        taskId: chosenTaskId
+      })
     }
 
     foundTask.taskStatus = 'Pending'
