@@ -1,10 +1,9 @@
-"use client"
 import { useState, useEffect } from "react"
 import CompletedProjects from "./Stats/CompletedProjects"
 import TotalProjects from "./Stats/TotalProjects"
 import TaskStatus from "./Stats/TaskStatus"
 
-export default function StatShowcase() {
+export default function StatShowcase({ socket }) {
 
   const [projectStats, setProjectStats] = useState()
 
@@ -18,6 +17,12 @@ export default function StatShowcase() {
     }
 
     fetchProjectStats()
+
+
+    socket.on('refreshProjects', (emp) => {
+      fetchProjectStats()
+    })
+
   }, [])
 
 

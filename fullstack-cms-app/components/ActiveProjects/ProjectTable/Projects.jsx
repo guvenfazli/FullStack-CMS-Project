@@ -1,14 +1,11 @@
-"use client"
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import TableNav from "@/components/HomePage/UserTable/tableNav"
 import ProjectTable from "./ProjectTable"
 import CreateProjectForm from "./CreateProject"
 import LoadingComp from "@/components/Loading/LoadingComp"
-import io from "socket.io-client"
 
-let socket;
-export default function Projects() {
+export default function Projects({ socket }) {
 
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
@@ -35,16 +32,12 @@ export default function Projects() {
         credentials: 'include'
       })
       const resData = await response.json()
-      socket = io('http://localhost:8080/projectsPage')
       setFetchedProjects(resData.projects)
       setIsLoading(false)
     }
 
     fetchProjects()
 
-    return () => {
-      socket.disconnect()
-    }
   }, [])
 
   return (

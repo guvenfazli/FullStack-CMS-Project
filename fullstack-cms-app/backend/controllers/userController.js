@@ -179,7 +179,19 @@ exports.fetchProjects = async (req, res, next) => {
       return res.json({ projects: foundProjects })
     }
 
-    allProjects = await Project.findAll({ include: { model: Task } })
+    allProjects = await Project.findAll({
+      include: [
+        {
+          model: Task,
+          include: [
+            {
+              model: Employee,
+              attributes: ['id', 'name']
+            }
+          ]
+        }
+      ]
+    })
 
     if (allProjects.length === 0) {
       throwError('Could not fetch projects!', 404)

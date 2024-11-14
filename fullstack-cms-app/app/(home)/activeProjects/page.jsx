@@ -1,11 +1,7 @@
-import StatShowcase from "@/components/ActiveProjects/ProjectStats/StatShowcase"
-import Projects from "@/components/ActiveProjects/ProjectTable/Projects"
+import ProjectsPage from "@/components/ActiveProjects/ProjectsPage"
 
 export default function ActiveProjectsPage() {
   return (
-    <div>
-      <StatShowcase />
-      <Projects />
-    </div>
+    <ProjectsPage />
   )
 }

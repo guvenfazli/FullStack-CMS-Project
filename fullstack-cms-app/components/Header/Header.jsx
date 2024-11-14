@@ -29,7 +29,7 @@ export default function Header() {
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState()
   const [notifications, setNotifications] = useState([])
-  console.log(notifications)
+
   useEffect(() => {
     async function getNotifications() {
       try {
