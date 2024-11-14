@@ -120,7 +120,7 @@ notifs.on('connection', (connectedEmployee) => {
   })
 
   connectedEmployee.on('markAsRead', (userId) => {
-    notifs.to(userId).emit('sendNotif')
+    notifs.to(userId).emit('markRead')
   })
 })
 

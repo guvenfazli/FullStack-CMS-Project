@@ -13,7 +13,7 @@ export default function EmployeesWorking({ assignedEmployees }) {
 
         {assignedEmployees?.map((emp) => {
           return (
-            <div key={emp.id} className="flex justify-start w-1/2 bg-yellow-700 rounded-xl text-gray-900 text-xl gap-2 font-bold items-center p-2 duration-75 hover:bg-yellow-500 hover:cursor-pointer">
+            <div key={emp.id} className="flex justify-start w-1/2 bg-yellow-700 rounded-xl text-gray-900 gap-2 font-bold items-center p-1 duration-75 hover:bg-yellow-500 hover:cursor-pointer">
               <div>
                 <Avatar className="max-[700px]:hidden w-12 h-12 border-gray-900 border-2">
                   <AvatarImage src={`http://localhost:8080/${emp.profilePic}`} />

@@ -54,9 +54,13 @@ export default function Notifications({ isLogged, socket }) {
     socket.on('sendNotif', (emp) => {
       getNotifications()
       toast({
-        title: 'Employee deleted.',
-        description: 'New Notification Arrived!',
+        title: 'New Notification!',
+        description: emp,
       })
+    })
+
+    socket.on('markRead', (emp) => {
+      getNotifications()
     })
 
     return () => {
