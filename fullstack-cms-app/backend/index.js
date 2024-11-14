@@ -114,6 +114,10 @@ notifs.on('connection', (connectedEmployee) => {
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
   })
+
+  connectedEmployee.on('markAsRead', (userId) => {
+    notifs.to(userId).emit('sendNotif')
+  })
 })
 
 homePage.on('connection', (connectedEmployee) => {

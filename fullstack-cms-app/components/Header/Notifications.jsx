@@ -15,7 +15,7 @@ import {
 export default function Notifications({ isLogged, socket }) {
 
   const [notifications, setNotifications] = useState([])
-
+  const [isRead, setIsRead] = useState(false)
 
   useEffect(() => {
     async function getNotifications() {
@@ -32,6 +32,12 @@ export default function Notifications({ isLogged, socket }) {
 
         const resData = await response.json()
         const notificationArray = resData.fetchedNotifications
+        setIsRead(prev => {
+          const notRead = notificationArray.some((notification) => notification.isRead === false)
+          if (notRead) {
+            return !prev
+          }
+        })
         setNotifications(notificationArray)
       } catch (err) {
         console.log(err.message)
@@ -59,12 +65,14 @@ export default function Notifications({ isLogged, socket }) {
       credentials: 'include'
     })
 
+    socket.emit('markAsRead', isLogged.userId)
+
   }
 
 
   return (
     <DropdownMenu >
-      <DropdownMenuTrigger onPointerDown={() => markAsRead()}>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
+      <DropdownMenuTrigger onPointerDown={() => markAsRead()}>{!isRead ? notificationIcon : pendingNotificationIcon}</DropdownMenuTrigger>
       <DropdownMenuContent className="bg-gray-700 text-white z-10">
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
