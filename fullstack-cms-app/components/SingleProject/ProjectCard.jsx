@@ -4,8 +4,8 @@ import RecentActivities from "./RecentActivities"
 import EmployeesWorking from "./EmployeesWorking"
 import dateFormatter from "@/utils/dateFormatter"
 
-export default function ProjectCard({ fetchedProject, assignedEmployees }) {
-  console.log(fetchedProject)
+export default function ProjectCard({ fetchedProject, assignedEmployees, projectActivities }) {
+
   return (
     <div className="flex flex-row justify-between gap-5 mb-10 ">
       <div className="p-2 rounded-lg bg-slate-900 w-1/2">
@@ -39,7 +39,7 @@ export default function ProjectCard({ fetchedProject, assignedEmployees }) {
       </div>
 
       <div className="p-2 rounded-lg bg-slate-900 w-1/2">
-        <RecentActivities />
+        <RecentActivities projectActivities={projectActivities} />
         <EmployeesWorking assignedEmployees={assignedEmployees} />
       </div>
     </div>

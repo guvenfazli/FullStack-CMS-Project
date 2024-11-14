@@ -4,6 +4,7 @@ const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
 const Notification = require('../models/Notification')
+const ProjectActivity = require('../models/ProjectActivity')
 
 const fs = require('fs')
 const bcrypt = require('bcryptjs')
@@ -97,6 +98,10 @@ exports.createProject = async (req, res, next) => {
       deadline: deadline
     })
 
+    createdProject.createProjectActivity({
+      activity: 'Project Created'
+    })
+
     if (!createdProject) {
       throwError('Something went wrong.', 400)
     }
@@ -125,8 +130,11 @@ exports.editProject = async (req, res, next) => {
     foundProject.projectName = projectName
     foundProject.deadLine = deadLine
     foundProject.projectStatus = projectStatus
-
     foundProject.save()
+
+    foundProject.createProjectActivity({
+      activity: 'Project Edited'
+    })
 
     return res.json({ message: 'Status Updated' })
 
@@ -186,6 +194,10 @@ exports.createTaskProject = async (req, res, next) => {
     foundProject.projectStatus = 'Pending'
     foundProject.save()
 
+    foundProject.createProjectActivity({
+      activity: 'Task Created'
+    })
+
     return res.json({ message: 'Task created successfully.' })
 
   } catch (err) {
@@ -240,11 +252,10 @@ exports.deleteProjectTask = async (req, res, next) => {
 exports.assignEmployees = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
   const assignedProjectId = req.params.assignedProjectId
-  console.log(assignedProjectId)
   const assignedEmployeeList = req.body
 
   const foundTask = await Task.findByPk(chosenTaskId)
-
+  const foundProject = await Project.findByPk(assignedProjectId)
   try {
 
     for (const employee of assignedEmployeeList) {
@@ -262,8 +273,11 @@ exports.assignEmployees = async (req, res, next) => {
     }
 
     foundTask.taskStatus = 'Pending'
-
     foundTask.save()
+
+    foundProject.createProjectActivity({
+      activity: 'Employee Assigned'
+    })
 
     return res.json({ message: 'Employees assigned.' })
   } catch (err) {

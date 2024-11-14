@@ -16,6 +16,7 @@ export default function ProjectInformation() {
   const projectId = useParams().projectId
   const [isLoading, setIsLoading] = useState(false)
   const [assignedEmployees, setAssignedEmployees] = useState()
+  const [projectActivities, setProjectActivities] = useState()
   const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
   useEffect(() => {
@@ -36,17 +37,14 @@ export default function ProjectInformation() {
         const resData = await response.json()
         setFetchedProject(resData.fetchedProject)
         setAssignedEmployees(resData.groupList)
+        setProjectActivities(resData.fetchedProject.projectActivities)
         setIsLoading(false)
       } catch (err) {
         setIsError(err.message)
         setIsLoading(false)
       }
-
     }
-
     fetchSingleProject()
-
-
 
     socket = io('http://localhost:8080/singleProjectPage')
     socket.emit('joinRoom', projectId)
@@ -77,7 +75,7 @@ export default function ProjectInformation() {
             <p className="text-3xl mb-3">{fetchedProject?.projectName}</p>
           </div>
 
-          <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} />
+          <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
 
           <div>
             <p className="text-3xl mb-5">Tasks</p>

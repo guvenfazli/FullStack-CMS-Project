@@ -4,6 +4,8 @@ const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
 const Notification = require('../models/Notification')
+const ProjectActivity = require('../models/ProjectActivity')
+
 
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
@@ -155,7 +157,6 @@ exports.filterEmployees = async (req, res, next) => {
 }
 
 exports.fetchProjects = async (req, res, next) => {
-
   const searchParam = req.query.project
   const filterParam = req.query.filterParam
   let foundProjects;
@@ -238,12 +239,15 @@ exports.fetchSingleProject = async (req, res, next) => {
               attributes: ['id', 'name', 'surname', 'profilePic', 'jobTitle']
             }
           ]
+        },
+        {
+          model: ProjectActivity
         }
       ]
     })
 
     const groupList = []
-   
+
     const groupedEmployees = fetchedProject.tasks.forEach((task) => {
       task.employees.forEach((employee) => {
         const foundEmp = groupList.find((emp) => emp.id === employee.id)
