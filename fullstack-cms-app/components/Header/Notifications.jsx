@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
 
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { useToast } from "@/hooks/use-toast"
+
+
 export default function Notifications({ isLogged, socket }) {
 
   const [notifications, setNotifications] = useState([])
   const [isRead, setIsRead] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     async function getNotifications() {
@@ -50,6 +53,10 @@ export default function Notifications({ isLogged, socket }) {
     socket.emit('createNotificationRoom', isLogged.userId)
     socket.on('sendNotif', (emp) => {
       getNotifications()
+      toast({
+        title: 'Employee deleted.',
+        description: 'New Notification Arrived!',
+      })
     })
 
     return () => {

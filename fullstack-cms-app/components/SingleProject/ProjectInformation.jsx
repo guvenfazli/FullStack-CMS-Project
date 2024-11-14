@@ -15,6 +15,7 @@ export default function ProjectInformation() {
   const { isLogged } = useAppContext()
   const projectId = useParams().projectId
   const [isLoading, setIsLoading] = useState(false)
+  const [assignedEmployees, setAssignedEmployees] = useState()
   const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function ProjectInformation() {
 
         const resData = await response.json()
         setFetchedProject(resData.fetchedProject)
+        setAssignedEmployees(resData.groupList)
         setIsLoading(false)
       } catch (err) {
         setIsError(err.message)
@@ -75,7 +77,7 @@ export default function ProjectInformation() {
             <p className="text-3xl mb-3">{fetchedProject?.projectName}</p>
           </div>
 
-          <ProjectCard fetchedProject={fetchedProject} />
+          <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} />
 
           <div>
             <p className="text-3xl mb-5">Tasks</p>

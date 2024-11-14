@@ -121,7 +121,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
             <TableCell>{employee.surname}</TableCell>
             <TableCell>{employee.email}</TableCell>
             <TableCell className="text-center">{employee.isAdmin ? <button>{isAdminTrue}</button> : <button>{isAdminFalse}</button>}</TableCell>
-            <TableCell className="text-right">{employee.job_title}</TableCell>
+            <TableCell className="text-right">{employee.jobTitle}</TableCell>
 
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button onClick={() => deleteEmployee(employee.id)}>{trashCan}</button></TableCell> : ''}
 
