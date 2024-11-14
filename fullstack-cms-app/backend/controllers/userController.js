@@ -290,7 +290,6 @@ exports.fetchNotifications = async (req, res, next) => {
 
     if (!fetchedNotifications) {
       throwError('Could not get notifications!', 404)
-
     }
 
     return res.json({ fetchedNotifications })
@@ -299,4 +298,25 @@ exports.fetchNotifications = async (req, res, next) => {
     next(err)
   }
 
+}
+
+exports.markNotificationsAsRead = async (req, res, next) => {
+  try {
+    const fetchedNotifications = await Notification.findAll({ where: { employeeId: req.user.userId } })
+
+    if (!fetchedNotifications) {
+      throwError('Could not get notifications!', 404)
+    }
+
+    for (const notification of fetchedNotifications) {
+      notification.isRead = true
+      await notification.save()
+    }
+
+    await fetchedNotifications.save()
+
+
+  } catch (err) {
+    next(err)
+  }
 }

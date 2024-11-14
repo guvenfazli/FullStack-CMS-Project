@@ -5,20 +5,9 @@ import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Notifications from "./Notifications"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
-import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import io from "socket.io-client"
 
@@ -27,7 +16,6 @@ export default function Header() {
   const [socket, setSocket] = useState()
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
-  const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
     if (isLogged) {

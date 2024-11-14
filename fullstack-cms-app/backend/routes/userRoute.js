@@ -14,6 +14,7 @@ router.get('/admins', authCheck, userController.fetchAllAdmins)
 router.put('/employees/:chosenEmployeeId', authCheck, userController.editEmployeeAccount)
 
 router.get('/notifications', authCheck, userController.fetchNotifications)
+router.patch('/markasread', authCheck, userController.markNotificationsAsRead)
 
 
 /* Projects */

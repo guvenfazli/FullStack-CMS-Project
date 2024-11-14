@@ -53,10 +53,18 @@ export default function Notifications({ isLogged, socket }) {
 
   }, [isLogged])
 
+  async function markAsRead() {
+    const response = await fetch('http://localhost:8080/markasread', {
+      method: 'PATCH',
+      credentials: 'include'
+    })
+
+  }
+
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
+    <DropdownMenu >
+      <DropdownMenuTrigger onPointerDown={() => markAsRead()}>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
       <DropdownMenuContent className="bg-gray-700 text-white z-10">
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
