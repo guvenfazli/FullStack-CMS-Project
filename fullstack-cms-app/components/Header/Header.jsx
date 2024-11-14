@@ -2,6 +2,7 @@
 import SearchBar from "./Searchbar"
 import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
+import Notifications from "./Notifications"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
 import Link from "next/link"
@@ -21,16 +22,19 @@ import {
 
 import io from "socket.io-client"
 
-let socket;
 export default function Header() {
   const { isLogged } = useAppContext()
-
+  const [socket, setSocket] = useState()
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState()
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
+
+    const connectedSocket = io('http://localhost:8080/notifs')
+    setSocket(connectedSocket)
+
     async function getNotifications() {
       try {
         const response = await fetch('http://localhost:8080/notifications', {
@@ -53,23 +57,12 @@ export default function Header() {
 
     getNotifications()
 
-    if (isLogged) {
-      socket = io('http://localhost:8080/notifs')
-      socket.emit('createNotificationRoom', isLogged.userId)
-      socket.on('sendNotif', (emp) => {
-        getNotifications()
-        setNotificationMessage(emp)
-      })
 
-      return () => {
-        socket.disconnect()
-      }
-    }
 
   }, [isLogged])
 
 
-  if (isLogged) {
+  if (isLogged && socket) {
     return (
       <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around z-10">
 
@@ -88,25 +81,9 @@ export default function Header() {
 
         <div className="flex flex-row items-center justify-evenly  w-1/6 max-sm:hidden">
           <div className="relative">
-            <DropdownMenu>
-              <DropdownMenuTrigger>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-gray-700 text-white z-10">
-                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {notifications.length <= 0 ? <p>Seems quite...</p> : notifications.map((notify) => {
-                  return (
-                    <DropdownMenuItem className="p-1" key={notify.id}>
-                      <Link href={`/projects/${notify.projectId}`}>{notify.notificationMessage}</Link>
-                    </DropdownMenuItem>
-                  )
-                })}
-                <DropdownMenuSeparator />
-                <div className="flex w-full justify-center items-center">
-                  <DropdownMenuItem className="text-xs hover:cursor-pointer">Mark All as Read</DropdownMenuItem>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Notifications socket={socket} isLogged={isLogged} />
           </div>
+
           <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
             <Avatar className="max-[700px]:hidden ml-5">
               <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
@@ -115,6 +92,7 @@ export default function Header() {
             <p className="text-lg text-gray-300 ml-2 mr-2">{isLogged && isLogged.name}</p>
             <button>+</button>
           </div>
+
           <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} />
 
         </div>

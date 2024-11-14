@@ -110,8 +110,8 @@ const projectsPage = io.of('/projectsPage')
 const singleProjectPage = io.of('/singleProjectPage')
 const homePage = io.of('/homePage')
 
-notifs.on('connection', (connectedEmployee) => { // Room is being created for notifications at the beginning.
-  connectedEmployee.on('createNotificationRoom', (userId) => {
+notifs.on('connection', (connectedEmployee) => {
+  connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
   })
 })
