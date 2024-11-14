@@ -83,10 +83,6 @@ export default function Notifications({ isLogged, socket }) {
             </DropdownMenuItem>
           )
         })}
-        <DropdownMenuSeparator />
-        <div className="flex w-full justify-center items-center">
-          <DropdownMenuItem className="text-xs hover:cursor-pointer">Mark All as Read</DropdownMenuItem>
-        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )
