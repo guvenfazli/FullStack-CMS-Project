@@ -8,10 +8,6 @@ body {
   font-family: Nunito;
 }
 
-
-
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -69,10 +65,6 @@ body {
   }
 }
 
-
-
-
-
 @layer base {
   * {
     @apply border-border;
@@ -80,4 +72,23 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #111827; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4a5568; 
+  border-radius: 4px; 
+  border: 0px solid #f0f0f0; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  cursor: pointer;
+  background-color: gray; 
 }
