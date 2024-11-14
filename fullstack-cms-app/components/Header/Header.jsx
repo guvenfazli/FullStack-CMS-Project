@@ -47,8 +47,8 @@ export default function Header() {
             <Notifications socket={socket} isLogged={isLogged} />
           </div>
 
-          <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer">
-            <Avatar className="max-[700px]:hidden ml-5">
+          <div onClick={() => setIsMenu(prev => !prev)} className="flex flex-row items-center justify-center max-sm:hidden hover:cursor-pointer py-1 hover:bg-slate-700 duration-75 rounded-lg px-2">
+            <Avatar className="max-[700px]:hidden">
               <AvatarImage src={`http://localhost:8080/${isLogged.userPp}`} />
               <AvatarFallback>PP</AvatarFallback>
             </Avatar>

@@ -130,7 +130,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
         const responseData = await response.json()
         throw new Error(responseData.message)
       }
-      console.log(empList)
+      
       const responseData = await response.json()
       socket.emit('projectDeleted', empList)
       toast({

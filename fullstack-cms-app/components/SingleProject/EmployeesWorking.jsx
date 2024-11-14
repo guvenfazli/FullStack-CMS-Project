@@ -9,7 +9,7 @@ export default function EmployeesWorking({ assignedEmployees }) {
         <p className="text-xl">Employees Assigned To This Project</p>
       </div>
 
-      <div className="flex flex-col justify-start gap-2 flex-wrap items-start">
+      <div className="flex flex-col justify-start gap-2 flex-wrap items-start overflow-scroll overflow-x-hidden">
 
         {assignedEmployees?.map((emp) => {
           return (
