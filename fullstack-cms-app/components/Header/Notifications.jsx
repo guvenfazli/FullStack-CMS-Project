@@ -54,7 +54,6 @@ export default function Notifications({ isLogged, socket }) {
   }, [isLogged])
 
 
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>{notifications.length > 0 ? pendingNotificationIcon : notificationIcon}</DropdownMenuTrigger>

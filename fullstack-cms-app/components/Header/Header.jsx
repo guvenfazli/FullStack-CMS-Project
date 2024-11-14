@@ -27,38 +27,13 @@ export default function Header() {
   const [socket, setSocket] = useState()
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
-  const [notificationMessage, setNotificationMessage] = useState()
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
-
-    const connectedSocket = io('http://localhost:8080/notifs')
-    setSocket(connectedSocket)
-
-    async function getNotifications() {
-      try {
-        const response = await fetch('http://localhost:8080/notifications', {
-          credentials: 'include'
-        })
-
-        if (!response.ok) {
-          const resData = await response.json()
-          const error = new Error(resData.message)
-          throw error
-        }
-
-        const resData = await response.json()
-        const notificationArray = resData.fetchedNotifications
-        setNotifications(notificationArray)
-      } catch (err) {
-        console.log(err.message)
-      }
+    if (isLogged) {
+      const connectedSocket = io('http://localhost:8080/notifs')
+      setSocket(connectedSocket)
     }
-
-    getNotifications()
-
-
-
   }, [isLogged])
 
 
@@ -79,7 +54,7 @@ export default function Header() {
 
         <SearchBar />
 
-        <div className="flex flex-row items-center justify-evenly  w-1/6 max-sm:hidden">
+        <div className="flex flex-row items-center justify-evenly w-1/6 max-sm:hidden">
           <div className="relative">
             <Notifications socket={socket} isLogged={isLogged} />
           </div>
