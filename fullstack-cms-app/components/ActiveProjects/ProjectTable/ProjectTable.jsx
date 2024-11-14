@@ -205,7 +205,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
 
               {isLogged?.isAdmin === true &&
                 <TableCell className="text-center w-[10px]">
-                  <button onClick={() => deleteProject(project.id, project.tasks[0].employees)}>{trashCan} {console.log(project.tasks[0].employees)}</button>
+                  <button onClick={() => deleteProject(project.id, project.tasks[0]?.employees)}>{trashCan}</button>
                 </TableCell>
               }
 

@@ -137,8 +137,10 @@ projectsPage.on('connection', (connectedEmployee) => {
   connectedEmployee.on('projectDeleted', (empList) => {
     projectsPage.emit('refreshProjects')
 
-    for (const chosenEmp of empList) {
-      notifs.to(chosenEmp.id).emit('sendNotif')
+    if (empList) {
+      for (const chosenEmp of empList) {
+        notifs.to(chosenEmp.id).emit('sendNotif')
+      }
     }
   })
 
