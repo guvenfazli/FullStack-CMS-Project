@@ -261,8 +261,6 @@ exports.fetchSingleProject = async (req, res, next) => {
       throwError('Project not found!', 404)
     }
 
-    console.log(fetchedProject)
-
     return res.json({ fetchedProject, groupList })
 
   } catch (err) {

@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
+import { notFound } from "next/navigation"
 import SingleEmployeeCard from "./SingleEmployeeCard"
 import EmployeeTasks from "./EmployeeTasks"
 import LoadingComp from "../Loading/LoadingComp"
@@ -37,6 +38,10 @@ export default function EmployeeInfo() {
 
     fetchSingleEmployee()
   }, [])
+
+  if (isError) {
+    notFound()
+  }
 
   return (
     <div className="flex flex-row items-start justify-around rounded-xl max-md:flex-col max-md:gap-5">
