@@ -1,6 +1,6 @@
 import LoadingComp from "@/components/Loading/LoadingComp"
 
-export default function loading() {
+export default function Loading() {
   return (
     <LoadingComp />
   )
