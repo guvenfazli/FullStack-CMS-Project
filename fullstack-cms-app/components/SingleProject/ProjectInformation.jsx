@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { useParams } from "next/navigation"
+import { notFound } from 'next/navigation'
 import LoadingComp from "../Loading/LoadingComp"
 import ProjectCard from "./ProjectCard"
 import TableNav from "../HomePage/UserTable/tableNav"
@@ -21,7 +22,6 @@ export default function ProjectInformation() {
   const [fetchedProject, setFetchedProject] = useState(null)
   useEffect(() => {
     async function fetchSingleProject() {
-
       try {
         setIsLoading(true)
         const response = await fetch(`http://localhost:8080/projects/${projectId}`, {
@@ -44,6 +44,7 @@ export default function ProjectInformation() {
         setIsLoading(false)
       }
     }
+
     fetchSingleProject()
 
     socket = io('http://localhost:8080/singleProjectPage')
@@ -60,6 +61,10 @@ export default function ProjectInformation() {
 
 
   }, [])
+
+  if (isError) {
+    notFound()
+  }
 
   return (
 

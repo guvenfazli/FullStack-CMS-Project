@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs')
 const { validationResult } = require('express-validator')
 const path = require('path')
 const { Op } = require('sequelize')
-const { throwError } = require('../middleware/throwError')
+const { throwError } = require('../middleware/throwError') // (errorMessage, statusCode)
 
 const clearImage = (imageUrl) => {
   const filePath = path.join(__dirname, '..', imageUrl)
@@ -289,9 +289,11 @@ exports.assignEmployees = async (req, res, next) => {
 exports.resignEmployees = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
   const chosenEmployeeId = req.params.chosenEmployeeId
+  const chosenProjectId = req.params.chosenProjectId
 
   const foundTask = await Task.findByPk(chosenTaskId)
   const foundEmployee = await Employee.findByPk(chosenEmployeeId)
+  const chosenProject = await Project.findByPk(chosenProjectId)
 
   try {
     await foundEmployee.removeTask(foundTask)
@@ -302,6 +304,11 @@ exports.resignEmployees = async (req, res, next) => {
       foundTask.taskStatus = 'Active'
       foundTask.save()
     }
+
+
+    chosenProject.createProjectActivity({
+      activity: 'Employee Resigned'
+    })
 
     return res.json({ message: 'Employees resigned.' })
   } catch (err) {

@@ -70,7 +70,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
   async function resignEmployees(taskId, employeeId) {
 
     try {
-      const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}`, {
+      const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}/${projectId}`, {
         method: 'PUT',
         credentials: 'include'
       })
