@@ -51,7 +51,7 @@ export default function Notifications({ isLogged, socket }) {
 
 
     socket.emit('createNotificationRoom', isLogged.userId)
-    socket.on('sendNotif', (emp, projectId) => {
+    socket.on('sendNotif', (emp, projectId, projectName) => {
       getNotifications()
       toast({
         title: 'New Notification!',

@@ -119,7 +119,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
     }
   }
 
-  async function deleteProject(projectId, empList) {
+  async function deleteProject(projectId, empList, projectName) {
     try {
       const response = await fetch(`http://localhost:8080/admin/deleteProject/${projectId}`, {
         method: 'DELETE',
@@ -132,7 +132,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       }
       
       const responseData = await response.json()
-      socket.emit('projectDeleted', empList)
+      socket.emit('projectDeleted', empList, projectName)
       toast({
         title: 'Success!',
         description: responseData.message,
@@ -205,7 +205,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
 
               {isLogged?.isAdmin === true &&
                 <TableCell className="text-center w-[10px]">
-                  <button onClick={() => deleteProject(project.id, project.tasks[0]?.employees)}>{trashCan}</button>
+                  <button onClick={() => deleteProject(project.id, project.tasks[0]?.employees, project.projectName)}>{trashCan}</button>
                 </TableCell>
               }
 
