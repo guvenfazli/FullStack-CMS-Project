@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import Link from "next/link"
 
 export default function Employee({ emp }) {
   return (
@@ -12,7 +12,7 @@ export default function Employee({ emp }) {
       </div>
 
       <div className="flex flex-row justify-around gap-2">
-        <p>{emp.name + ' ' + emp.surname}</p>
+        <Link href={`/employees/${emp.id}`} className="hover:underline duration-75">{emp.name + ' ' + emp.surname}</Link>
         <p> - {emp.jobTitle}</p>
       </div>
     </div>

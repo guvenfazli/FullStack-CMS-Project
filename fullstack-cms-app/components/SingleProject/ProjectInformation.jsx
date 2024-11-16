@@ -19,7 +19,7 @@ export default function ProjectInformation() {
   const [projectActivities, setProjectActivities] = useState()
   const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
-  
+
   useEffect(() => {
     async function fetchSingleProject() {
       try {
@@ -85,7 +85,9 @@ export default function ProjectInformation() {
           <div>
             <p className="text-3xl mb-5">Tasks</p>
           </div>
-          <TableNav isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
+          <TableNav
+            isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
+
           <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} projectId={projectId} />
         </div>
 
