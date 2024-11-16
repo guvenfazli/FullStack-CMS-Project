@@ -74,7 +74,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
   }
 
 
-  async function deleteTask(taskId, empList, projectId) {
+  async function deleteTask(taskId, empList, projectId, taskName) {
     try {
       const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}/${projectId}`, {
         method: 'DELETE',
@@ -87,7 +87,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
         throw error
       }
       const resData = await response.json()
-      socket.emit('taskDeleted', `${projectId}`, empList)
+      socket.emit('taskDeleted', `${projectId}`, empList, taskName)
       toast({
         title: 'Success!',
         description: resData.message,
@@ -158,7 +158,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
               </HoverCard>
             </TableCell>
 
-            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id, task.employees, projectId)}>{trashCan}</button></TableCell>}
+            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id, task.employees, projectId, task.taskName)}>{trashCan}</button></TableCell>}
 
             {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">

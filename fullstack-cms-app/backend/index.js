@@ -174,10 +174,10 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('taskDeleted', (projectId, empList) => {
+  connectedEmployee.on('taskDeleted', (projectId, empList, taskName) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
     for (const chosenEmp of empList) {
-      notifs.to(chosenEmp.id).emit('sendNotif', 'A task you assigned has been deleted.')
+      notifs.to(chosenEmp.id).emit('sendNotif', `The task (${taskName}) you assigned has been deleted.`)
     }
 
   })
