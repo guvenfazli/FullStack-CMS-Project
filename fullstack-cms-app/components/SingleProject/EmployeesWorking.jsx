@@ -15,7 +15,7 @@ export default function EmployeesWorking({ assignedEmployees }) {
         </div>
       }
 
-      <div className="flex flex-col justify-start gap-2 flex-wrap items-start overflow-scroll overflow-x-hidden">
+      <div className="flex flex-col justify-start gap-2 flex-wrap items-start overflow-scroll overflow-x-hidden self-start">
 
         {assignedEmployees?.map((emp) => {
           return (

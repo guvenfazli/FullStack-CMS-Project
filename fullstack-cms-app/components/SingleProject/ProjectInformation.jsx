@@ -51,6 +51,7 @@ export default function ProjectInformation() {
     socket.emit('joinRoom', projectId)
 
     socket.on('refreshTasks', (emp) => {
+      console.log('Worked')
       fetchSingleProject()
     })
 

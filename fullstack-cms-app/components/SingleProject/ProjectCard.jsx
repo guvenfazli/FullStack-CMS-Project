@@ -7,8 +7,8 @@ import dateFormatter from "@/utils/dateFormatter"
 export default function ProjectCard({ fetchedProject, assignedEmployees, projectActivities }) {
 
   return (
-    <div className="flex flex-row justify-between items-start gap-5 mb-10 ">
-      <div className="p-2 rounded-lg bg-slate-900 w-1/2 ">
+    <div className="flex flex-row justify-between gap-5 mb-10 ">
+      <div className="p-2 rounded-lg bg-slate-900 w-1/2 border self-start">
         <div className="flex w-full border-b border-b-yellow-600 mb-4">
           <ProjectInfo title={'Name:'}>{fetchedProject?.projectName}</ProjectInfo>
         </div>
@@ -33,7 +33,7 @@ export default function ProjectCard({ fetchedProject, assignedEmployees, project
           <ProjectInfo title={'Project Status:'}><UserTaskStatus status={fetchedProject?.projectStatus}>{fetchedProject?.projectStatus}</UserTaskStatus></ProjectInfo>
         </div>
 
-        <div className="flex w-full border-b border-b-yellow-600 mb-4">
+        <div className="flex w-full border-b border-b-yellow-600">
           <ProjectInfo title={'Project ID:'}>{fetchedProject?.id}</ProjectInfo>
         </div>
       </div>

@@ -234,6 +234,9 @@ exports.editProjectTask = async (req, res, next) => {
 
 exports.deleteProjectTask = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
+  const chosenProjectId = req.params.chosenProjectId
+
+  const foundProject = await Project.findByPk(chosenProjectId)
 
   try {
     const foundTask = await Task.findByPk(chosenTaskId)
@@ -242,6 +245,9 @@ exports.deleteProjectTask = async (req, res, next) => {
     }
 
     foundTask.destroy()
+    foundProject.createProjectActivity({
+      activity: 'Task Deleted.'
+    })
     return res.json({ message: 'Task deleted successfully.' })
 
   } catch (err) {

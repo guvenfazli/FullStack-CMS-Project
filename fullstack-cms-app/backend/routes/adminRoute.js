@@ -34,6 +34,6 @@ router.put('/assignEmployees/:chosenTaskId/:assignedProjectId', authCheck, admin
 router.put('/resignEmployees/:chosenTaskId/:chosenEmployeeId/:chosenProjectId', authCheck, adminCheck, adminController.resignEmployees)
 
 
-router.delete('/deleteTask/:chosenTaskId', authCheck, adminCheck, adminController.deleteProjectTask)
+router.delete('/deleteTask/:chosenTaskId/:chosenProjectId', authCheck, adminCheck, adminController.deleteProjectTask)
 
 module.exports = router

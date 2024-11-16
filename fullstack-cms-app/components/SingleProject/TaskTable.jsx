@@ -74,9 +74,9 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
   }
 
 
-  async function deleteTask(taskId, empList) {
+  async function deleteTask(taskId, empList, projectId) {
     try {
-      const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}`, {
+      const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}/${projectId}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -137,7 +137,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
       </TableHeader>
       <TableBody>
         {fetchedTasks && fetchedTasks.map((task) =>
-          
+
           <TableRow key={task.id}>
             <TableCell className="font-medium">{task.id}</TableCell>
             <TableCell>{task.taskName}</TableCell>
@@ -158,7 +158,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
               </HoverCard>
             </TableCell>
 
-            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id, task.employees)}>{trashCan}</button></TableCell>}
+            {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id, task.employees, projectId)}>{trashCan}</button></TableCell>}
 
             {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">
