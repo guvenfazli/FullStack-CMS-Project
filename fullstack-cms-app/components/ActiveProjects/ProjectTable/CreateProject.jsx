@@ -9,7 +9,7 @@ export default function CreateProjectForm({ projectId, socket }) {
 
   const [errorState, setErrorState] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-
+  console.log(socket)
   async function createProject(e) {
     e.preventDefault()
     const fd = new FormData(e.target)
@@ -42,7 +42,6 @@ export default function CreateProjectForm({ projectId, socket }) {
     e.preventDefault()
     const fd = new FormData(e.target)
     const data = Object.fromEntries(fd.entries())
-
     try {
       const response = await fetch(`http://localhost:8080/admin/createTask/${projectId}`, {
         method: 'POST',
@@ -57,6 +56,7 @@ export default function CreateProjectForm({ projectId, socket }) {
         const resData = await response.json()
         throw new Error(resData.message)
       }
+      console.log(socket)
       socket.emit('taskCreated', projectId)
       const resData = await response.json()
       setIsSuccess(resData.message)

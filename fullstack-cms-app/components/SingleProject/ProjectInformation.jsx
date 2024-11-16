@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { useParams } from "next/navigation"
 import { notFound } from 'next/navigation'
-import LoadingComp from "../Loading/LoadingComp"
 import ProjectCard from "./ProjectCard"
 import TableNav from "../HomePage/UserTable/tableNav"
 import TaskTable from "./TaskTable"
@@ -51,7 +50,6 @@ export default function ProjectInformation() {
     socket.emit('joinRoom', projectId)
 
     socket.on('refreshTasks', (emp) => {
-      console.log('Worked')
       fetchSingleProject()
     })
 

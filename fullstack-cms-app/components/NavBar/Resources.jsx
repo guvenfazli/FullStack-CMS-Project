@@ -6,7 +6,6 @@ export default function Resources({ isOpen }) {
       <Link href={'/employees'} className="mb-3 duration-100 hover:text-gray-500">Employees</Link>
       <Link href={'/admins'} className="mb-3 duration-100 hover:text-gray-500">Admins</Link>
       <Link href={'/activeProjects'} className="mb-3 duration-100 hover:text-gray-500 text-left">Active Projects</Link>
-      <button className="mb-3 duration-100 hover:text-gray-500 text-left">Completed Projects</button>
     </div>
   )
 }

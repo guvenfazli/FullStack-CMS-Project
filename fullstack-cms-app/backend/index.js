@@ -153,6 +153,11 @@ projectsPage.on('connection', (connectedEmployee) => {
     }
   })
 
+  connectedEmployee.on('taskCreated', (projectId) => {
+    console.log('This worked.')
+    projectsPage.emit('refreshProjects')
+  })
+
   connectedEmployee.on('projectStatusChanged', (emp) => {
     projectsPage.emit('refreshProjects', emp)
   })

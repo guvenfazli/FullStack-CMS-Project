@@ -218,7 +218,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
                     <DialogHeader>
                       <DialogTitle>Create Task</DialogTitle>
                     </DialogHeader>
-                    <CreateTask projectId={project.id} />
+                    <CreateTask projectId={project.id} socket={socket} />
                   </DialogContent>
                 </Dialog>
               </TableCell>
