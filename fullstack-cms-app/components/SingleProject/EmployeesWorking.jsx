@@ -9,6 +9,12 @@ export default function EmployeesWorking({ assignedEmployees }) {
         <p className="text-xl">Employees Assigned To This Project</p>
       </div>
 
+      {assignedEmployees?.length === 0 &&
+        <div className="flex justify-center items-center">
+          <p>No employees assiged.</p>
+        </div>
+      }
+
       <div className="flex flex-col justify-start gap-2 flex-wrap items-start overflow-scroll overflow-x-hidden">
 
         {assignedEmployees?.map((emp) => {
