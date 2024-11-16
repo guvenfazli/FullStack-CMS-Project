@@ -116,13 +116,29 @@ const singleProjectPage = io.of('/singleProjectPage')
 const homePage = io.of('/homePage')
 
 notifs.on('connection', (connectedEmployee) => {
+
+  let activityTimer;
+
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
+  })
+
+  connectedEmployee.on('activityTimer', (userId) => {
+    activityTimer = setInterval(() => {
+      console.log(userId)
+    }, 3000)
   })
 
   connectedEmployee.on('markAsRead', (userId) => {
     notifs.to(userId).emit('markRead')
   })
+
+  connectedEmployee.on('disconnect', () => {
+    console.log('User disconnected')
+    clearInterval(activityTimer)
+  })
+
+
 })
 
 homePage.on('connection', (connectedEmployee) => {
@@ -154,7 +170,6 @@ projectsPage.on('connection', (connectedEmployee) => {
   })
 
   connectedEmployee.on('taskCreated', (projectId) => {
-    console.log('This worked.')
     projectsPage.emit('refreshProjects')
   })
 

@@ -20,6 +20,7 @@ export default function Header() {
   useEffect(() => {
     if (isLogged) {
       const connectedSocket = io('http://localhost:8080/notifs')
+      connectedSocket.emit('activityTimer', isLogged.userId)
       setSocket(connectedSocket)
     }
   }, [isLogged])

@@ -65,7 +65,9 @@ export default function Notifications({ isLogged, socket }) {
     })
 
     return () => {
+      socket.off('disconnect')
       socket.disconnect()
+
     }
 
 
