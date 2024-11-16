@@ -123,10 +123,12 @@ notifs.on('connection', (connectedEmployee) => {
     connectedEmployee.join(userId)
   })
 
-  connectedEmployee.on('activityTimer', (userId) => {
-    activityTimer = setInterval(() => {
-      console.log(userId)
-    }, 3000)
+  connectedEmployee.on('activityTimer', (userId) => { // 1800000 for every 30 Mins.
+    activityTimer = setInterval(async () => {
+      const foundEmployee = await Employee.findByPk(userId)
+      foundEmployee.activityPoints += 15
+      await foundEmployee.save()
+    }, 1800000)
   })
 
   connectedEmployee.on('markAsRead', (userId) => {
@@ -134,10 +136,8 @@ notifs.on('connection', (connectedEmployee) => {
   })
 
   connectedEmployee.on('disconnect', () => {
-    console.log('User disconnected')
     clearInterval(activityTimer)
   })
-
 
 })
 

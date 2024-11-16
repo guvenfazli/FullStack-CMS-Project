@@ -43,6 +43,14 @@ const Employee = sequelize.define('employee', {
     type: DataTypes.INTEGER,
     defaultValue: 0
   },
+  activityPoints: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  productivityPoints: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
   isAdmin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
