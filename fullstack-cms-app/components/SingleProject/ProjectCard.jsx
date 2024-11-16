@@ -8,7 +8,7 @@ export default function ProjectCard({ fetchedProject, assignedEmployees, project
 
   return (
     <div className="flex flex-row justify-between gap-5 mb-10 ">
-      <div className="p-2 rounded-lg bg-slate-900 w-1/2 border self-start">
+      <div className="p-2 rounded-lg bg-slate-900 w-1/2 self-start">
         <div className="flex w-full border-b border-b-yellow-600 mb-4">
           <ProjectInfo title={'Name:'}>{fetchedProject?.projectName}</ProjectInfo>
         </div>

@@ -56,6 +56,7 @@ export default function Notifications({ isLogged, socket }) {
       toast({
         title: 'New Notification!',
         description: emp,
+        className: "bg-sky-500 text-black text-lg"
       })
     })
 

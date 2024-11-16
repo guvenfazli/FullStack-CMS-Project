@@ -102,6 +102,7 @@ const io = require('./io').init(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true
   }
 })
 
@@ -147,7 +148,7 @@ projectsPage.on('connection', (connectedEmployee) => {
 
     if (empList) {
       for (const chosenEmp of empList) {
-        notifs.to(chosenEmp.id).emit('sendNotif')
+        notifs.to(chosenEmp.id).emit('sendNotif', 'A project you assigned has been deleted.')
       }
     }
   })
@@ -176,7 +177,7 @@ singleProjectPage.on('connection', (connectedEmployee) => {
   connectedEmployee.on('taskDeleted', (projectId, empList) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
     for (const chosenEmp of empList) {
-      notifs.to(chosenEmp.id).emit('sendNotif')
+      notifs.to(chosenEmp.id).emit('sendNotif', 'A task you assigned has been deleted.')
     }
 
   })
