@@ -194,8 +194,9 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     }
   })
 
-  connectedEmployee.on('employeeReassigned', (projectId) => {
+  connectedEmployee.on('employeeReassigned', (projectId, employeeId) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
+    notifs.to(employeeId).emit('sendNotif', 'You have been resigned from a task!')
   })
 
   connectedEmployee.on('disconnect', (projectId) => {
