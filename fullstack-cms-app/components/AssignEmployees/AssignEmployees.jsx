@@ -81,7 +81,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
         throw error
       }
 
-      socket.emit('employeeReassigned', projectId, employeeId)
+      socket.emit('employeeReassigned', projectId, employeeId, taskId)
       const resData = await response.json()
       setIsSuccess(resData.message)
     } catch (err) {
