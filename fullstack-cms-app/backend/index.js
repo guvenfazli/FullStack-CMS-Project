@@ -186,11 +186,11 @@ singleProjectPage.on('connection', (connectedEmployee) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
   })
 
-  connectedEmployee.on('employeeAssigned', (projectId, chosenEmployees) => {
+  connectedEmployee.on('employeeAssigned', (projectId, chosenEmployees, taskId) => {
     singleProjectPage.to(projectId).emit('refreshTasks')
 
     for (const chosenEmp of chosenEmployees) {
-      notifs.to(chosenEmp).emit('sendNotif', 'A task assigned to you!')
+      notifs.to(chosenEmp).emit('sendNotif', 'A task assigned to you!', projectId)
     }
   })
 

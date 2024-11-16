@@ -51,11 +51,11 @@ export default function Notifications({ isLogged, socket }) {
 
 
     socket.emit('createNotificationRoom', isLogged.userId)
-    socket.on('sendNotif', (emp) => {
+    socket.on('sendNotif', (emp, projectId) => {
       getNotifications()
       toast({
         title: 'New Notification!',
-        description: emp,
+        description: <Link href={`/projects/${projectId}`}>{emp}</Link>,
         className: "bg-sky-500 border-none text-black text-lg"
       })
     })
