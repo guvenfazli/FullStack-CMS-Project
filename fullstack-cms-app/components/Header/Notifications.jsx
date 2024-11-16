@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import timeFormatter from "@/utils/timeFormatter"
 import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
 
 import {
@@ -49,7 +50,6 @@ export default function Notifications({ isLogged, socket }) {
 
     getNotifications()
 
-
     socket.emit('createNotificationRoom', isLogged.userId)
     socket.on('sendNotif', (emp, projectId, projectName) => {
       getNotifications()
@@ -92,6 +92,7 @@ export default function Notifications({ isLogged, socket }) {
           return (
             <DropdownMenuItem className="p-1" key={notify.id}>
               <Link href={`/projects/${notify.projectId}`}>{notify.notificationMessage}</Link>
+              <p className="text-slate-300 text-xs">{timeFormatter(notify.createdAt)}</p>
             </DropdownMenuItem>
           )
         })}

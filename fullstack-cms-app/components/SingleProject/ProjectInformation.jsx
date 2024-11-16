@@ -19,6 +19,7 @@ export default function ProjectInformation() {
   const [projectActivities, setProjectActivities] = useState()
   const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
+  
   useEffect(() => {
     async function fetchSingleProject() {
       try {

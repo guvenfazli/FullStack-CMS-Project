@@ -86,6 +86,8 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
       toast({
         title: 'Something went wrong.',
         description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+
       })
     }
 

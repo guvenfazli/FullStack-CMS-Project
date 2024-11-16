@@ -9,7 +9,7 @@ export default function CreateProjectForm({ projectId, socket }) {
 
   const [errorState, setErrorState] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  console.log(socket)
+
   async function createProject(e) {
     e.preventDefault()
     const fd = new FormData(e.target)

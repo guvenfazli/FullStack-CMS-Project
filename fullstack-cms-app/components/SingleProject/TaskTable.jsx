@@ -67,6 +67,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
       toast({
         title: 'Something went wrong.',
         description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
       })
     }
 
@@ -96,6 +97,8 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
       toast({
         title: 'Something went wrong.',
         description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+
       })
     }
   }
@@ -105,36 +108,37 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
       <TableCaption>Employee Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('id')}>
-            ID <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'id' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+            ID
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('name')}>
-            TASK TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'name' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+            TASK TITLE
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('surname')}>
-            CREATED AT <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'surname' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75">
+            CREATED AT
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('email')}>
-            DEADLINE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'email' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" >
+            DEADLINE
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>
-            LAST UPDATE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75">
+            LAST UPDATE
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[300px] text-center whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>
-            EMPLOYEES ASSIGNED <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="hover:cursor-pointer w-[300px] text-center whitespace-nowrap hover:text-gray-300 duration-75">
+            EMPLOYEES ASSIGNED
           </TableHead>
 
 
-          <TableHead className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('job_title')}>
-            TASK STATUS <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'job_title' && 'rotate-180'}`}>{filterUp}</span>
+          <TableHead className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+            TASK STATUS
           </TableHead>
         </TableRow>
       </TableHeader>
+      
       <TableBody>
         {fetchedTasks && fetchedTasks.map((task) =>
 

@@ -115,6 +115,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       toast({
         title: 'Something went wrong.',
         description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
       })
     }
   }
@@ -142,6 +143,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
       toast({
         title: 'Something went wrong.',
         description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
       })
     }
   }
