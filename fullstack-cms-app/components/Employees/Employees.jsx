@@ -25,7 +25,7 @@ export default function Employees() {
 
 
   return (
-    <div className="flex justify-around items-start max-md:flex-col max-md:gap-2">
+    <div className="flex justify-around items-start max-md:flex-col max-md:gap-5">
       {isLoading ? <LoadingComp /> : employees.map((employee) => {
         return (
           <EmployeeCard key={employee.id} employee={employee} />
