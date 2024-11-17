@@ -87,12 +87,12 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
         <div className="flex flex-col w-full items-start gap-5 p-3 justify-start">
           <div className="flex items-center gap-2">
             <p>{activityPointsIcon}</p>
-            <SingleEmployee>{fetchedEmployee?.activityPoints + ' '} <span className=" text-xs">Activity Points</span></SingleEmployee>
+            <SingleEmployee>{fetchedEmployee?.activityPoints + ' '} <span className=" text-xs text-gray-500">Activity Points</span></SingleEmployee>
           </div>
 
           <div className="flex items-center gap-2">
             <p>{productivityPointsIcon}</p>
-            <SingleEmployee>{fetchedEmployee?.productivityPoints  + ' '} <span className=" text-xs">Productivity Points</span></SingleEmployee>
+            <SingleEmployee>{fetchedEmployee?.productivityPoints  + ' '} <span className=" text-xs text-gray-500">Productivity Points</span></SingleEmployee>
           </div>
         </div>
 

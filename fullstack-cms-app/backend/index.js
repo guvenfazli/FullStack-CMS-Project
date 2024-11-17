@@ -6,6 +6,7 @@ const cors = require('cors')
 const path = require('path')
 const cookieparser = require('cookie-parser')
 const multer = require('multer')
+const cron = require('node-cron');
 const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
@@ -115,27 +116,28 @@ const projectsPage = io.of('/projectsPage')
 const singleProjectPage = io.of('/singleProjectPage')
 const homePage = io.of('/homePage')
 
+const activeUsers = []
+
 notifs.on('connection', (connectedEmployee) => {
 
   let activityTimer;
+  let employeeId;
 
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
+    employeeId = userId
+    activeUsers.push(userId)
   })
 
-  connectedEmployee.on('activityTimer', (userId) => { // 1800000 for every 30 Mins.
-    activityTimer = setInterval(async () => {
-      const foundEmployee = await Employee.findByPk(userId)
-      foundEmployee.activityPoints += 15
-      await foundEmployee.save()
-    }, 1800000)
-  })
+
 
   connectedEmployee.on('markAsRead', (userId) => {
     notifs.to(userId).emit('markRead')
   })
 
   connectedEmployee.on('disconnect', () => {
+    const loggedOffEmployee = activeUsers.findIndex(emp => emp === employeeId)
+    activeUsers.splice(loggedOffEmployee, 1)
     clearInterval(activityTimer)
   })
 
@@ -225,5 +227,13 @@ singleProjectPage.on('connection', (connectedEmployee) => {
 
 })
 
+// N O D E - C R O N 
 
-
+cron.schedule('*/30 * * * *', async () => {
+  for (const activeEmp of activeUsers) {
+    const foundEmployee = await Employee.findByPk(activeEmp)
+    foundEmployee.activityPoints += 15
+    await foundEmployee.save()
+    notifs.to(activeEmp).emit('activityNotif', 'You just earned 15 activity points, keep it up!')
+  }
+})

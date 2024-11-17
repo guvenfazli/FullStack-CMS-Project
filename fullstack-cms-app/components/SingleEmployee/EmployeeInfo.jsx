@@ -46,12 +46,7 @@ export default function EmployeeInfo() {
   return (
     <div className="flex flex-row items-start justify-around rounded-xl max-md:flex-col max-md:gap-5">
 
-      {isLoading && <LoadingComp />}
-
-      {isError ?
-        <div className="flex w-full justify-center items-center p-5">
-          <p>{isError}</p>
-        </div> :
+      {isLoading ? <LoadingComp /> :
 
         <>
           <div className="w-1/4 bg-gray-800 max-md:w-full max-md:border-r-0">
@@ -65,7 +60,6 @@ export default function EmployeeInfo() {
             <EmployeeTasks tasks={fetchedEmployee?.tasks} />
           </div>
         </>
-
       }
 
     </div>

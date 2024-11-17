@@ -51,7 +51,7 @@ export default function Notifications({ isLogged, socket }) {
     getNotifications()
 
     socket.emit('createNotificationRoom', isLogged.userId)
-    socket.on('sendNotif', (emp, projectId, projectName) => {
+    socket.on('sendNotif', (emp, projectId) => {
       getNotifications()
       toast({
         title: 'New Notification!',
@@ -59,6 +59,16 @@ export default function Notifications({ isLogged, socket }) {
         className: "bg-sky-500 border-none text-black text-lg"
       })
     })
+    socket.on('activityNotif', (emp) => {
+      console.log(emp)
+      toast({
+        title: 'New Notification!',
+        description: emp,
+        className: "bg-yellow-500 border-none text-black text-lg"
+      })
+    })
+
+    
 
     socket.on('markRead', (emp) => {
       getNotifications()

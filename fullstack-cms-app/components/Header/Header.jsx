@@ -8,6 +8,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useToast } from "@/hooks/use-toast"
 
 import io from "socket.io-client"
 
@@ -16,11 +17,12 @@ export default function Header() {
   const [socket, setSocket] = useState()
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
+  const { toast } = useToast()
+
 
   useEffect(() => {
     if (isLogged) {
       const connectedSocket = io('http://localhost:8080/notifs')
-      connectedSocket.emit('activityTimer', isLogged.userId)
       setSocket(connectedSocket)
     }
   }, [isLogged])
