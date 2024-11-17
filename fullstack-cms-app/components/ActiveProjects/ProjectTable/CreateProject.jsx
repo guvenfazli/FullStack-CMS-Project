@@ -56,7 +56,6 @@ export default function CreateProjectForm({ projectId, socket }) {
         const resData = await response.json()
         throw new Error(resData.message)
       }
-      console.log(socket)
       socket.emit('taskCreated', projectId)
       const resData = await response.json()
       setIsSuccess(resData.message)
@@ -66,9 +65,8 @@ export default function CreateProjectForm({ projectId, socket }) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-lg:w-2/4 max-sm:w-4/5">
-      <form onSubmit={projectId ? (e) => addTaskToProject(e, projectId) : (e) => createProject(e)} className="flex flex-col text-xl py-6 px-8 w-full bg-gray-900 rounded-lg max-lg:text-base max-sm:text-sm">
-
+    <div className="flex flex-col items-center w-full max-lg:w-full max-md:items-start max-sm:items-start max-sm:text-start">
+      <form onSubmit={projectId ? (e) => addTaskToProject(e, projectId) : (e) => createProject(e)} className="flex flex-col text-xl py-6 px-8 w-full bg-gray-900 rounded-lg max-lg:text-base max-sm:text-sm max-[641px]:py-3 max-[641px]:px-3 ">
         {projectId ? <AuthLabel customFor={"taskTitle"}>Task Title</AuthLabel> : <AuthLabel customFor={"projectTitle"}>Project Title</AuthLabel>}
         <AuthInput customName={projectId ? "taskTitle" : "projectTitle"} customPlace={projectId ? "Task Title" : "Project Title"} setErrorState={setErrorState} isError={errorState} />
 
