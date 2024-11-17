@@ -45,7 +45,7 @@ export default function Header() {
 
         <SearchBar />
 
-        <div className="flex flex-row items-center justify-evenly w-1/6 max-sm:hidden">
+        <div className="flex flex-row items-center justify-evenly border w-1/6 max-sm:hidden max-lg:w-1/4">
           <div className="relative max-md:hidden">
             <Notifications socket={socket} isLogged={isLogged} />
           </div>

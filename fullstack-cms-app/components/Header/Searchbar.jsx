@@ -31,7 +31,7 @@ export default function SearchBar() {
   return (
     <div>
       <input ref={lastChange} onChange={(e) => searchBarFunction(e)} id="searchProjectBar"
-        className={`px-4 py-1 bg-gray-700 text-white w-96 max-[470px]:w-64 max-[350px]:w-48 ${searchResult ? 'rounded-b-none rounded-t-2xl' : 'rounded-2xl'}`}
+        className={`px-4 py-1 bg-gray-700 text-white w-96 max-lg:w-72 max-[470px]:w-64 max-[350px]:w-48 ${searchResult ? 'rounded-b-none rounded-t-2xl' : 'rounded-2xl'}`}
         placeholder="Search for Projects">
 
       </input>
