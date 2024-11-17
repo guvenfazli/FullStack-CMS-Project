@@ -96,8 +96,6 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
           </div>
         </div>
 
-
-
         <div className="flex w-full justify-center items-center text-center">
           <p className="text-sm text-gray-500">Joined at {dateFormatter(fetchedEmployee?.createdAt)}</p>
         </div>

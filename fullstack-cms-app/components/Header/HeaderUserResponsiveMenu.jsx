@@ -2,10 +2,11 @@ import { useState } from "react"
 import Link from "next/link"
 import Dashboard from "../NavBar/Dashboard"
 import Resources from "../NavBar/Resources"
+import Notifications from "./Notifications"
 import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user, setIsResponsiveMenu }) {
+export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user, setIsResponsiveMenu, socket }) {
   const { isLogged } = useAppContext()
   const [isDashBoard, setIsDashBoard] = useState(false)
   const [isResources, setIsResources] = useState(false)
@@ -44,6 +45,10 @@ export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user, setIs
           <button className={`${!isResources ? 'rotate-0' : 'rotate-90 text-gray-600'} duration-100 hover:text-gray-500`}>{!isResources ? '+' : 'x'}</button>
         </div>
         <Resources isOpen={isResources} />
+      </div>
+
+      <div className="flex w-full justify-center items-center">
+        <Notifications isLogged={isLogged} socket={socket} />
       </div>
     </div>
   )

@@ -30,11 +30,11 @@ export default function Header() {
 
   if (isLogged && socket) {
     return (
-      <div className="flex justify-between p-5 bg-gray-900 relative max-sm:justify-around z-10">
+      <div className="flex justify-between items-center p-5 bg-gray-900 relative max-sm:justify-around z-10">
 
         <div className="hidden items-center justify-center max-sm:flex">
           <button onClick={() => setIsResponsiveMenu(prev => !prev)}>Menu</button>
-          <HeaderUserResponsiveMenu isResponsiveMenu={isResponsiveMenu} user={isLogged} setIsResponsiveMenu={setIsResponsiveMenu} />
+          <HeaderUserResponsiveMenu isResponsiveMenu={isResponsiveMenu} user={isLogged} setIsResponsiveMenu={setIsResponsiveMenu} socket={socket} />
         </div>
 
         <div className="flex items-center max-sm:hidden">
@@ -46,7 +46,7 @@ export default function Header() {
         <SearchBar />
 
         <div className="flex flex-row items-center justify-evenly w-1/6 max-sm:hidden">
-          <div className="relative">
+          <div className="relative max-md:hidden">
             <Notifications socket={socket} isLogged={isLogged} />
           </div>
 
@@ -59,7 +59,7 @@ export default function Header() {
             <button>+</button>
           </div>
 
-          <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} />
+          <HeaderUserMenu isMenu={isMenu} user={isLogged} setIsMenu={setIsMenu} isLogged={isLogged} socket={socket} />
 
         </div>
       </div>

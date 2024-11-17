@@ -281,6 +281,7 @@ exports.changeTaskStatus = async (req, res, next) => {
       assignedEmployee.completedTasks += 1
       if (assignedEmployee.completedTasks % 5 === 0) {
         assignedEmployee.productivityPoints += 3
+        console.log('Yes')
       }
       task.taskStatus = 'Completed'
       await assignedEmployee.save()
@@ -295,8 +296,7 @@ exports.changeTaskStatus = async (req, res, next) => {
     }
   } else {
 
-    const alreadyCompletedTask = await EmployeeTask.findByPk(taskId)
-
+    const alreadyCompletedTask = await EmployeeTask.findOne({where: {taskId: taskId}})
     if (alreadyCompletedTask.taskStatus === 'Completed') {
       const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
 

@@ -21,7 +21,7 @@ export default function ProjectsPage() {
 
   if (socket) {
     return (
-      <div>
+      <div className="border">
         <StatShowcase socket={socket} />
         <Projects socket={socket} />
       </div>
