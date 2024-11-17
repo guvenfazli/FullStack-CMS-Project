@@ -77,7 +77,7 @@ export default function ProjectInformation() {
 
         <div>
           <div>
-            <p className="text-3xl mb-3">{fetchedProject?.projectName}</p>
+            <p className="text-3xl mb-3 max-sm:text-xl">{fetchedProject?.projectName}</p>
           </div>
 
           <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
