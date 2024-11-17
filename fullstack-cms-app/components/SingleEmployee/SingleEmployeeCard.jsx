@@ -17,6 +17,8 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
 
   const { isLogged } = useAppContext()
 
+  const pendingTasks = fetchedEmployee?.tasks.filter((task) => task.taskStatus !== 'Completed')
+
   return (
     <div className={`flex flex-col rotate-0 shadow-md shadow-zinc-900 duration-200 w-full rounded-lg bg-gray-900`}>
       {
@@ -73,7 +75,7 @@ export default function SingleEmployeeCard({ fetchedEmployee }) {
         <div className="flex w-full items-center gap-5 p-3 justify-between">
           <div className="flex items-center gap-2">
             <p>{profileTaskIcon}</p>
-            <SingleEmployee>{fetchedEmployee?.tasks.length}</SingleEmployee>
+            <SingleEmployee>{pendingTasks?.length}</SingleEmployee>
           </div>
 
           <div className="flex items-center gap-2">

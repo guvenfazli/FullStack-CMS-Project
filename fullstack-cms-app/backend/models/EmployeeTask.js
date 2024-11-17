@@ -6,6 +6,10 @@ const EmployeeTask = sequelize.define('employeeTask', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
+  },
+  taskStatus: {
+    type: DataTypes.STRING,
+    defaultValue: 'Active'
   }
 })
 

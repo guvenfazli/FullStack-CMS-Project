@@ -279,11 +279,12 @@ exports.changeTaskStatus = async (req, res, next) => {
     for (const task of assignedEmployeesList) {
       const assignedEmployee = await Employee.findByPk(task.employeeId)
       assignedEmployee.completedTasks += 1
+      if (assignedEmployee.completedTasks % 5 === 0) {
+        assignedEmployee.productivityPoints += 3
+      }
+      task.taskStatus = 'Completed'
       await assignedEmployee.save()
-    }
-
-    for (const completedTask of assignedEmployeesList) {
-      await completedTask.destroy()
+      await task.save()
     }
 
   } else if (taskStatus === 'Cancelled') {
@@ -291,6 +292,26 @@ exports.changeTaskStatus = async (req, res, next) => {
 
     for (const cancelledTask of assignedEmployeesList) {
       await cancelledTask.destroy()
+    }
+  } else {
+
+    const alreadyCompletedTask = await EmployeeTask.findByPk(taskId)
+
+    if (alreadyCompletedTask.taskStatus === 'Completed') {
+      const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
+
+      for (const task of assignedEmployeesList) {
+        const assignedEmployee = await Employee.findByPk(task.employeeId)
+        assignedEmployee.completedTasks -= 1
+        if (assignedEmployee.completedTasks % 5 === 0) {
+          assignedEmployee.productivityPoints -= 3
+        }
+        assignedEmployee.addTask(foundTask)
+        task.taskStatus = taskStatus
+        await task.save()
+        await assignedEmployee.save()
+      }
+
     }
   }
 
