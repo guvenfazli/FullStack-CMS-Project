@@ -92,7 +92,7 @@ export default function Notifications({ isLogged, socket }) {
         <DropdownMenuSeparator />
         {notifications.length <= 0 ? <p>Seems quite...</p> : notifications.map((notify) => {
           return (
-            <DropdownMenuItem className="p-1" key={notify.id}>
+            <DropdownMenuItem className="p-1 flex w-full justify-between" key={notify.id}>
               <Link href={`/projects/${notify.projectId}`}>{notify.notificationMessage}</Link>
               <p className="text-slate-300 text-xs">{timeFormatter(notify.createdAt)}</p>
             </DropdownMenuItem>
