@@ -270,7 +270,7 @@ exports.assignEmployees = async (req, res, next) => {
         throwError('Employee could not found!', 404)
       }
       foundEmployee.addTask(foundTask)
-      const createdNotification = await foundEmployee.createNotification({
+      const createdNotification = await foundEmployee.createNotification({ // Creates the notification.
         notificationMessage: 'A Task Assigned To You!',
         assignedBy: req.user.userId,
         projectId: +assignedProjectId,
@@ -310,6 +310,13 @@ exports.resignEmployees = async (req, res, next) => {
       foundTask.taskStatus = 'Active'
       foundTask.save()
     }
+
+    const createdNotification = await foundEmployee.createNotification({ // Creates the notification.
+      notificationMessage: 'You have been resigned from a task!',
+      assignedBy: req.user.userId,
+      projectId: chosenProjectId,
+      taskId: chosenTaskId
+    })
 
 
     chosenProject.createProjectActivity({
