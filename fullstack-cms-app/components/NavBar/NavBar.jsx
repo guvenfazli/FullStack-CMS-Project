@@ -22,7 +22,7 @@ export default function NavBar() {
 
   if (isLogged) {
     return (
-      <div>
+      <div className="max-lg:text-sm">
         <div className="mb-7">
           <div onClick={() => setIsDashBoard(prev => !prev)} className="flex justify-between items-start hover:cursor-pointer">
             <button className={`${isDashBoard && "text-gray-600"} duration-100 hover:text-gray-500`}>Dashboard</button>
@@ -41,7 +41,7 @@ export default function NavBar() {
 
         <div className="flex items-center flex-row">
           <Switch checked={isDashBoard === true && isResources === true} onCheckedChange={() => toggleAll()} className="mr-1" id="toggle-all" />
-          <Label className="hover:cursor-pointer" htmlFor="toggle-all">Toggle All</Label>
+          <Label className="hover:cursor-pointer text-xs" htmlFor="toggle-all">Toggle All</Label>
         </div>
       </div>
     )
