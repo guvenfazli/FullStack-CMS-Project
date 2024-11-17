@@ -98,7 +98,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
 
   try {
-    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints' , 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
     if (!foundEmployee) {
       throwError('User not found!', 404)
@@ -281,7 +281,6 @@ exports.changeTaskStatus = async (req, res, next) => {
       assignedEmployee.completedTasks += 1
       if (assignedEmployee.completedTasks % 5 === 0) {
         assignedEmployee.productivityPoints += 3
-        console.log('Yes')
       }
       task.taskStatus = 'Completed'
       await assignedEmployee.save()
@@ -296,16 +295,23 @@ exports.changeTaskStatus = async (req, res, next) => {
     }
   } else {
 
-    const alreadyCompletedTask = await EmployeeTask.findOne({where: {taskId: taskId}})
-    if (alreadyCompletedTask.taskStatus === 'Completed') {
+    const alreadyCompletedTask = await EmployeeTask.findOne({ where: { taskId: taskId } })
+
+
+    if (alreadyCompletedTask && alreadyCompletedTask.taskStatus === 'Completed') {
       const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
 
       for (const task of assignedEmployeesList) {
         const assignedEmployee = await Employee.findByPk(task.employeeId)
-        assignedEmployee.completedTasks -= 1
+
         if (assignedEmployee.completedTasks % 5 === 0) {
           assignedEmployee.productivityPoints -= 3
         }
+
+        if (assignedEmployee.completedTasks !== 0) {
+          assignedEmployee.completedTasks -= 1
+        }
+
         assignedEmployee.addTask(foundTask)
         task.taskStatus = taskStatus
         await task.save()
@@ -313,6 +319,9 @@ exports.changeTaskStatus = async (req, res, next) => {
       }
 
     }
+
+    foundTask.taskStatus = taskStatus
+    await foundTask.save()
   }
 
   foundTask.taskStatus = taskStatus
