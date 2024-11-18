@@ -25,6 +25,7 @@ export default function StatShowcase({ socket }) {
 
   }, [])
 
+  console.log(projectStats)
 
   return (
     <div className="flex justify-around mb-10 max-sm:flex-col">
