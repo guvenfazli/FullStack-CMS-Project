@@ -4,7 +4,7 @@ import { totalProjects } from "@/components/Icons/Icons"
 export default function TotalProjects({ projectStats }) {
   
   return (
-    <Card className="bg-gray-900 w-2/6 border-0 mr-5 max-lg:w-1/2 max-sm:w-full max-sm:mb-5">
+    <Card className="bg-gray-900 w-full border-0 mr-5 max-lg:w-1/2 max-sm:w-full max-sm:mb-5">
 
       <CardHeader className="flex items-start justify-center">
         <CardTitle className="text-base text-gray-300">Total Projects</CardTitle>

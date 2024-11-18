@@ -3,25 +3,38 @@ import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
-
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
 
-export default function StatusChart() {
+export default function StatusChart({ projectStats }) {
 
-  const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 190, fill: "var(--color-other)" },
-  ]
+  const pendingData = projectStats?.projectStatusData.map((stat) => {
+    if (stat.projectStatus === 'Pending') {
+      const update = { ...stat }
+      update.fill = '#FACC15'
+      return update
+    } else if (stat.projectStatus === 'Active') {
+      const update = { ...stat }
+      update.fill = '#60A5FA'
+      return update
+    } else if (stat.projectStatus === 'Completed') {
+      const update = { ...stat }
+      update.fill = '#34D399'
+      return update
+    } else if (stat.projectStatus === 'Cancelled') {
+      const update = { ...stat }
+      update.fill = '#F87171'
+      return update
+    }
+  })
+
+  console.log(projectStats)
 
   const chartConfig = {
-    visitors: {
+    counted: {
       label: "Visitors",
     },
     chrome: {
@@ -47,62 +60,61 @@ export default function StatusChart() {
   }
 
 
-
   return (
-    <Card className="flex flex-col bg-gray-900">
-      <CardHeader className="items-center pb-0 text-white">
-        <CardTitle>Status of Tasks</CardTitle>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={60}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
+    <Card className="flex flex-col bg-gray-900 border-none">
+    <CardHeader className="items-center pb-0">
+      <CardTitle className="text-base text-white">Current Stats of Projects</CardTitle>
+    </CardHeader>
+    <CardContent className="flex-1 pb-0">
+      <ChartContainer
+        config={chartConfig}
+        className="mx-auto aspect-square max-h-[250px]"
+      >
+        <PieChart>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Pie
+            data={pendingData}
+            dataKey="counted"
+            nameKey="projectStatus"
+            innerRadius={50}
+            strokeWidth={5}
+          >
+            <Label
+              content={({ viewBox }) => {
+                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  return (
+                    <text
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                    >
+                      <tspan
                         x={viewBox.cx}
                         y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
+                        className="fill-foreground text-3xl font-bold"
                       >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
-                        >
-
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Visitors
-                        </tspan>
-                      </text>
-                    )
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+                        
+                      </tspan>
+                      <tspan
+                        x={viewBox.cx}
+                        y={(viewBox.cy || 0) + 24}
+                        className="fill-muted-foreground"
+                      >
+                        Stats
+                      </tspan>
+                    </text>
+                  )
+                }
+              }}
+            />
+          </Pie>
+        </PieChart>
+      </ChartContainer>
+    </CardContent>
+  </Card>
   )
 }

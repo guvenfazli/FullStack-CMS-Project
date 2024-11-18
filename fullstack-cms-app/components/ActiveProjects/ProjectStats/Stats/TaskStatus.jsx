@@ -1,8 +1,8 @@
 import PieChart from "./PieChart"
 
-export default function TaskStatus() {
+export default function TaskStatus({projectStats}) {
 
   return (
-    <PieChart />
+    <PieChart projectStats={projectStats} />
   )
 }
