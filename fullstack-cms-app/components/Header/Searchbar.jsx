@@ -3,7 +3,7 @@ import Link from "next/link"
 
 
 export default function SearchBar() {
-
+  const [isSearchResult, setIsSearchResult] = useState(false)
   const [searchResult, setSearchResult] = useState()
   const lastChange = useRef()
 
@@ -30,16 +30,16 @@ export default function SearchBar() {
 
   return (
     <div>
-      <input ref={lastChange} onChange={(e) => searchBarFunction(e)} id="searchProjectBar"
-        className={`px-4 py-1 bg-gray-700 text-white w-96 max-lg:w-72 max-[470px]:w-64 max-[350px]:w-48 ${searchResult ? 'rounded-b-none rounded-t-2xl' : 'rounded-2xl'}`}
+      <input onClick={() => setIsSearchResult(true)} onMouseLeave={() => setIsSearchResult(false)} ref={lastChange} onChange={(e) => searchBarFunction(e)} id="searchProjectBar"
+        className={`px-4 py-1 bg-gray-700 text-white w-96 max-lg:w-72 max-[470px]:w-64 max-[350px]:w-48 ${isSearchResult ? 'rounded-b-none rounded-t-2xl' : 'rounded-2xl'}`}
         placeholder="Search for Projects">
 
       </input>
 
-      <div className={`absolute duration-75 rounded-b-md flex flex-col w-[385px] z-20  max-[470px]:w-[255px] max-[350px]:w-[195px] bg-gray-700 ${searchResult ? 'opacity-100' : 'opacity-0'}`}>
+      <div onMouseEnter={() => setIsSearchResult(true)} className={`absolute duration-75 rounded-b-md flex flex-col w-[385px] z-20  max-[470px]:w-[255px] max-[350px]:w-[195px] bg-gray-700 ${isSearchResult && searchResult ? 'opacity-100' : 'opacity-0'}`}>
         {searchResult?.map(result => {
           return (
-            <Link className="p-2 duration-75 hover:bg-gray-800" href={`/projects/${result.id}`} key={result.id}>{result.projectName}</Link>
+            <Link className="p-2 duration-75 hover:bg-gray-500" href={`/projects/${result.id}`} key={result.id}>{result.projectName}</Link>
           )
         })}
       </div>
