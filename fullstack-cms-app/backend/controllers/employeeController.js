@@ -52,11 +52,12 @@ exports.fetchEmployeeData = async (req, res, next) => {
 exports.fetchAllEmployees = async (req, res, next) => {
 
   const searchParam = req.query.employee
+  const filterParam = req.query.filter
   let employeeName = searchParam
   let employeeSurname;
   let foundEmployees
   let allEmployees
-
+  console.log(filterParam)
   try {
 
     if (searchParam) {
@@ -68,6 +69,7 @@ exports.fetchAllEmployees = async (req, res, next) => {
       }
 
       foundEmployees = await Employee.findAll({
+        order: [filterParam ? filterParam : 'id'],
         where: {
           [Op.or]: [
             { name: { [Op.like]: `%${employeeName}%` } },
@@ -83,7 +85,7 @@ exports.fetchAllEmployees = async (req, res, next) => {
       return res.json({ employees: foundEmployees })
     }
 
-    allEmployees = await Employee.findAll({ attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'completedTasks', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
+    allEmployees = await Employee.findAll({ order: [filterParam ? filterParam : 'id'], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'completedTasks', 'jobTitle'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId'] } })
 
     if (allEmployees.length === 0) {
       throwError('Employees could not found!', 404)

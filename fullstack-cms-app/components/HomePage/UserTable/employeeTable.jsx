@@ -28,13 +28,13 @@ import Link from "next/link"
 
 export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmployees, socket }) {
 
-  const [filterType, setFilterType] = useState()
+  const [filterType, setFilterType] = useState('id')
   const { toast } = useToast()
 
   function filterTable(filter) {
     setFilterType(prev => {
       if (prev === filter) {
-        return undefined
+        return 'id'
       } else {
         return filter
       }
@@ -44,19 +44,11 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
   useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
 
     async function filterEmployees() {
-      if (filterType) {
-        const response = await fetch(`http://localhost:8080/employees/filtering?filter=${filterType}`, {
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        setAllEmployees(resData.employees)
-      } else {
-        const response = await fetch('http://localhost:8080/employees', {
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        setAllEmployees(resData.employees)
-      }
+      const response = await fetch(`http://localhost:8080/employees?filter=${filterType}`, {
+        credentials: 'include'
+      })
+      const resData = await response.json()
+      setAllEmployees(resData.employees)
     }
 
     filterEmployees()
@@ -64,7 +56,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
 
   async function deleteEmployee(employeeId) {
     try {
-      const response = await fetch(`http://localhost:8080/admin/deleteEmployee/${employeeId}`, {
+      const response = await fetch(`http://localhost:8080/admin/deleteEmployee/${employeeId}${filterType && `?filter=${filterType}`}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -106,7 +98,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
           <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('surname')}>SURNAME <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'surname' && 'rotate-180'}`}>{filterUp}</span></TableHead>
           <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('email')}>EMAIL <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'email' && 'rotate-180'}`}>{filterUp}</span></TableHead>
           <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('isAdmin')}>ADMIN <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'isAdmin' && 'rotate-180'}`}>{filterUp}</span></TableHead>
-          <TableHead className="text-right hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('jobTitle')}>TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'job_title' && 'rotate-180'}`}>{filterUp}</span></TableHead>
+          <TableHead className="text-right hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75" onClick={() => filterTable('jobTitle')}>TITLE <span className={`inline-block duration-75 rotate-0 ml-1 items-center ${filterType === 'jobTitle' && 'rotate-180'}`}>{filterUp}</span></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
