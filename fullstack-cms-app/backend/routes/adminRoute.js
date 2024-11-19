@@ -48,8 +48,8 @@ router.delete('/deleteEmployee/:employeeId', authCheck, adminCheck, adminControl
 
 /* Projects */
 router.post('/createProject', [
-  body('projectTitle').notEmpty().isLength({ min: 1 }),
-  body('deadline').notEmpty().isDate()
+  body('projectTitle').notEmpty().withMessage('Project Title Required!').isLength({ min: 1 }).withMessage('Title must be minimum 1 character!'),
+  body('deadline').notEmpty().withMessage('Deadline Required!').isDate().withMessage('Should be a date!')
 ], authCheck, adminCheck, adminController.createProject)
 
 router.put('/editProject/:chosenProjectId', [
