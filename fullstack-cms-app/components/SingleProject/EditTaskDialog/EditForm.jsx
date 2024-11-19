@@ -1,7 +1,9 @@
 import EditLabel from "./EditLabel"
 import EditInput from "./EditInput"
 import DatePicker from "@/components/ActiveProjects/ProjectTable/DatePicker"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import AuthError from "@/components/Authentication/AuthError"
+import AuthSuccess from "@/components/Authentication/AuthSuccess"
 export default function EditForm({ task, socket, projectId }) {
 
   const [isError, setIsError] = useState(false)
@@ -38,6 +40,18 @@ export default function EditForm({ task, socket, projectId }) {
 
   }
 
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setIsError(false)
+      }, 3000)
+    } else if (isSuccess) {
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 3000)
+    }
+  }, [isError, isSuccess])
+
   return (
     <form onSubmit={(e) => editTask(e)} className="flex flex-col text-xl py-6 px-8 w-full bg-gray-900 rounded-lg max-lg:text-base max-sm:text-sm">
       <EditLabel htmlFor="taskTitle">Task Title</EditLabel>
@@ -48,8 +62,8 @@ export default function EditForm({ task, socket, projectId }) {
 
       <button className="mt-5 p-2 duration-75 bg-gray-600 rounded-lg hover:bg-gray-400 active:bg-gray-700">Done</button>
 
-      {isError && <p className="mt-4">{isError}</p>}
-      {isSuccess && <p className="mt-4">{isSuccess}</p>}
+      {isError && <AuthError errorState={isError} />}
+      {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
     </form>
   )
 }
