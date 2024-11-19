@@ -32,7 +32,7 @@ exports.fetchAllAdmins = async (req, res, next) => {
 
 }
 
-exports.fetchUserData = async (req, res, next) => {
+exports.fetchEmployeeData = async (req, res, next) => {
   try {
     const countedEmployees = await Employee.count()
 
@@ -47,7 +47,7 @@ exports.fetchUserData = async (req, res, next) => {
   }
 }
 
-exports.fetchAllUser = async (req, res, next) => {
+exports.fetchAllEmployees = async (req, res, next) => {
 
   const searchParam = req.query.employee
   let employeeName = searchParam
@@ -101,7 +101,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
     if (!foundEmployee) {
-      throwError('User not found!', 404)
+      throwError('Employee not found!', 404)
     }
 
     return res.json({ foundEmployee })
@@ -120,7 +120,7 @@ exports.editEmployeeAccount = async (req, res, next) => {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId)
 
     if (!foundEmployee) {
-      throwError('User not found!', 404)
+      throwError('Employee not found!', 404)
     }
 
     foundEmployee.name = name
@@ -143,13 +143,13 @@ exports.filterEmployees = async (req, res, next) => {
   const filterParam = req.query.filter
 
   try {
-    const filteredUsers = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'] })
+    const filteredEmployees = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'] })
 
-    if (filteredUsers.length === 0) {
+    if (filteredEmployees.length === 0) {
       throwError('Something went wrong while filtering!', 404)
     }
 
-    return res.json({ employees: filteredUsers })
+    return res.json({ employees: filteredEmployees })
   } catch (err) {
     next(err)
   }

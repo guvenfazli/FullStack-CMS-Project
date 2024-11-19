@@ -71,7 +71,7 @@ export default function StatusChart({ projectStats }) {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={projectStats?.projectStatusData}
+              data={pendingData}
               dataKey="counted"
               nameKey="projectStatus"
               innerRadius={60}

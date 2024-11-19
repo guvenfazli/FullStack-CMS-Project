@@ -30,7 +30,9 @@ router.put('/editTask/:chosenTaskId', [
   body('deadline').notEmpty().isDate()
 ], authCheck, adminCheck, adminController.editProjectTask)
 
-router.put('/assignEmployees/:chosenTaskId/:assignedProjectId', authCheck, adminCheck, adminController.assignEmployees)
+router.put('/assignEmployees/:chosenTaskId/:assignedProjectId', [
+  body().notEmpty().isArray({ min: 1, max: 10 })
+], authCheck, adminCheck, adminController.assignEmployees)
 router.put('/resignEmployees/:chosenTaskId/:chosenEmployeeId/:chosenProjectId', authCheck, adminCheck, adminController.resignEmployees)
 
 

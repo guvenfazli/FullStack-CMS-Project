@@ -1,28 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController')
+const employeeController = require('../controllers/employeeController')
 const authCheck = require('../middleware/authCheck')
 const { body } = require('express-validator')
 
 /* Employees */
-router.get('/home', authCheck, userController.fetchUserData)
-router.get('/employees/filtering', authCheck, userController.filterEmployees)
-router.get('/employees/:chosenEmployeeId', authCheck, userController.fetchSingleEmployee)
-router.get('/employees', authCheck, userController.fetchAllUser)
-router.get('/admins', authCheck, userController.fetchAllAdmins)
+router.get('/home', authCheck, employeeController.fetchEmployeeData)
+router.get('/employees/filtering', authCheck, employeeController.filterEmployees)
+router.get('/employees/:chosenEmployeeId', authCheck, employeeController.fetchSingleEmployee)
+router.get('/employees', authCheck, employeeController.fetchAllEmployees)
+router.get('/admins', authCheck, employeeController.fetchAllAdmins)
 
-router.put('/employees/:chosenEmployeeId', authCheck, userController.editEmployeeAccount)
+router.put('/employees/:chosenEmployeeId', authCheck, employeeController.editEmployeeAccount)
 
-router.get('/notifications', authCheck, userController.fetchNotifications)
-router.patch('/markasread', authCheck, userController.markNotificationsAsRead)
+router.get('/notifications', authCheck, employeeController.fetchNotifications)
+router.patch('/markasread', authCheck, employeeController.markNotificationsAsRead)
 
 
 /* Projects */
-router.get('/projects/:projectId', authCheck, userController.fetchSingleProject)
-router.get('/projects', authCheck, userController.fetchProjects)
-router.get('/projectStats', authCheck, userController.fetchProjectStats)
+router.get('/projects/:projectId', authCheck, employeeController.fetchSingleProject)
+router.get('/projects', authCheck, employeeController.fetchProjects)
+router.get('/projectStats', authCheck, employeeController.fetchProjectStats)
 
 /* Tasks */
-router.patch('/tasks/:taskId', authCheck, userController.changeTaskStatus)
+router.patch('/tasks/:taskId', authCheck, employeeController.changeTaskStatus)
 
 module.exports = router

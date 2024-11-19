@@ -24,6 +24,21 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
     fetchEmployees()
   }, [])
 
+  useEffect(() => {
+    if(isError) {
+      setTimeout(() => {
+        setIsError(false)
+      }, 3000)
+    }
+
+    if(isSuccess) {
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 3000)
+    }
+
+  }, [isError, isSuccess])
+
   function chooseEmployee(employeeId) {
     setChosenEmployees(prev => {
       let updated = [...prev]
@@ -60,6 +75,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
       socket.emit('employeeAssigned', projectId, chosenEmployees, taskId)
       const resData = await response.json()
       setIsSuccess(resData.message)
+      setChosenEmployees([])
     } catch (err) {
       setIsError(err.message)
     }

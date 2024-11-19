@@ -35,9 +35,9 @@ exports.createEmployee = async (req, res, next) => {
   const profilePic = req.files[0].path
 
   try {
-    const foundUser = await Employee.findOne({ where: { email: email } })
+    const foundEmployee = await Employee.findOne({ where: { email: email } })
 
-    if (foundUser) {
+    if (foundEmployee) {
       throwError('Email Aready Exists!', 400)
     }
 
@@ -65,14 +65,14 @@ exports.deleteEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.employeeId
 
   try {
-    const foundUser = await Employee.findByPk(chosenEmployeeId)
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId)
 
-    if (!foundUser) {
-      throwError('User could not found!', 400)
+    if (!foundEmployee) {
+      throwError('Employee could not found!', 400)
     }
 
-    foundUser.destroy()
-    clearImage(foundUser.profilePic)
+    foundEmployee.destroy()
+    clearImage(foundEmployee.profilePic)
     return res.json({ message: 'Employee deleted successfully.' })
 
   } catch (err) {
@@ -259,10 +259,16 @@ exports.assignEmployees = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
   const assignedProjectId = req.params.assignedProjectId
   const assignedEmployeeList = req.body
+  const errors = validationResult(req)
+
 
   const foundTask = await Task.findByPk(chosenTaskId)
   const foundProject = await Project.findByPk(assignedProjectId)
   try {
+
+    if (!errors.isEmpty()) {
+      throwError(errors.array()[0].msg, 404)
+    }
 
     for (const employee of assignedEmployeeList) {
       const foundEmployee = await Employee.findByPk(employee)
@@ -270,7 +276,8 @@ exports.assignEmployees = async (req, res, next) => {
         throwError('Employee could not found!', 404)
       }
       foundEmployee.addTask(foundTask)
-      const createdNotification = await foundEmployee.createNotification({ // Creates the notification.
+
+      await foundEmployee.createNotification({ // Creates the notification.
         notificationMessage: 'A Task Assigned To You!',
         assignedBy: req.user.userId,
         projectId: +assignedProjectId,
@@ -311,7 +318,7 @@ exports.resignEmployees = async (req, res, next) => {
       foundTask.save()
     }
 
-    const createdNotification = await foundEmployee.createNotification({ // Creates the notification.
+    await foundEmployee.createNotification({ // Creates the notification.
       notificationMessage: 'You have been resigned from a task!',
       assignedBy: req.user.userId,
       projectId: chosenProjectId,
