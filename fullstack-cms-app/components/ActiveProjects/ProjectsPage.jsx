@@ -1,7 +1,6 @@
 "use client"
 import Projects from "./ProjectTable/Projects"
 import { lazy, Suspense, useEffect, useState } from "react"
-import { useAppContext } from "@/context"
 import LoadingComp from "../Loading/LoadingComp"
 import io from "socket.io-client"
 import RouteProtection from "@/utils/routeProtection"
