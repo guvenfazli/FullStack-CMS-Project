@@ -127,7 +127,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
 
             {(isLogged.isAdmin === true && isLogged.userId !== employee.id) ? <TableCell className="text-right w-[10px]"><button onClick={() => deleteEmployee(employee.id)}>{trashCan}</button></TableCell> : ''}
 
-            <TableCell className="text-right w-[10px]"><button><Link href={`/employees/${employee.id}`}>{eyeIcon}</Link></button></TableCell>
+            <TableCell className="text-right w-[10px]"><button><Link prefetch={false} href={`/employees/${employee.id}`}>{eyeIcon}</Link></button></TableCell>
 
             <TableCell className="text-right w-[10px]">
               <Dialog>

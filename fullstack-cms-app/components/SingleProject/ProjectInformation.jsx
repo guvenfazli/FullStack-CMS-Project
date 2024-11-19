@@ -15,16 +15,15 @@ let socket;
 export default function ProjectInformation() {
   const { isLogged } = useAppContext()
   const projectId = useParams().projectId
-  const [isLoading, setIsLoading] = useState(false)
-  const [assignedEmployees, setAssignedEmployees] = useState()
-  const [projectActivities, setProjectActivities] = useState()
-  const [isError, setIsError] = useState(false)
   const [fetchedProject, setFetchedProject] = useState(null)
+  const [projectActivities, setProjectActivities] = useState()
+  const [projectTasks, setProjectTasks] = useState([])
+  const [assignedEmployees, setAssignedEmployees] = useState()
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     async function fetchSingleProject() {
       try {
-        setIsLoading(true)
         const response = await fetch(`http://localhost:8080/projects/${projectId}`, {
           credentials: 'include'
         })
@@ -36,13 +35,13 @@ export default function ProjectInformation() {
         }
 
         const resData = await response.json()
+
         setFetchedProject(resData.fetchedProject)
-        setAssignedEmployees(resData.groupList)
         setProjectActivities(resData.fetchedProject.projectActivities)
-        setIsLoading(false)
+        setProjectTasks(resData.projectTasks)
+        setAssignedEmployees(resData.groupList)
       } catch (err) {
         setIsError(err.message)
-        setIsLoading(false)
       }
     }
 
@@ -85,7 +84,7 @@ export default function ProjectInformation() {
       <TableNav
         isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
-      <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} projectId={projectId} />
+      <TaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />
     </div>
   )
 }

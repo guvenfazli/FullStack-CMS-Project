@@ -11,7 +11,7 @@ import {
 
 export default function StatusChart({ projectStats }) {
 
-  const pendingData = projectStats?.projectStatusData.map((stat) => {
+  const pendingData = projectStats?.projectStatusData.map((stat) => { // Manipulating the data and adding colors for pie chart.
     if (stat.projectStatus === 'Pending') {
       const update = { ...stat }
       update.fill = '#FACC15'
@@ -31,29 +31,25 @@ export default function StatusChart({ projectStats }) {
     }
   })
 
-  console.log(pendingData)
 
   const chartConfig = {
     Pending: {
       label: "Pending",
-      color: "#FACC15", 
+      color: "#FACC15",
     },
     Active: {
       label: "Active",
-      color: "#60A5FA", 
+      color: "#60A5FA",
     },
     Completed: {
       label: "Completed",
-      color: "#34D399", 
+      color: "#34D399",
     },
     Cancelled: {
       label: "Cancelled",
-      color: "#F87171", 
+      color: "#F87171",
     },
   };
-
-  console.log(projectStats?.projectStatusData)
-
 
   return (
     <Card className="flex flex-col bg-gray-900 border-none">
@@ -90,15 +86,17 @@ export default function StatusChart({ projectStats }) {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          style={{ fill: 'white', fontSize: '1.500rem', fontWeight: 'bold' }}
                         >
+                          Project
                         </tspan>
+
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Status
                         </tspan>
                       </text>
                     )
@@ -110,6 +108,9 @@ export default function StatusChart({ projectStats }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
+        <div className="flex items-center text-white font-medium text-lg leading-none">
+          Hover your mouse over the chart to see stats
+        </div>
         <div className="leading-none text-muted-foreground">
           Showing total task status since the beginning.
         </div>

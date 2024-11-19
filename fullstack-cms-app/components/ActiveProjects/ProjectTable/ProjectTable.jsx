@@ -211,7 +211,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
                 </TableCell>
               }
 
-              <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
+              <TableCell className="text-center w-[10px]"><button><Link prefetch={false} href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
 
               <TableCell className="text-center w-[10px]">
                 <Dialog>

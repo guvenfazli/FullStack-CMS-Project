@@ -252,9 +252,18 @@ exports.fetchSingleProject = async (req, res, next) => {
       ]
     })
 
+    const projectTasks = await Task.findAll({
+      where: { projectId: projectId }, include: [
+        {
+          model: Employee,
+          attributes: ['id', 'name', 'surname', 'profilePic', 'jobTitle']
+        }
+      ]
+    })
+
     const groupList = []
 
-    const groupedEmployees = fetchedProject.tasks.forEach((task) => {
+    fetchedProject.tasks.forEach((task) => {
       task.employees.forEach((employee) => {
         const foundEmp = groupList.find((emp) => emp.id === employee.id)
         if (!foundEmp) {
@@ -267,7 +276,7 @@ exports.fetchSingleProject = async (req, res, next) => {
       throwError('Project not found!', 404)
     }
 
-    return res.json({ fetchedProject, groupList })
+    return res.json({ fetchedProject, groupList, projectTasks })
 
   } catch (err) {
     next(err)
