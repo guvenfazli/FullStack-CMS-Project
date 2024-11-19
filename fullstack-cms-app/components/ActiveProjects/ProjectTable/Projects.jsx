@@ -13,7 +13,7 @@ export default function Projects({ socket }) {
 
   async function searchProjects(searchParam) {
 
-    const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
+    const response = await fetch(`http://localhost:8080/projects?project=${searchParam}&filterParam=${filterType}`, {
       credentials: 'include'
     })
     if (!response.ok) {
@@ -37,7 +37,6 @@ export default function Projects({ socket }) {
     }
 
     fetchProjects()
-
   }, [])
 
 

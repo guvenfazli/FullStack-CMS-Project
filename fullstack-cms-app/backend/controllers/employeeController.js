@@ -169,24 +169,18 @@ exports.fetchProjects = async (req, res, next) => {
   const filterParam = req.query.filterParam
   let foundProjects;
   let allProjects;
+  console.log(searchParam)
 
   try {
 
     if (searchParam) {
-      foundProjects = await Project.findAll({ where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: [{ model: Task, }] })
+      foundProjects = await Project.findAll({ order: [filterParam], where: { projectName: { [Op.like]: `%${searchParam}%` } }, include: [{ model: Task, }] })
       if (foundProjects.length === 0) {
         throwError('Could not fetch projects!', 404)
       }
+      console.log(foundProjects)
       return res.json({ projects: foundProjects })
     }
-
-/*     if (filterParam) {
-      foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
-      if (foundProjects.length === 0) {
-        throwError('Could not fetch projects!', 404)
-      }
-      return res.json({ projects: foundProjects })
-    } */
 
     allProjects = await Project.findAll({
       order: [filterParam],
@@ -200,7 +194,8 @@ exports.fetchProjects = async (req, res, next) => {
             }
           ]
         }
-      ]
+      ],
+      
     })
 
     if (allProjects.length === 0) {
