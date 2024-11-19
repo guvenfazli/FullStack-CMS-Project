@@ -6,7 +6,7 @@ import SingleEmployeeCard from "./SingleEmployeeCard"
 import EmployeeTasks from "./EmployeeTasks"
 import LoadingComp from "../Loading/LoadingComp"
 import { lazy } from "react"
-import AuthCheck from "@/utils/authCheck"
+import RouteProtection from "@/utils/routeProtection"
 
 export default function EmployeeInfo() {
 
@@ -17,7 +17,7 @@ export default function EmployeeInfo() {
 
   useEffect(() => {
     async function fetchSingleEmployee() {
-      await AuthCheck()
+      await RouteProtection()
       try {
         setIsLoading(true)
         const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {

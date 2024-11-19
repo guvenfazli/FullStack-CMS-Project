@@ -138,3 +138,23 @@ exports.cookieCheck = async (req, res, next) => {
   }
 
 }
+
+exports.clientRouteProtection = async (req, res, next) => {
+  try {
+    const cookie = req.cookies['jwt']
+
+    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
+
+    if (!resolvedCookie) {
+      const error = new Error('Please log in first!')
+      error.statusCode = 401
+      throw error
+    }
+
+    return res.send()
+
+  } catch (err) {
+    next(err)
+  }
+
+}

@@ -4,7 +4,8 @@ import { lazy, Suspense, useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import LoadingComp from "../Loading/LoadingComp"
 import io from "socket.io-client"
-import AuthCheck from "@/utils/authCheck"
+import RouteProtection from "@/utils/routeProtection"
+
 
 export default function ProjectsPage() {
 
@@ -15,7 +16,7 @@ export default function ProjectsPage() {
   useEffect(() => {
     const connectedSocket = io('http://localhost:8080/projectsPage')
     setSocket(connectedSocket)
-    AuthCheck()
+    RouteProtection()
 
     return () => {
       connectedSocket.disconnect()

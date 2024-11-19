@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import EmployeeCard from "./EmployeeCard"
 import LoadingComp from "../Loading/LoadingComp"
-import AuthCheck from "@/utils/authCheck"
+import RouteProtection from "@/utils/routeProtection"
 
 export default function Employees() {
 
@@ -11,7 +11,7 @@ export default function Employees() {
   
   useEffect(() => {
     async function fetchEmployees() {
-      await AuthCheck()
+      await RouteProtection()
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
         credentials: 'include'

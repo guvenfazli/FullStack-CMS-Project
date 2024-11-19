@@ -48,7 +48,8 @@ router.post('/loginAccount', [
 
 router.post('/logOut', authController.logOut)
 
-router.get('/cookieCheck', authController.cookieCheck)
 
+router.get('/cookieCheck', authController.cookieCheck)
+router.get('/routeProtection', authController.clientRouteProtection)
 
 module.exports = router

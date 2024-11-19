@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import EmployeeCard from "../Employees/EmployeeCard"
 import LoadingComp from "../Loading/LoadingComp"
-import AuthCheck from "@/utils/authCheck"
+import RouteProtection from "@/utils/routeProtection"
 
 
 export default function Admins() {
@@ -13,7 +13,7 @@ export default function Admins() {
 
   useEffect(() => {
     async function fetchAdmins() {
-      await AuthCheck()
+      await RouteProtection()
       try {
         setIsLoading(true)
         const response = await fetch('http://localhost:8080/admins', {

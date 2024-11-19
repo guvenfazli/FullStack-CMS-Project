@@ -10,7 +10,7 @@ import TableNav from "../HomePage/UserTable/tableNav"
 import TaskTable from "./TaskTable"
 import CreateTask from "../ActiveProjects/ProjectTable/CreateTask"
 import io from "socket.io-client"
-import AuthCheck from "@/utils/authCheck"
+import RouteProtection from "@/utils/routeProtection"
 
 
 let socket;
@@ -25,7 +25,7 @@ export default function ProjectInformation() {
 
   useEffect(() => {
     async function fetchSingleProject() {
-      await AuthCheck()
+      await RouteProtection()
       try {
         const response = await fetch(`http://localhost:8080/projects/${projectId}`, {
           credentials: 'include'
