@@ -103,7 +103,7 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
 
   return (
     <Table>
-      <TableCaption>Employee Table</TableCaption>
+      <TableCaption>Task Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
