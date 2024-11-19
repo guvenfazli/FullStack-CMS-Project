@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { useParams } from "next/navigation"
 import { notFound } from 'next/navigation'
 import ProjectCard from "./ProjectCard"
+import LoadingComp from "../Loading/LoadingComp"
 import TableNav from "../HomePage/UserTable/tableNav"
 import TaskTable from "./TaskTable"
 import CreateTask from "../ActiveProjects/ProjectTable/CreateTask"
@@ -66,33 +67,25 @@ export default function ProjectInformation() {
     notFound()
   }
 
+  const LazyProjectCard = lazy(() => import("./ProjectCard"))
+
   return (
+    <div>
+      <div>
+        <p className="text-3xl mb-3 max-sm:text-xl">{fetchedProject?.projectName}</p>
+      </div>
 
-    <>
+      <Suspense fallback={<LoadingComp />}>
+        <LazyProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
+      </Suspense>
 
-      {isError ?
-        <div className="flex w-full justify-center items-center p-5">
-          <p>{isError}</p>
-        </div> :
+      <div>
+        <p className="text-3xl mb-5">Tasks</p>
+      </div>
+      <TableNav
+        isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
-        <div>
-          <div>
-            <p className="text-3xl mb-3 max-sm:text-xl">{fetchedProject?.projectName}</p>
-          </div>
-
-          <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
-
-          <div>
-            <p className="text-3xl mb-5">Tasks</p>
-          </div>
-          <TableNav
-            isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
-
-          <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} projectId={projectId} />
-        </div>
-
-      }
-
-    </>
+      <TaskTable fetchedTasks={fetchedProject?.tasks} isLogged={isLogged} socket={socket} projectId={projectId} />
+    </div>
   )
 }
