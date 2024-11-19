@@ -29,11 +29,54 @@ import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
 import EditTask from "./EditTask"
 import AssignEmployees from "../AssignEmployees/AssignEmployees"
 import dateFormatter from "@/utils/dateFormatter"
+import { useEffect, useState } from "react"
 
 
-export default function TaskTable({ fetchedTasks, isLogged, socket, projectId }) {
+export default function TaskTable({ isLogged, socket, projectId }) {
 
   const { toast } = useToast()
+  const [tasks, setTasks] = useState([])
+  const [filterType, setFilterType] = useState()
+
+  function filterTable(filter) {
+    setFilterType(prev => {
+      if (prev === filter) {
+        return undefined
+      } else {
+        return filter
+      }
+    })
+  }
+
+  useEffect(() => {
+    async function fetchProjectTasks() {
+      try {
+        const response = await fetch(`http://localhost:8080/tasks/${projectId}${filterType && `?filter=${filterType}`}`, {
+          credentials: 'include'
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
+        const resData = await response.json()
+
+        setTasks(resData.tasks)
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+
+    fetchProjectTasks()
+
+    socket.on('refreshTasks', (emp) => {
+      fetchProjectTasks()
+    })
+
+
+  }, [filterType])
 
   async function editTaskStatus(status, task) {
     const data = task
@@ -106,23 +149,23 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
       <TableCaption>Task Table</TableCaption>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+          <TableHead onClick={() => filterTable('id')} className="w-[100px] hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
             ID
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+          <TableHead onClick={() => filterTable('taskName')} className="hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
             TASK TITLE
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75">
+          <TableHead onClick={() => filterTable('createdAt')} className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75">
             CREATED AT
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" >
+          <TableHead onClick={() => filterTable('taskDeadline')} className="hover:cursor-pointer w-[150px] whitespace-nowrap hover:text-gray-300 duration-75" >
             DEADLINE
           </TableHead>
 
-          <TableHead className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75">
+          <TableHead onClick={() => filterTable('updatedAt')} className="hover:cursor-pointer text-center w-[100px] whitespace-nowrap hover:text-gray-300 duration-75">
             LAST UPDATE
           </TableHead>
 
@@ -131,14 +174,14 @@ export default function TaskTable({ fetchedTasks, isLogged, socket, projectId })
           </TableHead>
 
 
-          <TableHead className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
+          <TableHead onClick={() => filterTable('taskStatus')} className="text-center hover:cursor-pointer whitespace-nowrap hover:text-gray-300 duration-75">
             TASK STATUS
           </TableHead>
         </TableRow>
       </TableHeader>
-      
+
       <TableBody>
-        {fetchedTasks && fetchedTasks.map((task) =>
+        {tasks && tasks.map((task) =>
 
           <TableRow key={task.id}>
             <TableCell className="font-medium">{task.id}</TableCell>

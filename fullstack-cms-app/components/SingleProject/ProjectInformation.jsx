@@ -66,7 +66,7 @@ export default function ProjectInformation() {
     notFound()
   }
 
-  const LazyProjectCard = lazy(() => import("./ProjectCard"))
+  const LazyTaskTable = lazy(() => import("./TaskTable"))
 
   return (
     <div>
@@ -74,9 +74,8 @@ export default function ProjectInformation() {
         <p className="text-3xl mb-3 max-sm:text-xl">{fetchedProject?.projectName}</p>
       </div>
 
-      <Suspense fallback={<LoadingComp />}>
-        <LazyProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
-      </Suspense>
+      <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
+
 
       <div>
         <p className="text-3xl mb-5">Tasks</p>
@@ -84,7 +83,9 @@ export default function ProjectInformation() {
       <TableNav
         isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
-      <TaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />
+      <Suspense fallback={<LoadingComp />}>
+        <LazyTaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />
+      </Suspense>
     </div>
   )
 }

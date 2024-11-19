@@ -51,6 +51,7 @@ router.get('/projects', authCheck, employeeController.fetchProjects)
 router.get('/projectStats', authCheck, employeeController.fetchProjectStats)
 
 /* Tasks */
+router.get('/tasks/:projectId', authCheck, employeeController.fetchTasks)
 router.patch('/tasks/:taskId', authCheck, employeeController.changeTaskStatus)
 
 module.exports = router

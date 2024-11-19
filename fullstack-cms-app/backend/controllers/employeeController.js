@@ -283,6 +283,32 @@ exports.fetchSingleProject = async (req, res, next) => {
   }
 }
 
+exports.fetchTasks = async (req, res, next) => {
+  const projectId = req.params.projectId
+  const filterParam = req.query.filter
+
+  try {
+    const projectTasks = await Task.findAll({
+      order: [filterParam ? filterParam : 'id'],
+      where: { projectId: projectId }, include: [
+        {
+          model: Employee,
+          attributes: ['id', 'name', 'surname', 'profilePic', 'jobTitle']
+        }
+      ]
+    })
+
+
+
+    return res.json({ tasks: projectTasks })
+
+  } catch (err) {
+    next(err)
+  }
+
+
+}
+
 exports.changeTaskStatus = async (req, res, next) => {
   const { taskStatus } = req.body
   const taskId = req.params.taskId
