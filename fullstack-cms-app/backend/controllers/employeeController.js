@@ -10,6 +10,8 @@ const ProjectActivity = require('../models/ProjectActivity')
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
 const { throwError } = require('../middleware/throwError')
+const { validationResult } = require('express-validator')
+
 
 
 exports.fetchAllAdmins = async (req, res, next) => {
@@ -115,12 +117,16 @@ exports.fetchSingleEmployee = async (req, res, next) => {
 exports.editEmployeeAccount = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
   const { name, surname, email, jobTitle, birthDate, phoneNumber } = req.body;
+  const errors = validationResult(req)
+
 
   try {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId)
 
     if (!foundEmployee) {
       throwError('Employee not found!', 404)
+    } else if (!errors.isEmpty()) {
+      throwError(errors.array()[0].msg, 404)
     }
 
     foundEmployee.name = name

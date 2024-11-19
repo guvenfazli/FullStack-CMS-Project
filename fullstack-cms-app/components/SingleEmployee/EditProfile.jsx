@@ -1,33 +1,50 @@
 import EditLabel from "../SingleProject/EditTaskDialog/EditLabel"
 import EditInput from "../SingleProject/EditTaskDialog/EditInput"
 import DatePicker from "../ActiveProjects/ProjectTable/DatePicker"
+import AuthError from "../Authentication/AuthError"
+import AuthSuccess from "../Authentication/AuthSuccess"
+import { useState, useEffect } from "react"
 
 export default function EditProfile({ employee }) {
 
+  const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+
   async function editAccount(e) {
     e.preventDefault()
-
     const fd = new FormData(e.target)
-    console.log(fd)
     try {
-      const createAccount = await fetch(`http://localhost:8080/employees/${employee.id}`, {
+      const response = await fetch(`http://localhost:8080/employees/${employee.id}`, {
         method: 'PUT',
         body: fd,
         credentials: 'include'
       })
 
-      if (!createAccount.ok) {
-        setIsLoading(false)
-        const responseData = await createAccount.json()
-        throw new Error(responseData.message)
+      if (!response.ok) {
+        const resData = await response.json()
+        throw new Error(resData.message)
       }
 
-      const responseData = await createAccount.json()
-
+      const resData = await response.json()
+      setIsSuccess(resData.message)
     } catch (err) {
+      setIsError(err.message)
       e.target.reset()
     }
   }
+
+  useEffect(() => {
+    if (isError) {
+      setTimeout(() => {
+        setIsError(false)
+      }, 3000)
+    } else if (isSuccess) {
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 3000)
+    }
+  }, [isError, isSuccess])
 
 
 
@@ -56,6 +73,8 @@ export default function EditProfile({ employee }) {
 
         <button className="mt-5 p-2 duration-75 bg-gray-600 rounded-lg hover:bg-gray-400 active:bg-gray-700">Complete</button>
 
+        {isError && <AuthError errorState={isError} />}
+        {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
       </form>
     </div>
   )
