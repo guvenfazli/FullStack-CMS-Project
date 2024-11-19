@@ -36,7 +36,7 @@ export default function SearchBar() {
 
       </input>
 
-      <div onMouseEnter={() => setIsSearchResult(true)} className={`absolute duration-75 rounded-b-md flex flex-col w-[385px] z-20  max-[470px]:w-[255px] max-[350px]:w-[195px] bg-gray-700 ${isSearchResult && searchResult ? 'opacity-100' : 'opacity-0'}`}>
+      <div onMouseLeave={() => setIsSearchResult(false)} onMouseEnter={() => setIsSearchResult(true)} className={`absolute duration-75 rounded-b-md flex flex-col w-[385px] z-20  max-[470px]:w-[255px] max-[350px]:w-[195px] bg-gray-700 ${isSearchResult && searchResult ? 'opacity-100' : 'opacity-0'}`}>
         {searchResult?.map(result => {
           return (
             <Link className="p-2 duration-75 hover:bg-gray-500" href={`/projects/${result.id}`} key={result.id}>{result.projectName}</Link>

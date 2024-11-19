@@ -1,9 +1,8 @@
 "use client"
 import Projects from "./ProjectTable/Projects"
-import StatShowcase from "./ProjectStats/StatShowcase"
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
+import LoadingComp from "../Loading/LoadingComp"
 import io from "socket.io-client"
-
 export default function ProjectsPage() {
 
   const [socket, setSocket] = useState()
@@ -18,11 +17,15 @@ export default function ProjectsPage() {
     }
   }, [])
 
+  const LazyComp = lazy(() => import("./ProjectStats/StatShowcase"))
 
   if (socket) {
     return (
       <div>
-        <StatShowcase socket={socket} />
+        <Suspense fallback={<LoadingComp />}>
+          <LazyComp socket={socket} />
+        </Suspense>
+
         <Projects socket={socket} />
       </div>
     )
