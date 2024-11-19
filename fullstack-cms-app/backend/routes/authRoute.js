@@ -15,7 +15,7 @@ router.post('/createAccount', [
     .withMessage('Surname is required')
     .isLength({ min: 1 })
     .withMessage('Surname must be at least 2 characters long'),
-  body('surname')
+  body('email')
     .notEmpty()
     .withMessage('Email is required')
     .isLength({ min: 1 })

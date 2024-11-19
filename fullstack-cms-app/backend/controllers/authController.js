@@ -4,10 +4,28 @@ const Employee = require('../models/Employee')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
+const path = require('path')
+const fs = require('fs')
+const { throwError } = require('../middleware/throwError') // (errorMessage, statusCode)
+
+const clearImage = (imageUrl) => {
+  const filePath = path.join(__dirname, '..', imageUrl)
+  try {
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        const error = new Error('Something happened')
+        error.statusCode = 420
+        throw error
+      }
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 
 exports.createAccount = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
-  const profilePic = req.files[0].path
   const errors = validationResult(req)
   console.log(req.body)
 
@@ -17,8 +35,11 @@ exports.createAccount = async (req, res, next) => {
       const error = new Error(errors.array()[0].msg)
       error.statusCode = 410
       throw error
+    } else if (req.files.length === 0) {
+      throwError('Profile picture is required', 404)
     }
 
+    const profilePic = req.files[0].path
     const foundUser = await Employee.findOne({ where: { email: email } })
 
     if (foundUser) {
@@ -43,6 +64,7 @@ exports.createAccount = async (req, res, next) => {
     return res.json({ message: 'Account Successfully Created!' })
 
   } catch (err) {
+    clearImage(req.files[0].path)
     next(err)
   }
 }
