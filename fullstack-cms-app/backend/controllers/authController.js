@@ -9,6 +9,7 @@ exports.createAccount = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
   const profilePic = req.files[0].path
   const errors = validationResult(req)
+  console.log(req.body)
 
   try {
 
@@ -28,7 +29,7 @@ exports.createAccount = async (req, res, next) => {
 
     const hashedPw = await bcrypt.hash(password, 12)
 
-    const createdUser = await Employee.create({
+    await Employee.create({
       name: name,
       surname: surname,
       email: email,
