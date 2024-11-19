@@ -3,13 +3,14 @@ import { useAppContext } from "@/context"
 import TableNav from "@/components/HomePage/UserTable/tableNav"
 import ProjectTable from "./ProjectTable"
 import CreateProjectForm from "./CreateProject"
-import LoadingComp from "@/components/Loading/LoadingComp"
 
 export default function Projects({ socket }) {
 
   const { isLogged } = useAppContext()
   const [fetchedProjects, setFetchedProjects] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  const [filterType, setFilterType] = useState('id')
+
+
   async function searchProjects(searchParam) {
 
     const response = await fetch(`http://localhost:8080/projects?project=${searchParam}`, {
@@ -28,17 +29,17 @@ export default function Projects({ socket }) {
 
   useEffect(() => {
     async function fetchProjects() {
-      const response = await fetch('http://localhost:8080/projects', {
+      const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
         credentials: 'include'
       })
       const resData = await response.json()
       setFetchedProjects(resData.projects)
-      setIsLoading(false)
     }
 
     fetchProjects()
 
   }, [])
+
 
   return (
     <div>
@@ -48,7 +49,7 @@ export default function Projects({ socket }) {
 
       <TableNav isLogged={isLogged} socket={socket} searchFn={searchProjects} inputPlaceHolder="Search Projects" buttonText="Create Project" FormComponent={CreateProjectForm} dialogTitle='Create Project' />
 
-      {isLoading ? <LoadingComp /> : <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} setFetchedProjects={setFetchedProjects} socket={socket} />}
+      <ProjectTable isLogged={isLogged} fetchedProjects={fetchedProjects} filterType={filterType} setFetchedProjects={setFetchedProjects} setFilterType={setFilterType} socket={socket} />
     </div>
   )
 }

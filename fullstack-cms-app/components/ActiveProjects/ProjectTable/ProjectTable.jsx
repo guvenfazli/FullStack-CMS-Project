@@ -31,15 +31,14 @@ import CreateTask from "./CreateTask"
 import dateFormatter from "@/utils/dateFormatter"
 import Link from "next/link"
 
-export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, socket }) {
+export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setFilterType, filterType, socket }) {
 
-  const [filterType, setFilterType] = useState()
   const { toast } = useToast()
 
   function filterTable(filter) {
     setFilterType(prev => {
       if (prev === filter) {
-        return undefined
+        return 'id'
       } else {
         return filter
       }
@@ -49,41 +48,22 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
   useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
 
     async function filterProjects() {
-      if (filterType) {
-        const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        setFetchedProjects(resData.projects)
-
-      } else {
-        const response = await fetch('http://localhost:8080/projects', {
-          credentials: 'include'
-        })
-        const resData = await response.json()
-        setFetchedProjects(resData.projects)
-      }
-    }
-    filterProjects()
-  }, [filterType])
-
-  useEffect(() => {
-
-    async function filterProjects() {
-      const response = await fetch('http://localhost:8080/projects', {
+      const response = await fetch(`http://localhost:8080/projects?filterParam=${filterType}`, {
         credentials: 'include'
       })
       const resData = await response.json()
       setFetchedProjects(resData.projects)
     }
 
+    filterProjects()
 
     socket.on('refreshProjects', (emp) => {
       filterProjects()
     })
 
+  }, [filterType])
 
-  }, [])
+
 
   async function changeProjectStatus(status, project) {
     const data = project
@@ -131,7 +111,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
         const responseData = await response.json()
         throw new Error(responseData.message)
       }
-      
+
       const responseData = await response.json()
       socket.emit('projectDeleted', empList, projectName)
       toast({

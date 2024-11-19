@@ -180,15 +180,16 @@ exports.fetchProjects = async (req, res, next) => {
       return res.json({ projects: foundProjects })
     }
 
-    if (filterParam) {
+/*     if (filterParam) {
       foundProjects = await Project.findAll({ order: [filterParam], include: [{ model: Task, }] })
       if (foundProjects.length === 0) {
         throwError('Could not fetch projects!', 404)
       }
       return res.json({ projects: foundProjects })
-    }
+    } */
 
     allProjects = await Project.findAll({
+      order: [filterParam],
       include: [
         {
           model: Task,

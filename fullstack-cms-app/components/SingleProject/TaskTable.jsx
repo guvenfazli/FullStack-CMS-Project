@@ -36,12 +36,12 @@ export default function TaskTable({ isLogged, socket, projectId }) {
 
   const { toast } = useToast()
   const [tasks, setTasks] = useState([])
-  const [filterType, setFilterType] = useState()
+  const [filterType, setFilterType] = useState('id')
 
   function filterTable(filter) {
     setFilterType(prev => {
       if (prev === filter) {
-        return undefined
+        return 'id'
       } else {
         return filter
       }
@@ -51,7 +51,7 @@ export default function TaskTable({ isLogged, socket, projectId }) {
   useEffect(() => {
     async function fetchProjectTasks() {
       try {
-        const response = await fetch(`http://localhost:8080/tasks/${projectId}${filterType && `?filter=${filterType}`}`, {
+        const response = await fetch(`http://localhost:8080/tasks/${projectId}?filter=${filterType}`, {
           credentials: 'include'
         })
 
