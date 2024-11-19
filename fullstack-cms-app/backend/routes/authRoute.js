@@ -33,6 +33,7 @@ router.post('/createAccount', [
     .isLength({ min: 2 })
     .withMessage('Job Title must be at least 5 characters long'),
   body('birthDate')
+    .isDate()
     .notEmpty()
     .withMessage('Birthdate is required'),
   body('phoneNumber')
@@ -41,7 +42,8 @@ router.post('/createAccount', [
 ], authController.createAccount)
 
 router.post('/loginAccount', [
-  body('password').trim().isLength({ min: 5 })
+  body('email').isEmail().withMessage('Please enter a valid email!').notEmpty().withMessage('Email required!'),
+  body('password').notEmpty().withMessage('Please enter a valid password').trim().isLength({ min: 5 }).withMessage('Password must be min. 5 characters long')
 ], authController.loginAccount)
 
 router.post('/logOut', authController.logOut)
