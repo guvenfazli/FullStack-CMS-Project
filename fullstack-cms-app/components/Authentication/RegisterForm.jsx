@@ -1,22 +1,18 @@
 "use client"
 import { useEffect, useState } from "react"
-import Link from "next/link"
 import AuthInput from "./AuthInput"
 import FileUploader from "./FileUploader"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
 import AuthSuccess from "./AuthSuccess"
 import AuthNavigate from "./AuthNavigate"
-import io from "socket.io-client"
+
 export default function RegisterForm({ newUserCreation, socket }) {
 
   const [isLoading, setIsLoading] = useState(false)
   const [fileState, setFileState] = useState()
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
-
-
-
 
   async function createAccount(e) {
     e.preventDefault()
@@ -63,6 +59,18 @@ export default function RegisterForm({ newUserCreation, socket }) {
     })
   }
 
+  useEffect(() => {
+    if (errorState) {
+      setTimeout(() => {
+        setErrorState(false)
+      }, 3000)
+    } else if (isSuccess) {
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 1000)
+    }
+  }, [errorState, isSuccess])
+
   if (newUserCreation) { // Admin employee creation form.
     return (
       <div className="flex flex-col items-center w-full max-lg:w-full max-sm:w-full">
@@ -101,7 +109,7 @@ export default function RegisterForm({ newUserCreation, socket }) {
         </form>
       </div>
     )
-  } else {
+  } else { // User creation form
     return (
       <div className="flex flex-col items-center w-2/6 max-lg:w-2/4 max-sm:w-4/5">
         <form onSubmit={(e) => createAccount(e)} className="flex flex-col text-xl py-6 px-8 w-full bg-gray-900 rounded-lg shadow-2xl max-lg:text-base max-sm:text-sm">
@@ -132,7 +140,7 @@ export default function RegisterForm({ newUserCreation, socket }) {
           <FileUploader setFileState={gatherFiles} customName={'profilePic'} customPlace={'Profile Picture'} inputType={'file'} setErrorState={setErrorState} isError={errorState} />
 
 
-          <AuthNavigate authType={'Sign Up'} navHref={'/userLogin'} />
+          <AuthNavigate authType={'Sign Up'} navHref={'/userLogin'} isLoading={isLoading} />
 
           {errorState && <AuthError errorState={errorState} />}
           {isSuccess && <AuthSuccess isSuccess={isSuccess} />}

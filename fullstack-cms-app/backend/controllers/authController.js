@@ -27,7 +27,6 @@ const clearImage = (imageUrl) => {
 exports.createAccount = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
   const errors = validationResult(req)
-  console.log(req.body)
 
   try {
 
@@ -64,7 +63,6 @@ exports.createAccount = async (req, res, next) => {
     return res.json({ message: 'Account Successfully Created!' })
 
   } catch (err) {
-    clearImage(req.files[0].path)
     next(err)
   }
 }

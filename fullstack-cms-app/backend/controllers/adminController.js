@@ -32,15 +32,24 @@ const clearImage = (imageUrl) => {
 
 exports.createEmployee = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthdate, phoneNumber } = req.body;
-  const profilePic = req.files[0].path
+  const errors = validationResult(req)
 
   try {
     const foundEmployee = await Employee.findOne({ where: { email: email } })
 
     if (foundEmployee) {
       throwError('Email Aready Exists!', 400)
+    } else if (!errors.isEmpty()) {
+      const error = new Error(errors.array()[0].msg)
+      error.statusCode = 410
+      throw error
+    } else if (req.files.length === 0) {
+      throwError('Profile picture is required', 404)
     }
 
+
+
+    const profilePic = req.files[0].path
     const hashedPw = await bcrypt.hash(password, 12)
 
     Employee.create({
