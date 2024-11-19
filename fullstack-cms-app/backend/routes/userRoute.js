@@ -6,7 +6,6 @@ const { body } = require('express-validator')
 
 /* Employees */
 router.get('/home', authCheck, employeeController.fetchEmployeeData)
-router.get('/employees/filtering', authCheck, employeeController.filterEmployees)
 router.get('/employees/:chosenEmployeeId', authCheck, employeeController.fetchSingleEmployee)
 router.get('/employees', authCheck, employeeController.fetchAllEmployees)
 router.get('/admins', authCheck, employeeController.fetchAllAdmins)

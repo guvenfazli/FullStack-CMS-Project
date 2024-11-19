@@ -16,11 +16,7 @@ export default function Projects({ socket }) {
     const response = await fetch(`http://localhost:8080/projects?project=${searchParam}&filterParam=${filterType}`, {
       credentials: 'include'
     })
-    if (!response.ok) {
-      const resData = await response.json()
-      const error = new Error(resData.message)
-      throw error
-    }
+
 
     const resData = await response.json()
     setFetchedProjects(resData.projects)

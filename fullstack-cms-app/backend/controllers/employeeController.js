@@ -147,29 +147,11 @@ exports.editEmployeeAccount = async (req, res, next) => {
   }
 }
 
-exports.filterEmployees = async (req, res, next) => {
-  const filterParam = req.query.filter
-
-  try {
-    const filteredEmployees = await Employee.findAll({ order: [filterParam], attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle'] })
-
-    if (filteredEmployees.length === 0) {
-      throwError('Something went wrong while filtering!', 404)
-    }
-
-    return res.json({ employees: filteredEmployees })
-  } catch (err) {
-    next(err)
-  }
-
-}
-
 exports.fetchProjects = async (req, res, next) => {
   const searchParam = req.query.project
   const filterParam = req.query.filterParam
   let foundProjects;
   let allProjects;
-  console.log(searchParam)
 
   try {
 
@@ -194,7 +176,7 @@ exports.fetchProjects = async (req, res, next) => {
           ]
         }
       ],
-      
+
     })
 
     if (allProjects.length === 0) {
