@@ -23,8 +23,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { trashCan, filterUp, editIcon, profileIcon } from "@/components/Icons/Icons"
-import { useEffect, useState } from "react"
+import { trashCan, editIcon, profileIcon } from "@/components/Icons/Icons"
 import { useToast } from "@/hooks/use-toast"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
 import EditTask from "./EditTask"
@@ -34,7 +33,6 @@ import dateFormatter from "@/utils/dateFormatter"
 
 export default function TaskTable({ fetchedTasks, isLogged, socket, projectId }) {
 
-  const [filterType, setFilterType] = useState()
   const { toast } = useToast()
 
   async function editTaskStatus(status, task) {

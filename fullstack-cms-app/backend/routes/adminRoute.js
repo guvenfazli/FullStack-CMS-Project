@@ -61,17 +61,17 @@ router.delete('/deleteProject/:chosenProjectId', authCheck, adminCheck, adminCon
 
 /* Project Tasks */
 router.post('/createTask/:chosenProjectId', [
-  body('taskTitle').notEmpty().isLength({ min: 1 }),
-  body('deadline').notEmpty().isDate()
+  body('taskTitle').notEmpty().withMessage('Title required!').isLength({ min: 1 }),
+  body('deadline').notEmpty().withMessage('Deadline required!').isDate()
 ], authCheck, adminCheck, adminController.createTaskProject)
 
 router.put('/editTask/:chosenTaskId', [
-  body('taskTitle').notEmpty().isLength({ min: 1 }),
-  body('deadline').notEmpty().isDate()
+  body('taskTitle').notEmpty().withMessage('Task Title Required!').isLength({ min: 1 }).withMessage('Title must be minimum 1 character!'),
+  body('deadline').notEmpty().withMessage('Deadline Required!').isDate().withMessage('Should be a date!')
 ], authCheck, adminCheck, adminController.editProjectTask)
 
 router.put('/assignEmployees/:chosenTaskId/:assignedProjectId', [
-  body().notEmpty().withMessage('Please choose at least one employee!').isArray({ min: 1, max: 10 }).withMessage('You can not assign more than 10 employees at once!')
+  body().notEmpty().isArray({ min: 1 }).withMessage('Please choose at least one employee!').isArray({ min: 1, max: 10 }).withMessage('You can not assign more than 10 employees at once!')
 ], authCheck, adminCheck, adminController.assignEmployees)
 
 router.put('/resignEmployees/:chosenTaskId/:chosenEmployeeId/:chosenProjectId', authCheck, adminCheck, adminController.resignEmployees)
