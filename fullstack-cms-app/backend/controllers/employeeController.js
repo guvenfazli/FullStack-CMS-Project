@@ -178,7 +178,6 @@ exports.fetchProjects = async (req, res, next) => {
       if (foundProjects.length === 0) {
         throwError('Could not fetch projects!', 404)
       }
-      console.log(foundProjects)
       return res.json({ projects: foundProjects })
     }
 
