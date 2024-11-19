@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import StatsData from "./Stats/StatsData"
 import UserTable from "./UserTable/userTable"
+import AuthCheck from "@/utils/authCheck"
 import io from "socket.io-client"
 
 export default function HomePage() {
@@ -10,7 +11,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const connectedSocket = io('http://localhost:8080/homePage')
-
+    AuthCheck()
     setSocket(connectedSocket)
 
     return () => {

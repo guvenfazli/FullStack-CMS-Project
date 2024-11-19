@@ -25,7 +25,6 @@ export default function SearchBar() {
       const resData = await response.json()
       setSearchResult(resData.projects)
     }, 700)
-
   }
 
   return (
