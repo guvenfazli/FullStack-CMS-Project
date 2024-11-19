@@ -1,10 +1,12 @@
 "use client"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 import { notFound } from "next/navigation"
 import SingleEmployeeCard from "./SingleEmployeeCard"
 import EmployeeTasks from "./EmployeeTasks"
 import LoadingComp from "../Loading/LoadingComp"
+import { lazy } from "react"
+
 export default function EmployeeInfo() {
 
   const employeeId = useParams().employeeId
@@ -43,14 +45,14 @@ export default function EmployeeInfo() {
     notFound()
   }
 
+  const LazySingleEmployeeCard = lazy(() => import("./SingleEmployeeCard"))
+
   return (
     <div className="flex flex-row items-start justify-around rounded-xl max-md:flex-col max-md:gap-5 max-[1200px]:justify-between">
-
-      {isLoading ? <LoadingComp /> : 
-
-      <>
       <div className="w-1/4 bg-gray-800 max-md:w-full max-md:border-r-0 max-[1200px]:w-1/3">
-        <SingleEmployeeCard fetchedEmployee={fetchedEmployee} />
+        <Suspense fallback={<LoadingComp />}>
+          <LazySingleEmployeeCard fetchedEmployee={fetchedEmployee} />
+        </Suspense>
       </div>
 
       <div className="w-1/2 bg-gray-900 shadow-md rounded-md shadow-slate-950 max-md:w-full">
@@ -59,9 +61,6 @@ export default function EmployeeInfo() {
         </div>
         <EmployeeTasks tasks={fetchedEmployee?.tasks} />
       </div>
-      </>
-      }
-
-    </div>
+    </div >
   )
 }

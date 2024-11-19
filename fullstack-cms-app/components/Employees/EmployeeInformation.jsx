@@ -23,7 +23,7 @@ export default function EmployeeInformation({employee}) {
       </div>
 
       <div className="flex flex-row w-full justify-center items-center">
-        <Link className="p-2 duration-75 bg-zinc-800 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>More Details</Link>
+        <Link prefetch={false} className="p-2 duration-75 bg-zinc-800 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>More Details</Link>
       </div>
     </div>
   )
