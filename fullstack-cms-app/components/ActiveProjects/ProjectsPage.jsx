@@ -9,7 +9,6 @@ import RouteProtection from "@/utils/routeProtection"
 
 export default function ProjectsPage() {
 
-  const { isLogged } = useAppContext()
   const [socket, setSocket] = useState()
 
 
