@@ -13,6 +13,7 @@ export default function EmployeeInfo() {
 
   const employeeId = useParams().employeeId
   const [fetchedEmployee, setFetchedEmployee] = useState()
+  const [foundEmployeeStats, setFoundEmployeeStats] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
@@ -33,7 +34,7 @@ export default function EmployeeInfo() {
 
         const resData = await response.json()
         setFetchedEmployee(resData.foundEmployee)
-        console.log(resData)
+        setFoundEmployeeStats(resData.foundEmployeeStats)
         setIsLoading(false)
       } catch (err) {
         setIsError(err.message)
@@ -48,6 +49,8 @@ export default function EmployeeInfo() {
   if (isError) {
     notFound()
   }
+
+  console.log(fetchedEmployee)
 
   const LazySingleEmployeeCard = lazy(() => import("./SingleEmployeeCard"))
 
@@ -72,9 +75,8 @@ export default function EmployeeInfo() {
           <div className="flex border-t border-t-yellow-600 border-b border-b-yellow-600 p-3 w-full justify-center items-center max-md:rounded-tr-none">
             <p className="text-xl">Employee Stats</p>
           </div>
-          <EmployeeStats />
+          <EmployeeStats employeeStats={foundEmployeeStats} />
         </div>
-
       </div>
 
     </div >

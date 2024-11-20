@@ -104,7 +104,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
   try {
     const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
 
-    const foundEmployeeStats = await EmployeeTask.findAll({ where: { employeeId: chosenEmployeeId, taskStatus: 'Completed' }, attributes: ['taskStatus', [sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date'] })
+    const foundEmployeeStats = await EmployeeTask.findAll({ where: { employeeId: chosenEmployeeId, taskStatus: 'Completed' }, attributes: [[sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date'] })
 
     if (!foundEmployee) {
       throwError('Employee not found!', 404)
