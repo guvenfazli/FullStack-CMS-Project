@@ -93,9 +93,8 @@ export default function ProjectInformation() {
       <TableNav
         isLogged={isLogged} socket={socket} searchFn={searchTasks} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
-      <Suspense fallback={<LoadingComp />}>
-        <LazyTaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />
-      </Suspense>
+      {socket && <TaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />}
+
     </div>
   )
 }

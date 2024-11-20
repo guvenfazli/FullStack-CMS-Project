@@ -2,7 +2,7 @@ import Task from "./Task"
 export default function EmployeeTasks({ tasks }) {
 
   return (
-    <div className="flex flex-col border-b-yellow-600  justify-start items-start w-full ">
+    <div className="flex flex-col border-b-yellow-600 justify-start items-start w-full ">
 
       {tasks?.length > 0 ? tasks?.map((task) => {
         return (
