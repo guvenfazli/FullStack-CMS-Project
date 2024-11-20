@@ -100,11 +100,19 @@ exports.fetchAllEmployees = async (req, res, next) => {
 
 exports.fetchSingleEmployee = async (req, res, next) => {
   const chosenEmployeeId = req.params.chosenEmployeeId
+  const today = new Date();
+  const lastWeek = new Date();
+  lastWeek.setDate(today.getDate() - 7)
 
   try {
-    const foundEmployee = await Employee.findByPk(chosenEmployeeId, { attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints', 'createdAt'], include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] } })
+    const foundEmployee = await Employee.findByPk(chosenEmployeeId, {
+      attributes: ['id', 'profilePic', 'name', 'surname', 'email', 'isAdmin', 'jobTitle', 'birthDate', 'phoneNumber', 'completedTasks', 'productivityPoints', 'activityPoints', 'createdAt'],
+      include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] }
+    })
 
-    const foundEmployeeStats = await EmployeeTask.findAll({ where: { employeeId: chosenEmployeeId, taskStatus: 'Completed' }, attributes: [[sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date'] })
+    const foundEmployeeStats = await EmployeeTask.findAll({
+      where: { employeeId: chosenEmployeeId, taskStatus: 'Completed', updatedAt: { [Op.between]: [lastWeek, today] } }, attributes: [[sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date']
+    })
 
     if (!foundEmployee) {
       throwError('Employee not found!', 404)

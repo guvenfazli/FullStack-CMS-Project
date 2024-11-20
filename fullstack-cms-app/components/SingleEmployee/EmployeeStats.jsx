@@ -1,4 +1,3 @@
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
 import {
   Card,
@@ -20,23 +19,25 @@ const chartConfig = {
     color: "#34D399",
   },
 }
+import dateFormatter from "@/utils/dateFormatter"
+
 
 export default function EmployeeStats({ employeeStats }) {
-  console.log(employeeStats)
   return (
     <Card className="bg-gray-900 border-none">
       <CardHeader>
         <CardTitle className="text-white">Completed Task Numbers</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>Daily</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="w-full h-80">
           <BarChart
             accessibilityLayer
             data={employeeStats}
             margin={{
               top: 20,
             }}
+          
           >
             <CartesianGrid vertical={false} />
             <XAxis
@@ -44,29 +45,30 @@ export default function EmployeeStats({ employeeStats }) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => dateFormatter(value)}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="counted" fill="#34D399" radius={8} barSize={50}>
+            <Bar dataKey="counted"  fill="#34D399" radius={8} barSize={50}>
               <LabelList
                 position="top"
                 offset={5}
-                className="fill-foreground"
+                className="fill-white font-bold text-lg"
                 fontSize={12}
+                formatter={(value) => value}
               />
             </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        <div className="flex font-medium leading-none text-white">
+          Daily Completed Task Numbers
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total completed tasks this week.
         </div>
       </CardFooter>
     </Card>
