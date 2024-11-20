@@ -32,7 +32,7 @@ import dateFormatter from "@/utils/dateFormatter"
 import { useEffect, useState } from "react"
 
 
-export default function TaskTable({ isLogged, socket, projectId }) {
+export default function TaskTable({ isLogged, socket, projectId, fetchedTasks }) {
 
   const { toast } = useToast()
   const [tasks, setTasks] = useState([])
@@ -76,7 +76,15 @@ export default function TaskTable({ isLogged, socket, projectId }) {
     })
 
 
+
   }, [filterType])
+
+  useEffect(() => {
+    if (fetchedTasks) {
+      setTasks(fetchedTasks)
+    }
+  }, [fetchedTasks])
+
 
   async function editTaskStatus(status, task) {
     const data = task
@@ -143,6 +151,8 @@ export default function TaskTable({ isLogged, socket, projectId }) {
       })
     }
   }
+
+  console.log(tasks)
 
   return (
     <Table>

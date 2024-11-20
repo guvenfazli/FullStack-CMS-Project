@@ -265,8 +265,26 @@ exports.fetchSingleProject = async (req, res, next) => {
 exports.fetchTasks = async (req, res, next) => {
   const projectId = req.params.projectId
   const filterParam = req.query.filter
+  const searchParam = req.query.task
 
   try {
+
+    if (searchParam) {
+      const foundTasks = await Task.findAll({
+        order: [filterParam ? filterParam : 'id'], where: { taskName: { [Op.like]: `%${searchParam}%` }, projectId: projectId }, include: [
+          {
+            model: Employee,
+            attributes: ['id', 'name', 'surname', 'profilePic', 'jobTitle']
+          }
+        ]
+      })
+      if (foundTasks.length === 0) {
+        throwError('Could not fetch projects!', 404)
+      }
+      return res.json({ tasks: foundTasks })
+    }
+
+
     const projectTasks = await Task.findAll({
       order: [filterParam ? filterParam : 'id'],
       where: { projectId: projectId }, include: [

@@ -7,9 +7,6 @@ export default async function RouteProtection() {
       credentials: 'include'
     })
 
-    console.log(response)
-
-
     if (!response.ok) {
       console.log('test')
       const resData = await response.json()

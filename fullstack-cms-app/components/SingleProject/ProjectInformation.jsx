@@ -19,7 +19,7 @@ export default function ProjectInformation() {
   const projectId = useParams().projectId
   const [fetchedProject, setFetchedProject] = useState(null)
   const [projectActivities, setProjectActivities] = useState()
-  const [projectTasks, setProjectTasks] = useState([])
+  const [projectTasks, setProjectTasks] = useState()
   const [assignedEmployees, setAssignedEmployees] = useState()
   const [isError, setIsError] = useState(false)
 
@@ -41,7 +41,6 @@ export default function ProjectInformation() {
 
         setFetchedProject(resData.fetchedProject)
         setProjectActivities(resData.fetchedProject.projectActivities)
-        setProjectTasks(resData.projectTasks)
         setAssignedEmployees(resData.groupList)
       } catch (err) {
         setIsError(err.message)
@@ -71,6 +70,19 @@ export default function ProjectInformation() {
 
   const LazyTaskTable = lazy(() => import("./TaskTable"))
 
+  async function searchTasks(searchParam) {
+
+    const response = await fetch(`http://localhost:8080/tasks/${projectId}?task=${searchParam}&filter=id`, {
+      credentials: 'include'
+    })
+
+
+    const resData = await response.json()
+    console.log(resData)
+    setProjectTasks(resData.tasks)
+
+  }
+
   return (
     <div>
       <div>
@@ -84,7 +96,7 @@ export default function ProjectInformation() {
         <p className="text-3xl mb-5">Tasks</p>
       </div>
       <TableNav
-        isLogged={isLogged} socket={socket} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
+        isLogged={isLogged} socket={socket} searchFn={searchTasks} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
       <Suspense fallback={<LoadingComp />}>
         <LazyTaskTable fetchedTasks={projectTasks} isLogged={isLogged} socket={socket} projectId={projectId} />
