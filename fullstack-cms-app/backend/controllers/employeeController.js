@@ -110,7 +110,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
       include: { model: Task, attributes: ['id', 'taskName', 'taskStatus', 'projectId', 'taskDeadline'] }
     })
 
-    const foundEmployeeStats = await EmployeeTask.findAll({
+    const foundEmployeeStats = await EmployeeTask.findAll({ // Fetching the dates weekly, getting the date section by using sequelize.fn()
       where: { employeeId: chosenEmployeeId, taskStatus: 'Completed', updatedAt: { [Op.between]: [lastWeek, today] } }, attributes: [[sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date']
     })
 
