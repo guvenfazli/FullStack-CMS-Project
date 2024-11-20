@@ -75,8 +75,6 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
       fetchProjectTasks()
     })
 
-
-
   }, [filterType])
 
   useEffect(() => {

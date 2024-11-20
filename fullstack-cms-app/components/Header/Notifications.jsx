@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { useToast } from "@/hooks/use-toast"
-
+import dateFormatter from "@/utils/dateFormatter"
+import notificationDateFormatter from "@/utils/notificationDateFormatter"
 
 export default function Notifications({ isLogged, socket }) {
 
@@ -68,7 +69,7 @@ export default function Notifications({ isLogged, socket }) {
       })
     })
 
-    
+
 
     socket.on('markRead', (emp) => {
       getNotifications()
@@ -104,7 +105,7 @@ export default function Notifications({ isLogged, socket }) {
           return (
             <DropdownMenuItem className="p-1 flex w-full justify-between" key={notify.id}>
               <Link href={`/projects/${notify.projectId}`}>{notify.notificationMessage}</Link>
-              <p className="text-slate-300 text-xs">{timeFormatter(notify.createdAt)}</p>
+              <p className="text-slate-300 text-xs">{timeFormatter(notify.createdAt) + ' ' + notificationDateFormatter(notify.createdAt)}</p>
             </DropdownMenuItem>
           )
         })}

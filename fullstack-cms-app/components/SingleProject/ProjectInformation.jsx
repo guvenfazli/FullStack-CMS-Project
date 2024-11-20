@@ -49,19 +49,16 @@ export default function ProjectInformation() {
 
     fetchSingleProject()
 
+
     socket = io('http://localhost:8080/singleProjectPage')
     socket.emit('joinRoom', projectId)
-
     socket.on('refreshTasks', (emp) => {
       fetchSingleProject()
     })
 
-
     return () => {
       socket.off('disconnect')
     }
-
-
   }, [])
 
   if (isError) {
@@ -76,9 +73,7 @@ export default function ProjectInformation() {
       credentials: 'include'
     })
 
-
     const resData = await response.json()
-    console.log(resData)
     setProjectTasks(resData.tasks)
 
   }
@@ -91,10 +86,10 @@ export default function ProjectInformation() {
 
       <ProjectCard fetchedProject={fetchedProject} assignedEmployees={assignedEmployees} projectActivities={projectActivities} />
 
-
       <div>
         <p className="text-3xl mb-5">Tasks</p>
       </div>
+
       <TableNav
         isLogged={isLogged} socket={socket} searchFn={searchTasks} FormComponent={CreateTask} projectId={projectId} dialogTitle='Create Task' inputPlaceHolder="Search Tasks" buttonText="Create Task" />
 
