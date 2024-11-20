@@ -31,7 +31,7 @@ const clearImage = (imageUrl) => {
 
 
 exports.createEmployee = async (req, res, next) => {
-  const { name, surname, email, password, jobTitle, birthdate, phoneNumber } = req.body;
+  const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
   const errors = validationResult(req)
 
   try {
@@ -58,7 +58,7 @@ exports.createEmployee = async (req, res, next) => {
       email: email,
       password: hashedPw,
       jobTitle: jobTitle,
-      birthDate: birthdate,
+      birthDate: birthDate,
       phoneNumber: phoneNumber,
       profilePic: profilePic
     })

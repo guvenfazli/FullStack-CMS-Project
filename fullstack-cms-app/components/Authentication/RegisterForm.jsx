@@ -91,8 +91,8 @@ export default function RegisterForm({ newUserCreation, socket }) {
           <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
           <AuthInput customName={'jobTitle'} customPlace={"Enter Employee's Title"} setErrorState={setErrorState} isError={errorState} />
 
-          <AuthLabel customFor={"birthdate"}>Date of Birth*</AuthLabel>
-          <AuthInput customName={'birthdate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />
+          <AuthLabel customFor={"birthDate"}>Date of Birth*</AuthLabel>
+          <AuthInput customName={'birthDate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />
 
 
           <AuthLabel customFor={"phoneNumber"}>Contact Number*</AuthLabel>

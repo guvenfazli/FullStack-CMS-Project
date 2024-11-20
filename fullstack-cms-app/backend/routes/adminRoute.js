@@ -16,12 +16,12 @@ router.post('/createEmployee',
     body('surname')
       .notEmpty()
       .withMessage('Surname is required')
-      .isLength({ min: 1 })
+      .isLength({ min: 2 })
       .withMessage('Surname must be at least 2 characters long'),
     body('email')
       .notEmpty()
       .withMessage('Email is required')
-      .isLength({ min: 1 })
+      .isLength({ min: 2 })
       .withMessage('Email must be at least 2 characters long')
       .isEmail()
       .withMessage('Please provide a valid email!'),
@@ -36,7 +36,6 @@ router.post('/createEmployee',
       .isLength({ min: 2 })
       .withMessage('Job Title must be at least 5 characters long'),
     body('birthDate')
-      .isDate()
       .notEmpty()
       .withMessage('Birthdate is required'),
     body('phoneNumber')
