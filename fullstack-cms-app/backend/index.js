@@ -122,13 +122,11 @@ notifs.on('connection', (connectedEmployee) => {
 
   let activityTimer;
   let employeeId;
-
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
     employeeId = userId
     activeUsers.push(userId)
   })
-
 
 
   connectedEmployee.on('markAsRead', (userId) => {

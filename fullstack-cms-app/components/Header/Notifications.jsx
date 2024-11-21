@@ -61,7 +61,6 @@ export default function Notifications({ isLogged, socket }) {
       })
     })
     socket.on('activityNotif', (emp) => {
-      console.log(emp)
       toast({
         title: 'New Notification!',
         description: emp,

@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react"
 import { useAppContext } from "@/context"
 import { Switch } from "../ui/switch"

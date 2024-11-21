@@ -8,7 +8,6 @@ export default async function RouteProtection() {
     })
 
     if (!response.ok) {
-      console.log('test')
       const resData = await response.json()
       throw new Error(resData.message)
     }

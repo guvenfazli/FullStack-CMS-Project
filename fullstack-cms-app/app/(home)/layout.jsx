@@ -4,7 +4,6 @@ import "../globals.css";
 import Header from "@/components/Header/Header";
 import NavBar from "@/components/NavBar/NavBar";
 import { AppWrapper } from "@/context";
-import { usePathname } from "next/navigation";
 import { Suspense, useState } from "react";
 import Loading from "./loading";
 import { Toaster } from "@/components/ui/toaster"

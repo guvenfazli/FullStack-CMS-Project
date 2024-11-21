@@ -14,7 +14,7 @@ export default function AuthNavigate({ authType, navHref, isLoading, newUserCrea
         </button>
       }
 
-      {!newUserCreation && <Link className="text-gray-400 hover:text-gray-300 duration-100" href={navHref}>Don't You Have an Account? <span className="font-bold">Create One!</span></Link>}
+      {!newUserCreation && <Link className="text-gray-400 hover:text-gray-300 duration-100" href={navHref}>Don&apos;t You Have an Account? <span className="font-bold">Create One!</span></Link>}
 
     </div >
   )

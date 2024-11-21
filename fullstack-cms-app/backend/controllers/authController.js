@@ -102,8 +102,9 @@ exports.loginAccount = async (req, res, next) => {
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
+
     })
-    res.json({ token: token, message: 'You are logged in!' })
+    res.json({ message: 'You are logged in!' })
 
   } catch (err) {
     next(err)
@@ -131,7 +132,7 @@ exports.cookieCheck = async (req, res, next) => {
       throw error
     }
 
-    return res.json({ user: cookie })
+    return res.json({ user: resolvedCookie })
 
   } catch (err) {
     next(err)

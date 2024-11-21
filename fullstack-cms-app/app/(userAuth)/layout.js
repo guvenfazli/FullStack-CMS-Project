@@ -1,7 +1,7 @@
 "use client"
 import localFont from "next/font/local";
 import "../globals.css";
-import { AppWrapper } from "@/context";
+
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
