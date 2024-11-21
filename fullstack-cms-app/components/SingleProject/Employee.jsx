@@ -11,9 +11,9 @@ export default function Employee({ emp }) {
         </Avatar>
       </div>
 
-      <div className="flex flex-row justify-around gap-2">
-        <Link href={`/employees/${emp.id}`} className="hover:underline duration-75 max-md:text-base">{emp.name + ' ' + emp.surname}</Link>
-        <p className="max-md:text-base"> - {emp.jobTitle}</p>
+      <div className="flex flex-row justify-around gap-2 items-center">
+        <Link href={`/employees/${emp.id}`} className="hover:underline duration-75 max-md:text-base max-sm:text-sm">{emp.name + ' ' + emp.surname}</Link>
+        <p className="max-md:text-base max-sm:text-sm"> - {emp.jobTitle}</p>
       </div>
     </div>
   )
