@@ -28,7 +28,7 @@ export default function StatShowcase({ socket }) {
   return (
     <div className="flex justify-around mb-10 gap-10 max-sm:flex-col">
       <TaskStatus projectStats={projectStats} />
-      <div className="flex flex-col justify-center items-start w-1/3 gap-5">
+      <div className="flex flex-col justify-center items-start w-1/3 gap-5 max-sm:w-full">
         <TotalProjects projectStats={projectStats} />
         <CompletedProjects projectStats={projectStats?.projectStatusData} />
       </div>
