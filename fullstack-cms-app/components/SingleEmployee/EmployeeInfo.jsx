@@ -53,7 +53,7 @@ export default function EmployeeInfo() {
   const LazySingleEmployeeCard = lazy(() => import("./SingleEmployeeCard"))
 
   return (
-    <div className="flex flex-col w-full justify-start gap-5 border">
+    <div className="flex flex-col w-full justify-start gap-5 ">
       <div className="flex flex-row items-start justify-around rounded-xl h-[676px] max-md:flex-col max-md:gap-5 max-[1200px]:justify-between max-md:h-auto">
         <div className="w-1/4 bg-gray-800 max-md:w-full max-md:border-r-0 max-[1200px]:w-1/3">
           <Suspense fallback={<LoadingComp />}>
