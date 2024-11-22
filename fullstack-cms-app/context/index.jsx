@@ -6,7 +6,6 @@ const AppContext = createContext()
 export function AppWrapper({ children }) {
   const [isLogged, setIsLogged] = useState()
 
-
   useEffect(() => {
     AuthCheck().then(resp => {
       setIsLogged(resp.user)

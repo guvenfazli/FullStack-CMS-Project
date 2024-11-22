@@ -97,7 +97,7 @@ sequelize.sync().then(async (res) => {
 }).catch(err => console.log(err));
 
 
-// W E B    S O C K E T S 
+// W E B    S O C K E T S    v    S O C K E T  I O
 
 const io = require('./io').init(server, {
   cors: {

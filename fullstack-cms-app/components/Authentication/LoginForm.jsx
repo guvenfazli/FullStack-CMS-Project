@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useAppContext } from "@/context"
 import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
@@ -13,6 +14,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState(false)
+
   const router = useRouter()
 
   async function submitLogin(e) {

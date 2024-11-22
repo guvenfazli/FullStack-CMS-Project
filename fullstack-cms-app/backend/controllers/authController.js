@@ -102,9 +102,10 @@ exports.loginAccount = async (req, res, next) => {
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
-
     })
-    res.json({ message: 'You are logged in!' })
+
+    const loggedInUser = jwt.verify(token, 'secretswithcms')
+    res.json({ message: 'You are logged in!', user: loggedInUser })
 
   } catch (err) {
     next(err)
