@@ -1,5 +1,8 @@
 const { Sequelize, Op } = require('sequelize')
 const Employee = require('../models/Employee')
+const dotenv = require('dotenv')
+dotenv.config({ path: '../config.env' })
+
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -97,14 +100,14 @@ exports.loginAccount = async (req, res, next) => {
       throw error
     }
 
-    const token = jwt.sign({ name: user.name, email: user.email, userId: user.id, userPp: user.profilePic, isAdmin: user.isAdmin }, 'secretswithcms', { expiresIn: '1h' })
+    const token = jwt.sign({ name: user.name, email: user.email, userId: user.id, userPp: user.profilePic, isAdmin: user.isAdmin }, process.env.WT_SCRT, { expiresIn: '1h' })
 
     res.cookie('jwt', token, {
       httpOnly: true,
       maxAge: 60 * 60 * 1000,
     })
 
-    const loggedInUser = jwt.verify(token, 'secretswithcms')
+    const loggedInUser = jwt.verify(token, process.env.WT_SCRT)
     res.json({ message: 'You are logged in!', user: loggedInUser })
 
   } catch (err) {
@@ -125,7 +128,7 @@ exports.cookieCheck = async (req, res, next) => {
   try {
     const cookie = req.cookies['jwt']
 
-    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
+    const resolvedCookie = jwt.verify(cookie, process.env.WT_SCRT)
 
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')
@@ -145,7 +148,7 @@ exports.clientRouteProtection = async (req, res, next) => {
   try {
     const cookie = req.cookies['jwt']
 
-    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
+    const resolvedCookie = jwt.verify(cookie, process.env.WT_SCRT)
 
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')

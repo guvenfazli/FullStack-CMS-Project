@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+dotenv.config({ path: '../config.env' })
 
 module.exports = (req, res, next) => {
   try {
     const cookie = req.cookies['jwt']
-    const resolvedCookie = jwt.verify(cookie, 'secretswithcms')
+    const resolvedCookie = jwt.verify(cookie, process.env.WT_SCRT)
 
     if (!resolvedCookie) {
       const error = new Error('Please log in first!')

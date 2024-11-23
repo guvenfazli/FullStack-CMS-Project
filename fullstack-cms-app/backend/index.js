@@ -10,6 +10,9 @@ const cron = require('node-cron');
 const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
+const dotenv = require('dotenv')
+dotenv.config({path: './config.env'})
+
 
 // M O D E L S 
 const Admin = require('./models/Admin.js')
@@ -98,6 +101,7 @@ sequelize.sync().then(async (res) => {
 
 
 // W E B    S O C K E T S    v    S O C K E T  I O
+
 
 const io = require('./io').init(server, {
   cors: {
