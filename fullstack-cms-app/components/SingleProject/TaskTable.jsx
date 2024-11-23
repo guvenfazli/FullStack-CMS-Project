@@ -11,7 +11,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -23,13 +22,14 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { trashCan, editIcon, profileIcon } from "@/components/Icons/Icons"
+import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { trashCan, editIcon, profileIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "../ActiveProjects/ProjectTable/ProjectStatus"
 import EditTask from "./EditTask"
 import AssignEmployees from "../AssignEmployees/AssignEmployees"
 import dateFormatter from "@/utils/dateFormatter"
-import { useEffect, useState } from "react"
+import Assigned from "../SingleProject/Assigned"
 
 
 export default function TaskTable({ isLogged, socket, projectId, fetchedTasks }) {
@@ -49,7 +49,7 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
   }
 
   useEffect(() => {
-    async function fetchProjectTasks() {
+    async function fetchProjectTasks() { // Default filter value is id.
       try {
         const response = await fetch(`http://localhost:8080/tasks/${projectId}?filter=${filterType}`, {
           credentials: 'include'
@@ -84,7 +84,7 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
   }, [fetchedTasks])
 
 
-  async function editTaskStatus(status, task) {
+  async function editTaskStatus(status, task) { // Changes the status of the task.
     const data = task
     data.taskStatus = status
 
@@ -122,7 +122,7 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
   }
 
 
-  async function deleteTask(taskId, empList, projectId, taskName) {
+  async function deleteTask(taskId, empList, projectId, taskName) { // Deletes task
     try {
       const response = await fetch(`http://localhost:8080/admin/deleteTask/${taskId}/${projectId}`, {
         method: 'DELETE',
@@ -149,8 +149,6 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
       })
     }
   }
-
-  console.log(tasks)
 
   return (
     <Table>
@@ -213,22 +211,19 @@ export default function TaskTable({ isLogged, socket, projectId, fetchedTasks })
 
             {isLogged.isAdmin && <TableCell className="text-right w-[10px]"><button onClick={() => deleteTask(task.id, task.employees, projectId, task.taskName)}>{trashCan}</button></TableCell>}
 
-            {isLogged.isAdmin &&
-              <TableCell className="text-right w-[10px]">
 
-                <Dialog>
-                  <DialogTrigger>{profileIcon}</DialogTrigger>
-                  <DialogContent className="bg-gray-900 border-none">
-                    <DialogHeader>
-                      <DialogTitle>Assigned Employees</DialogTitle>
-                    </DialogHeader>
-                    <AssignEmployees task={task} isLogged={isLogged} socket={socket} projectId={projectId} />
-                  </DialogContent>
-                </Dialog>
+            <TableCell className="text-right w-[10px]">
 
-              </TableCell>
-            }
-
+              <Dialog>
+                <DialogTrigger>{profileIcon}</DialogTrigger>
+                <DialogContent className="bg-gray-900 border-none">
+                  <DialogHeader>
+                    <DialogTitle>Assigned Employees</DialogTitle>
+                  </DialogHeader>
+                  <AssignEmployees task={task} isLogged={isLogged} socket={socket} projectId={projectId} />
+                </DialogContent>
+              </Dialog>
+            </TableCell>
 
             {isLogged.isAdmin &&
               <TableCell className="text-right w-[10px]">

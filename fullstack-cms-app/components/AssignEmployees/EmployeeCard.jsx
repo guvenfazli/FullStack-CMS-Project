@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { chosenIcon } from "@/components/Icons/Icons"
 
-export default function EmployeeCard({ employee, chooseEmployee, removeEmployee, chosenEmployees }) {
+export default function EmployeeCard({ employee, chooseEmployee, removeEmployee, chosenEmployees, isAdmin }) {
 
   const [isChosen, setIsChosen] = useState(false)
 

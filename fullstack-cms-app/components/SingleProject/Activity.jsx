@@ -1,4 +1,4 @@
-import dateFormatter from "@/utils/dateFormatter"
+import dateFormatter from "@/utils/dateFormatter" // Formats the date
 
 export default function Activity({ projectActivities }) {
   return (

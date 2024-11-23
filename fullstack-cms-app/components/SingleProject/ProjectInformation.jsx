@@ -1,11 +1,10 @@
 "use client"
 
-import { lazy, Suspense, useEffect, useState } from "react"
+import { lazy, useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { useParams } from "next/navigation"
 import { notFound } from 'next/navigation'
 import ProjectCard from "./ProjectCard"
-import LoadingComp from "../Loading/LoadingComp"
 import TableNav from "../HomePage/UserTable/tableNav"
 import TaskTable from "./TaskTable"
 import CreateTask from "../ActiveProjects/ProjectTable/CreateTask"
@@ -50,7 +49,7 @@ export default function ProjectInformation() {
     fetchSingleProject()
 
 
-    socket = io('http://localhost:8080/singleProjectPage')
+    socket = io('http://localhost:8080/singleProjectPage') // Socket connection and room is getting created for live updates.
     socket.emit('joinRoom', projectId)
     socket.on('refreshTasks', (emp) => {
       fetchSingleProject()
@@ -65,17 +64,12 @@ export default function ProjectInformation() {
     notFound()
   }
 
-  const LazyTaskTable = lazy(() => import("./TaskTable"))
-
-  async function searchTasks(searchParam) {
-
+  async function searchTasks(searchParam) { // Search Tasks in table
     const response = await fetch(`http://localhost:8080/tasks/${projectId}?task=${searchParam}&filter=id`, {
       credentials: 'include'
     })
-
     const resData = await response.json()
     setProjectTasks(resData.tasks)
-
   }
 
   return (

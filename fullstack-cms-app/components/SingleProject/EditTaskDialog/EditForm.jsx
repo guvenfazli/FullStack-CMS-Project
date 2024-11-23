@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react"
 import EditLabel from "./EditLabel"
 import EditInput from "./EditInput"
 import DatePicker from "@/components/ActiveProjects/ProjectTable/DatePicker"
-import { useEffect, useState } from "react"
 import AuthError from "@/components/Authentication/AuthError"
 import AuthSuccess from "@/components/Authentication/AuthSuccess"
 export default function EditForm({ task, socket, projectId }) {
@@ -40,7 +40,7 @@ export default function EditForm({ task, socket, projectId }) {
 
   }
 
-  useEffect(() => {
+  useEffect(() => { // Timer for notifications
     if (isError) {
       setTimeout(() => {
         setIsError(false)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import AssignedEmployees from "./AssignedEmployees"
 import EmployeeCard from "./EmployeeCard"
+import Assigned from "../SingleProject/Assigned"
 
 export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
@@ -105,15 +106,19 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
   return (
     <div className="flex flex-col p-2 justify-start items-start">
-      <div className="flex flex-row items-start gap-2">
-        {task.employees.length === 0 ? <p className="mb-5">No one assigned to this task.</p> :
-          task.employees.map((emp) => {
-            return (
-              <AssignedEmployees key={emp.id} task={task} employee={emp} resignEmployees={resignEmployees} />
-            )
-          })
-        }
-      </div>
+      {isLogged.isAdmin &&
+        <div className="flex flex-row items-start gap-2">
+          {task.employees.length === 0 ? <p className="mb-5">No one assigned to this task.</p> :
+            task.employees.map((emp) => {
+              return (
+                <AssignedEmployees key={emp.id} task={task} employee={emp} resignEmployees={resignEmployees} />
+              )
+            })
+          }
+        </div>
+      }
+
+
 
       {isLogged.isAdmin ?
         <>
@@ -146,14 +151,19 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
         <>
           <div className="flex w-full p-2 flex-row justify-around items-start mb-5">
             {employeeList?.map((emp) => {
-              return (
-                <EmployeeCard
-                  key={emp.id}
-                  employee={emp}
-                  chooseEmployee={chooseEmployee}
-                  removeEmployee={removeEmployee}
-                  chosenEmployees={chosenEmployees} />
-              )
+              const alreadyAssigned = task.employees.some((assignedEmp) => assignedEmp.id === emp.id)
+              if (alreadyAssigned) {
+                return (
+                  <Assigned
+                    key={emp.id}
+                    employee={emp}
+                    isAdmin={isLogged.isAdmin}
+                    chooseEmployee={chooseEmployee}
+                    removeEmployee={removeEmployee}
+                    chosenEmployees={chosenEmployees} />
+                )
+              }
+
             })}
           </div>
         </>
