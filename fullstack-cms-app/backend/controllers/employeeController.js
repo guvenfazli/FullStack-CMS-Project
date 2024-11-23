@@ -379,7 +379,7 @@ exports.changeTaskStatus = async (req, res, next) => {
 
 exports.fetchNotifications = async (req, res, next) => {
   try {
-    const fetchedNotifications = await Notification.findAll({ where: { employeeId: req.user.userId } })
+    const fetchedNotifications = await Notification.findAll({ where: { employeeId: req.user.userId }, order: [['createdAt', 'DESC']] })
 
     if (!fetchedNotifications) {
       throwError('Could not get notifications!', 404)
