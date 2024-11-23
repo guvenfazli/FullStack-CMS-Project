@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useToast } from "@/hooks/use-toast"
 import AssignedEmployees from "./AssignedEmployees"
 import EmployeeCard from "./EmployeeCard"
 
@@ -9,11 +8,10 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
   const [chosenEmployees, setChosenEmployees] = useState([])
   const [isSuccess, setIsSuccess] = useState(false)
   const [isError, setIsError] = useState(false)
-  const { toast } = useToast()
 
 
   useEffect(() => {
-    async function fetchEmployees() {
+    async function fetchEmployees() { // Gets the employee to assign.
       const response = await fetch('http://localhost:8080/employees', {
         credentials: 'include'
       })
@@ -24,14 +22,14 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
     fetchEmployees()
   }, [])
 
-  useEffect(() => {
-    if(isError) {
+  useEffect(() => { // Sets timer for the feedbacks.
+    if (isError) {
       setTimeout(() => {
         setIsError(false)
       }, 3000)
     }
 
-    if(isSuccess) {
+    if (isSuccess) {
       setTimeout(() => {
         setIsSuccess(false)
       }, 3000)
@@ -39,7 +37,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
   }, [isError, isSuccess])
 
-  function chooseEmployee(employeeId) {
+  function chooseEmployee(employeeId) { // Adds employee to a list, that will be assigned for the chosen task
     setChosenEmployees(prev => {
       let updated = [...prev]
       updated.push(employeeId)
@@ -47,7 +45,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
     })
   }
 
-  function removeEmployee(employeeId) {
+  function removeEmployee(employeeId) { // Removes the employee from the task
     const foundIndex = chosenEmployees.findIndex(emp => emp === employeeId)
     setChosenEmployees(prev => {
       let updated = [...prev]
@@ -56,7 +54,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
     })
   }
 
-  async function assignEmployees(taskId) {
+  async function assignEmployees(taskId) { // Assignes the chosen employee.
     try {
       const response = await fetch(`http://localhost:8080/admin/assignEmployees/${taskId}/${projectId}`, {
         method: 'PUT',
@@ -83,7 +81,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
 
   }
 
-  async function resignEmployees(taskId, employeeId) {
+  async function resignEmployees(taskId, employeeId) { // Resigns the employee
 
     try {
       const response = await fetch(`http://localhost:8080/admin/resignEmployees/${taskId}/${employeeId}/${projectId}`, {
@@ -117,7 +115,7 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
         }
       </div>
 
-      {isLogged.isAdmin &&
+      {isLogged.isAdmin ?
         <>
           <div className="flex w-full p-2 flex-row justify-around items-start mb-5">
             {employeeList?.map((emp) => {
@@ -142,6 +140,21 @@ export default function AssignEmployees({ task, isLogged, socket, projectId }) {
           <div className="flex w-full justify-center mt-4 items-center">
             {isSuccess && <p className="text-green-500">{isSuccess}</p>}
             {isError && <p className="text-red-500">{isError}</p>}
+          </div>
+        </> :
+
+        <>
+          <div className="flex w-full p-2 flex-row justify-around items-start mb-5">
+            {employeeList?.map((emp) => {
+              return (
+                <EmployeeCard
+                  key={emp.id}
+                  employee={emp}
+                  chooseEmployee={chooseEmployee}
+                  removeEmployee={removeEmployee}
+                  chosenEmployees={chosenEmployees} />
+              )
+            })}
           </div>
         </>
       }

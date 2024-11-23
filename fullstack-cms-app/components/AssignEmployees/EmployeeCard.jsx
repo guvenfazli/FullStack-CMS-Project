@@ -1,12 +1,12 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useState, useEffect } from "react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { chosenIcon } from "@/components/Icons/Icons"
 
 export default function EmployeeCard({ employee, chooseEmployee, removeEmployee, chosenEmployees }) {
 
   const [isChosen, setIsChosen] = useState(false)
 
-  useEffect(() => { // Adds chosen effect to the employee.
+  useEffect(() => { // Adds a chosen one effect to the employee.
     const foundEmployee = chosenEmployees?.some((emp) => emp === employee.id)
     setIsChosen(foundEmployee)
   }, [chosenEmployees])

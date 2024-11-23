@@ -1,8 +1,6 @@
 "use client"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAppContext } from "@/context"
 import AuthInput from "./AuthInput"
 import AuthLabel from "./AuthLabel"
 import AuthError from "./AuthError"
@@ -63,7 +61,7 @@ export default function LoginForm() {
         <AuthInput inputType={'password'} customName={'password'} customPlace={'Enter Your Password'} setErrorState={setErrorState} isError={errorState} />
 
 
-        <AuthNavigate authType={'Login'} navHref={'/userRegister'} isLoading={isLoading} />
+        <AuthNavigate authType={'Login'} navHref={'/userRegister'} isLoading={isLoading}>Don&apos;t You Have an Account? <span className="font-bold">Create One!</span></AuthNavigate>
 
         {errorState && <AuthError errorState={errorState} />}
         {isSuccess && <AuthSuccess isSuccess={isSuccess} />}

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export default function AuthNavigate({ authType, navHref, isLoading, newUserCreation }) {
+export default function AuthNavigate({ authType, navHref, isLoading, newUserCreation, children }) {
   return (
     <div className={`flex text-xl w-full items-center justify-between max-xl:flex-col max-xl:text-center max-lg:text-base max-lg:flex-col max-lg:text-center max-sm:text-sm large-screen:flex-col ${newUserCreation && 'flex-col'}`}>
 
@@ -14,7 +14,7 @@ export default function AuthNavigate({ authType, navHref, isLoading, newUserCrea
         </button>
       }
 
-      {!newUserCreation && <Link className="text-gray-400 hover:text-gray-300 duration-100" href={navHref}>Don&apos;t You Have an Account? <span className="font-bold">Create One!</span></Link>}
+      {!newUserCreation && <Link className="text-gray-400 hover:text-gray-300 duration-100" href={navHref}>{children}</Link>}
 
     </div >
   )

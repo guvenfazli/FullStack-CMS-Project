@@ -10,7 +10,7 @@ import AuthNavigate from "./AuthNavigate"
 export default function RegisterForm({ newUserCreation, socket }) {
 
   const [isLoading, setIsLoading] = useState(false)
-  const [fileState, setFileState] = useState()
+  const [fileState, setFileState] = useState() // Gets the profile picture of the user.
   const [isSuccess, setIsSuccess] = useState()
   const [errorState, setErrorState] = useState()
 
@@ -22,14 +22,14 @@ export default function RegisterForm({ newUserCreation, socket }) {
 
     try {
       setIsLoading(true)
-      if (newUserCreation) {
+      if (newUserCreation) { // Admin creates the user
         createAccount = await fetch('http://localhost:8080/admin/createEmployee', {
           method: 'POST',
           body: fd,
           credentials: 'include'
         })
         socket.emit('employeeCreated', 'Employee Created')
-      } else {
+      } else { // User first time registering
         createAccount = await fetch('http://localhost:8080/auth/createAccount', {
           method: 'POST',
           body: fd,
@@ -52,14 +52,14 @@ export default function RegisterForm({ newUserCreation, socket }) {
     }
   }
 
-  function gatherFiles(e) {
+  function gatherFiles(e) { // Gets the files from the input file uploader
     setFileState(prev => {
       prev = e.target.files
       return prev
     })
   }
 
-  useEffect(() => {
+  useEffect(() => { // Sets a timer for the feedbacks
     if (errorState) {
       setTimeout(() => {
         setErrorState(false)
@@ -140,7 +140,8 @@ export default function RegisterForm({ newUserCreation, socket }) {
           <FileUploader setFileState={gatherFiles} customName={'profilePic'} customPlace={'Profile Picture'} inputType={'file'} setErrorState={setErrorState} isError={errorState} />
 
 
-          <AuthNavigate authType={'Sign Up'} navHref={'/userLogin'} isLoading={isLoading} />
+          <AuthNavigate
+            authType={'Sign Up'} navHref={'/userLogin'} isLoading={isLoading}>Already have an account? <span className="font-bold">Log In!</span></AuthNavigate>
 
           {errorState && <AuthError errorState={errorState} />}
           {isSuccess && <AuthSuccess isSuccess={isSuccess} />}
