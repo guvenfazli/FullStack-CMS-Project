@@ -17,11 +17,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
 import { useEffect, useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { trashCan, eyeIcon, taskIcon, isAdminTrue, isAdminFalse, filterUp } from "@/components/Icons/Icons"
 import UsersTasks from "./UsersTasks"
 import Link from "next/link"
 
@@ -41,7 +40,7 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
     })
   }
 
-  useEffect(() => { // Filtering the Table, if same column clicked, it resets the table.
+  useEffect(() => { // Filtering the Table, if same column clicked, it sets the default filter value for the table.
 
     async function filterEmployees() {
       const response = await fetch(`http://localhost:8080/employees?filter=${filterType}`, {
@@ -127,9 +126,9 @@ export default function EmployeeTable({ fetchedEmployees, isLogged, setAllEmploy
                   {taskIcon}
                 </DialogTrigger>
 
-                <DialogContent className="bg-gray-900 border-none">
+                <DialogContent className="bg-gray-900 border-none max-h-[550px] overflow-scroll overflow-x-hidden">
                   <DialogHeader>
-                    <DialogTitle>Users Tasks</DialogTitle>
+                    <DialogTitle>Employees Tasks</DialogTitle>
                   </DialogHeader>
                   <UsersTasks tasks={employee.tasks} />
                 </DialogContent>

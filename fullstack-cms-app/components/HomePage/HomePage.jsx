@@ -10,7 +10,7 @@ export default function HomePage() {
   const [socket, setSocket] = useState()
 
   useEffect(() => {
-    const connectedSocket = io('http://localhost:8080/homePage')
+    const connectedSocket = io('http://localhost:8080/homePage') // Connection for socket so it will actively refresh the page.
     RouteProtection()
     setSocket(connectedSocket)
 

@@ -1,4 +1,4 @@
-export default function UserTaskStatus({ status, children }) {
+export default function UserTaskStatus({ status, children }) { // Task status component, that has no active function
   if (status === 'Active') {
     return (
       <button className={`py-1 px-4 duration-75 bg-blue-400 rounded-lg text-blue-800 font-bold hover:bg-blue-200 max-sm:text-sm`}>{children}</button>
