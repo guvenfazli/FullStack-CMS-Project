@@ -1,4 +1,12 @@
 "use client"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { useEffect, useState } from "react"
 import AuthInput from "./AuthInput"
 import FileUploader from "./FileUploader"
@@ -91,6 +99,17 @@ export default function RegisterForm({ newUserCreation, socket }) {
           <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
           <AuthInput customName={'jobTitle'} customPlace={"Enter Employee's Title"} setErrorState={setErrorState} isError={errorState} />
 
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Light</SelectItem>
+              <SelectItem value="dark">Dark</SelectItem>
+              <SelectItem value="system">System</SelectItem>
+            </SelectContent>
+          </Select>
+
           <AuthLabel customFor={"birthDate"}>Date of Birth*</AuthLabel>
           <AuthInput customName={'birthDate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />
 
@@ -127,7 +146,19 @@ export default function RegisterForm({ newUserCreation, socket }) {
           <AuthInput customName={'password'} customPlace={'Enter Your Password'} setErrorState={setErrorState} isError={errorState} inputType={'password'} />
 
           <AuthLabel customFor={"jobTitle"}>Job Title*</AuthLabel>
-          <AuthInput customName={'jobTitle'} customPlace={'Your Title'} setErrorState={setErrorState} isError={errorState} />
+          <Select name="jobTitle">
+            <SelectTrigger className={`text-gray-800 px-1 py-2 mb-3 rounded-md pl-2 text-xl`}>
+              <SelectValue placeholder="Title" />
+            </SelectTrigger>
+            <SelectContent className="hover:cursor-pointer group-[]:">
+              <SelectItem value="Frontend Dev.">Frontend Developer</SelectItem>
+              <SelectItem value="Backend Dev.">Backend Developer</SelectItem>
+              <SelectItem value="Fullstack Dev.">Fullstack Developer</SelectItem>
+              <SelectItem value="System Dsgnr.">System Designer</SelectItem>
+              <SelectItem value="UI/UX Dsgnr">UI/UX Designer</SelectItem>
+              <SelectItem value="DevOps Eng.">DevOps Engineer</SelectItem>
+            </SelectContent>
+          </Select>
 
           <AuthLabel customFor={"birthDate"}>Date of Birth*</AuthLabel>
           <AuthInput customName={'birthDate'} inputType={'date'} setErrorState={setErrorState} isError={errorState} />

@@ -3,7 +3,6 @@ const Employee = require('../models/Employee')
 const dotenv = require('dotenv')
 dotenv.config({ path: '../config.env' })
 
-
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
