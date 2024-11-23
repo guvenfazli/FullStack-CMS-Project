@@ -11,7 +11,7 @@ export default function NavBar() {
   const [isDashBoard, setIsDashBoard] = useState(false)
   const [isResources, setIsResources] = useState(false)
 
-  function toggleAll() {
+  function toggleAll() { // Toggles the all dropdowns.
     if (isDashBoard !== isResources) {
       setIsDashBoard(true)
       setIsResources(true)

@@ -1,12 +1,10 @@
 "use client"
 import { Suspense, useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import { notFound } from "next/navigation"
-import SingleEmployeeCard from "./SingleEmployeeCard"
+import { useParams, notFound } from "next/navigation"
+import { lazy } from "react"
 import EmployeeStats from "./EmployeeStats"
 import EmployeeTasks from "./EmployeeTasks"
 import LoadingComp from "../Loading/LoadingComp"
-import { lazy } from "react"
 import RouteProtection from "@/utils/routeProtection"
 
 export default function EmployeeInfo() {
@@ -14,14 +12,12 @@ export default function EmployeeInfo() {
   const employeeId = useParams().employeeId
   const [fetchedEmployee, setFetchedEmployee] = useState()
   const [foundEmployeeStats, setFoundEmployeeStats] = useState()
-  const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     async function fetchSingleEmployee() {
-      await RouteProtection()
+      await RouteProtection() // Checks if the user is authenticated
       try {
-        setIsLoading(true)
         const response = await fetch(`http://localhost:8080/employees/${employeeId}`, {
           credentials: 'include'
         })
@@ -35,10 +31,8 @@ export default function EmployeeInfo() {
         const resData = await response.json()
         setFetchedEmployee(resData.foundEmployee)
         setFoundEmployeeStats(resData.foundEmployeeStats)
-        setIsLoading(false)
       } catch (err) {
         setIsError(err.message)
-        setIsLoading(false)
       }
 
     }

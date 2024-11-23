@@ -1,9 +1,9 @@
+import { useState, useEffect } from "react"
 import EditLabel from "../SingleProject/EditTaskDialog/EditLabel"
 import EditInput from "../SingleProject/EditTaskDialog/EditInput"
 import DatePicker from "../ActiveProjects/ProjectTable/DatePicker"
 import AuthError from "../Authentication/AuthError"
 import AuthSuccess from "../Authentication/AuthSuccess"
-import { useState, useEffect } from "react"
 
 export default function EditProfile({ employee }) {
 

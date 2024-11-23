@@ -1,14 +1,13 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useAppContext } from "@/context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { mailIcon, employeeRoleIcon, dateIcon, phoneIcon, profileTaskIcon, completedTask, editProfileIcon, activityPointsIcon, productivityPointsIcon } from "../Icons/Icons"
-import { useAppContext } from "@/context"
 import EditProfile from "./EditProfile"
 import SingleEmployee from "./SingleEmployee"
 import dateFormatter from "@/utils/dateFormatter"

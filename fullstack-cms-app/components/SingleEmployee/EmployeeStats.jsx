@@ -13,13 +13,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-const chartConfig = {
+const chartConfig = { // Sets the configuration for the chart lib.
   date: {
     label: "Date",
     color: "#34D399",
   },
 }
-import dateFormatter from "@/utils/dateFormatter"
+import dateFormatter from "@/utils/dateFormatter" // Formats the date
 
 
 export default function EmployeeStats({ employeeStats }) {
