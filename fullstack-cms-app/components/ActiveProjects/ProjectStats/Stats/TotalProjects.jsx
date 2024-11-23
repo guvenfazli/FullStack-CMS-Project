@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "../../../ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "../../../ui/card"
 import { totalProjects } from "@/components/Icons/Icons"
 
 export default function TotalProjects({ projectStats }) {

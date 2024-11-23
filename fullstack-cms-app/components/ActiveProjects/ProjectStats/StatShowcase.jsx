@@ -9,7 +9,7 @@ export default function StatShowcase({ socket }) {
 
   useEffect(() => {
     async function fetchProjectStats() {
-      const response = await fetch('http://localhost:8080/projectStats', {
+      const response = await fetch('http://localhost:8080/projectStats', { // Getting the stats of the current active projects.
         credentials: 'include'
       })
       const resData = await response.json()
@@ -17,7 +17,6 @@ export default function StatShowcase({ socket }) {
     }
 
     fetchProjectStats()
-
 
     socket.on('refreshProjects', (emp) => {
       fetchProjectStats()

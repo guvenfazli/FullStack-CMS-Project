@@ -1,4 +1,4 @@
-export default function ProjectStatus({ status, editTaskStatus, task, children }) {
+export default function ProjectStatus({ status, editTaskStatus, task, children }) { // Project Status buttons, that can change the status of the projects/tasks 
   
   if (status === 'Active') {
     return (

@@ -13,7 +13,7 @@ export default function Admins() {
 
   useEffect(() => {
     async function fetchAdmins() {
-      await RouteProtection()
+      await RouteProtection() // Checks if the user is authenticated
       try {
         setIsLoading(true)
         const response = await fetch('http://localhost:8080/admins', {
@@ -30,7 +30,6 @@ export default function Admins() {
 
         setAllAdmins(resData.allAdmins)
         setIsLoading(false)
-
       } catch (err) {
         setIsError(err.message)
         setIsLoading(false)

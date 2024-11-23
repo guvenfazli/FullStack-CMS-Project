@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { useToast } from "@/hooks/use-toast"
+
 import {
   Table,
   TableBody,
@@ -11,7 +14,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -23,8 +25,6 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 
-import { useEffect, useState } from "react"
-import { useToast } from "@/hooks/use-toast"
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
@@ -33,9 +33,9 @@ import Link from "next/link"
 
 export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProjects, setFilterType, filterType, socket }) {
 
-  const { toast } = useToast()
+  const { toast } = useToast() // Toast hook for feedbacks and notifications
 
-  function filterTable(filter) {
+  function filterTable(filter) { // If a filter already set, this returns to a default value.
     setFilterType(prev => {
       if (prev === filter) {
         return 'id'
@@ -191,7 +191,7 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
                 </TableCell>
               }
 
-              <TableCell className="text-center w-[10px]"><button><Link prefetch={false} href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
+              <TableCell className="text-center w-[10px]"><button><Link href={`/projects/${project.id}`}>{eyeIcon}</Link></button></TableCell>
 
               <TableCell className="text-center w-[10px]">
                 <Dialog>

@@ -1,8 +1,8 @@
 "use client"
-import Projects from "./ProjectTable/Projects"
 import { lazy, Suspense, useEffect, useState } from "react"
-import LoadingComp from "../Loading/LoadingComp"
 import io from "socket.io-client"
+import Projects from "./ProjectTable/Projects"
+import LoadingComp from "../Loading/LoadingComp"
 import RouteProtection from "@/utils/routeProtection"
 
 
@@ -12,7 +12,7 @@ export default function ProjectsPage() {
 
 
   useEffect(() => {
-    const connectedSocket = io('http://localhost:8080/projectsPage')
+    const connectedSocket = io('http://localhost:8080/projectsPage') // Socket Connection for live updates if a new project adds in.
     setSocket(connectedSocket)
     RouteProtection()
 

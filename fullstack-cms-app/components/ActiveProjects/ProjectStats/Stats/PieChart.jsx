@@ -1,7 +1,5 @@
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
-
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
@@ -32,7 +30,7 @@ export default function StatusChart({ projectStats }) {
   })
 
 
-  const chartConfig = {
+  const chartConfig = { // Adding the chart config for the library.
     Pending: {
       label: "Pending",
       color: "#FACC15",
