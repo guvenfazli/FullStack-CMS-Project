@@ -73,7 +73,6 @@ exports.createAccount = async (req, res, next) => {
 exports.loginAccount = async (req, res, next) => {
   const { email, password } = req.body;
   const errors = validationResult(req)
-  let user;
 
   try {
     if (!errors.isEmpty()) {
@@ -90,8 +89,6 @@ exports.loginAccount = async (req, res, next) => {
       throw error
     }
 
-    user = foundUser
-
     const matchedUser = await bcrypt.compare(password, foundUser.password)
 
     if (!matchedUser) {
@@ -100,11 +97,12 @@ exports.loginAccount = async (req, res, next) => {
       throw error
     }
 
-    const token = jwt.sign({ name: user.name, email: user.email, userId: user.id, userPp: user.profilePic, isAdmin: user.isAdmin }, process.env.WT_SCRT, { expiresIn: '1h' })
+    const token = jwt.sign({ name: foundUser.name, email: foundUser.email, userId: foundUser.id, userPp: foundUser.profilePic, isAdmin: foundUser.isAdmin }, process.env.WT_SCRT, { expiresIn: '1h' })
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      maxAge: 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: true,
     })
 
 
