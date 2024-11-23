@@ -1,10 +1,7 @@
 const Employee = require('../models/Employee')
-const Admin = require('../models/Admin')
 const Project = require('../models/Project')
 const Task = require('../models/Task')
 const EmployeeTask = require('../models/EmployeeTask')
-const Notification = require('../models/Notification')
-const ProjectActivity = require('../models/ProjectActivity')
 
 const fs = require('fs')
 const bcrypt = require('bcryptjs')

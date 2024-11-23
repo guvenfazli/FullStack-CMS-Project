@@ -107,8 +107,8 @@ exports.loginAccount = async (req, res, next) => {
       maxAge: 60 * 60 * 1000,
     })
 
-    const loggedInUser = jwt.verify(token, process.env.WT_SCRT)
-    res.json({ message: 'You are logged in!', user: loggedInUser })
+
+    res.json({ message: 'You are logged in!' })
 
   } catch (err) {
     next(err)

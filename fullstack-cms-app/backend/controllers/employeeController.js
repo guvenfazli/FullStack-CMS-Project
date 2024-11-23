@@ -6,13 +6,10 @@ const EmployeeTask = require('../models/EmployeeTask')
 const Notification = require('../models/Notification')
 const ProjectActivity = require('../models/ProjectActivity')
 
-
 const sequelize = require('../utils/database')
 const { Op } = require('sequelize')
 const { throwError } = require('../middleware/throwError')
 const { validationResult } = require('express-validator')
-
-
 
 exports.fetchAllAdmins = async (req, res, next) => {
   try {
@@ -57,7 +54,7 @@ exports.fetchAllEmployees = async (req, res, next) => {
   let employeeSurname;
   let foundEmployees
   let allEmployees
-  console.log(filterParam)
+
   try {
 
     if (searchParam) {
