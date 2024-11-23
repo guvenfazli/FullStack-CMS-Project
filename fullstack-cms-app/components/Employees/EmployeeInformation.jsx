@@ -1,5 +1,5 @@
 import Link from "next/link"
-export default function EmployeeInformation({employee}) {
+export default function EmployeeInformation({ employee }) {
   return (
     <div className="flex flex-col gap-5 w-full p-2">
       <div className="flex flex-col w-full justify-start items-start max-sm:flex-col">
@@ -23,7 +23,7 @@ export default function EmployeeInformation({employee}) {
       </div>
 
       <div className="flex flex-row w-full justify-center items-center">
-        <Link prefetch={false} className="p-2 duration-75 bg-zinc-800 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>More Details</Link>
+        <Link className="p-2 duration-75 bg-zinc-800 rounded-lg hover:bg-gray-300 hover:text-gray-700 " href={`/employees/${employee.id}`}>More Details</Link>
       </div>
     </div>
   )

@@ -1,15 +1,13 @@
 "use client"
+import { useEffect, useState } from "react"
+import { useAppContext } from "@/context"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import SearchBar from "./Searchbar"
 import HeaderUserMenu from "./HeaderUserMenu"
 import HeaderUserResponsiveMenu from "./HeaderUserResponsiveMenu"
 import Notifications from "./Notifications"
 import Logo from "@/assets/Vector.png"
 import Image from "next/image"
-import { useEffect, useState } from "react"
-import { useAppContext } from "@/context"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useToast } from "@/hooks/use-toast"
-
 import io from "socket.io-client"
 
 export default function Header() {
@@ -17,12 +15,11 @@ export default function Header() {
   const [socket, setSocket] = useState()
   const [isMenu, setIsMenu] = useState(false)
   const [isResponsiveMenu, setIsResponsiveMenu] = useState(false)
-  const { toast } = useToast()
 
 
   useEffect(() => {
     if (isLogged) {
-      const connectedSocket = io('http://localhost:8080/notifs')
+      const connectedSocket = io('http://localhost:8080/notifs') // Connects socket so user can get notifications.
       setSocket(connectedSocket)
     }
   }, [isLogged])

@@ -11,7 +11,7 @@ export default function Employees() {
   
   useEffect(() => {
     async function fetchEmployees() {
-      await RouteProtection()
+      await RouteProtection() // Checks if the user is authenticated.
       setIsLoading(true)
       const response = await fetch('http://localhost:8080/employees', {
         credentials: 'include'

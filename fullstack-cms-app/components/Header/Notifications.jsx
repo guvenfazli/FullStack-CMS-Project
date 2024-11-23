@@ -1,8 +1,3 @@
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import timeFormatter from "@/utils/timeFormatter"
-import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +7,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { useEffect, useState } from "react"
+import { notificationIcon, pendingNotificationIcon } from "../Icons/Icons"
 import { useToast } from "@/hooks/use-toast"
-import dateFormatter from "@/utils/dateFormatter"
+import Link from "next/link"
+import timeFormatter from "@/utils/timeFormatter" // Formats the time that the notification arrives.
 import notificationDateFormatter from "@/utils/notificationDateFormatter"
 
 export default function Notifications({ isLogged, socket }) {
@@ -23,7 +21,7 @@ export default function Notifications({ isLogged, socket }) {
   const { toast } = useToast()
 
   useEffect(() => {
-    async function getNotifications() {
+    async function getNotifications() { // Fetches the notifications that user have.
       try {
         const response = await fetch('http://localhost:8080/notifications', {
           credentials: 'include'
@@ -51,8 +49,8 @@ export default function Notifications({ isLogged, socket }) {
 
     getNotifications()
 
-    socket.emit('createNotificationRoom', isLogged.userId)
-    socket.on('sendNotif', (emp, projectId) => {
+    socket.emit('createNotificationRoom', isLogged.userId) // Creates the user spesific notification room.
+    socket.on('sendNotif', (emp, projectId) => { // Gets the notification
       getNotifications()
       toast({
         title: 'New Notification!',
@@ -70,27 +68,24 @@ export default function Notifications({ isLogged, socket }) {
 
 
 
-    socket.on('markRead', (emp) => {
+    socket.on('markRead', (emp) => { // When user opens the notification section, notifications being as read auto
       getNotifications()
     })
 
-    return () => {
+    return () => { // User disconnects from the sockets and rooms
       socket.off('disconnect')
       socket.disconnect()
 
     }
 
-
   }, [isLogged])
 
   async function markAsRead() {
-    const response = await fetch('http://localhost:8080/markasread', {
+    await fetch('http://localhost:8080/markasread', {
       method: 'PATCH',
       credentials: 'include'
     })
-
     socket.emit('markAsRead', isLogged.userId)
-
   }
 
 

@@ -7,9 +7,9 @@ export default function SearchBar() {
   const [searchResult, setSearchResult] = useState()
   const lastChange = useRef()
 
-  function searchBarFunction(e) {
+  function searchBarFunction(e) { // Adding debouncing and search func.
 
-    if (lastChange.current) {
+    if (lastChange.current) { 
       clearTimeout(lastChange.current)
     }
 
@@ -19,9 +19,11 @@ export default function SearchBar() {
         setSearchResult(undefined)
         return
       }
+
       const response = await fetch(`http://localhost:8080/projects?project=${e.target.value}`, {
         credentials: 'include'
       })
+
       const resData = await response.json()
       setSearchResult(resData.projects)
     }, 700)

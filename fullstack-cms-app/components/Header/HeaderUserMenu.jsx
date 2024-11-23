@@ -1,10 +1,10 @@
+import { redirect } from "next/navigation";
 import Link from "next/link"
 import Notifications from "./Notifications";
-import { redirect } from "next/navigation";
 
 export default function HeaderUserMenu({ isMenu, user, setIsMenu, socket, isLogged }) {
 
-  function signOut() {
+  function signOut() { // Signs out, cookie gets deleted.
     fetch('http://localhost:8080/auth/logOut', {
       method: 'POST',
       credentials: 'include'

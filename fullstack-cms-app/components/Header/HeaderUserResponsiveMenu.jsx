@@ -1,10 +1,10 @@
 import { useState } from "react"
+import { useAppContext } from "@/context"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import Dashboard from "../NavBar/Dashboard"
 import Resources from "../NavBar/Resources"
 import Notifications from "./Notifications"
-import { useAppContext } from "@/context"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function HeaderUserResponsiveMenu({ isResponsiveMenu, user, setIsResponsiveMenu, socket }) {
   const { isLogged } = useAppContext()
