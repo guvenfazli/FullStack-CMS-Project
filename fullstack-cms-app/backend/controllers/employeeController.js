@@ -189,10 +189,7 @@ exports.fetchProjects = async (req, res, next) => {
     if (allProjects.length === 0) {
       throwError('Could not fetch projects!', 404)
     }
-
-
     return res.json({ projects: allProjects })
-
   } catch (err) {
     next(err)
   }
@@ -249,7 +246,7 @@ exports.fetchSingleProject = async (req, res, next) => {
 
     const groupList = []
 
-    fetchedProject.tasks.forEach((task) => {
+    fetchedProject.tasks.forEach((task) => { // Listing the employees, if they are assigned to the spesific task, the user wont be showing up on assign section.
       task.employees.forEach((employee) => {
         const foundEmp = groupList.find((emp) => emp.id === employee.id)
         if (!foundEmp) {
@@ -302,10 +299,7 @@ exports.fetchTasks = async (req, res, next) => {
       ]
     })
 
-
-
     return res.json({ tasks: projectTasks })
-
   } catch (err) {
     next(err)
   }
@@ -318,7 +312,7 @@ exports.changeTaskStatus = async (req, res, next) => {
   const taskId = req.params.taskId
   const foundTask = await Task.findByPk(taskId)
 
-  if (taskStatus === 'Completed') {
+  if (taskStatus === 'Completed') { // Adding the productivity points and completed task points from the employee
     const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
 
     for (const task of assignedEmployeesList) {
@@ -346,7 +340,7 @@ exports.changeTaskStatus = async (req, res, next) => {
     if (alreadyCompletedTask && alreadyCompletedTask.taskStatus === 'Completed') {
       const assignedEmployeesList = await EmployeeTask.findAll({ where: { taskId: taskId } })
 
-      for (const task of assignedEmployeesList) {
+      for (const task of assignedEmployeesList) { // Removing the productivity points and completed task points from the employee
         const assignedEmployee = await Employee.findByPk(task.employeeId)
 
         if (assignedEmployee.completedTasks % 5 === 0) {
@@ -374,7 +368,7 @@ exports.changeTaskStatus = async (req, res, next) => {
   return res.json({ message: 'Status changed.' })
 }
 
-exports.fetchNotifications = async (req, res, next) => {
+exports.fetchNotifications = async (req, res, next) => { // Fetching and ordering the notifications by createdAt date
   try {
     const fetchedNotifications = await Notification.findAll({ where: { employeeId: req.user.userId }, order: [['createdAt', 'DESC']] })
 
