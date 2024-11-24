@@ -261,7 +261,7 @@ exports.assignEmployees = async (req, res, next) => {
 
   const foundTask = await Task.findByPk(chosenTaskId)
   const foundProject = await Project.findByPk(assignedProjectId)
-  
+
   try {
 
     if (!errors.isEmpty()) {
@@ -307,8 +307,8 @@ exports.resignEmployees = async (req, res, next) => {
   const chosenProject = await Project.findByPk(chosenProjectId)
 
   try {
+    
     await foundEmployee.removeTask(foundTask)
-
     const currentTaskStatus = await EmployeeTask.findOne({ where: { taskId: foundTask.id } })
 
     if (currentTaskStatus === null) {
@@ -322,7 +322,6 @@ exports.resignEmployees = async (req, res, next) => {
       projectId: chosenProjectId,
       taskId: chosenTaskId
     })
-
 
     chosenProject.createProjectActivity({
       activity: 'Employee Resigned'

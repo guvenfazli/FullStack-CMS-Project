@@ -33,9 +33,7 @@ exports.createAccount = async (req, res, next) => {
   try {
 
     if (!errors.isEmpty()) {
-      const error = new Error(errors.array()[0].msg)
-      error.statusCode = 410
-      throw error
+      throwError(errors.array()[0].msg, 410)
     } else if (req.files.length === 0) {
       throwError('Profile picture is required', 404)
     }
@@ -44,9 +42,7 @@ exports.createAccount = async (req, res, next) => {
     const foundUser = await Employee.findOne({ where: { email: email } })
 
     if (foundUser) {
-      const error = new Error('Email Already Exists!')
-      error.statusCode = 415
-      throw error
+      throwError('Email Already Exists!', 415)
     }
 
     const hashedPw = await bcrypt.hash(password, 12)
@@ -100,7 +96,7 @@ exports.loginAccount = async (req, res, next) => {
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000, // 24 Hours
       secure: true,
     })
 
