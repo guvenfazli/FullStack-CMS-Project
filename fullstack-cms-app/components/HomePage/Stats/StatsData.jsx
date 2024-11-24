@@ -2,12 +2,9 @@
 import { useAppContext } from "@/context";
 import DataCard from "./DataCard";
 import { useEffect, useState } from "react";
-import io from "socket.io-client"
 
+export default function StatsData({ socket }) {
 
-export default function StatsData({socket}) {
-
-  const { isLogged } = useAppContext()
   const [totalUsers, setTotalUsers] = useState()
 
   useEffect(() => {
@@ -33,7 +30,7 @@ export default function StatsData({socket}) {
 
 
 
-  if (isLogged) {
+  if (socket) {
     return (
       <div className="flex flex-col justify-start items-start">
         <div className="flex w-full  justify-start mb-10 max-sm:flex-col">

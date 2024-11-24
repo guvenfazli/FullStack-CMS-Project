@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "../../ui/card"
+import { Card, CardHeader, CardTitle, CardContent } from "../../ui/card"
 import { signalBars } from "../../Icons/Icons"
 import { Progress } from "../../ui/progress"
 
