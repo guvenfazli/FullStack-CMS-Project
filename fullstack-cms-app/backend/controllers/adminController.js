@@ -15,9 +15,7 @@ const clearImage = (imageUrl) => {
   try {
     fs.unlink(filePath, (err) => {
       if (err) {
-        const error = new Error('Something happened')
-        error.statusCode = 420
-        throw error
+        throwError('Image could not delete', 420)
       }
     })
   } catch (err) {
@@ -43,8 +41,6 @@ exports.createEmployee = async (req, res, next) => {
     } else if (req.files.length === 0) {
       throwError('Profile picture is required', 404)
     }
-
-
 
     const profilePic = req.files[0].path
     const hashedPw = await bcrypt.hash(password, 12)
@@ -80,7 +76,6 @@ exports.deleteEmployee = async (req, res, next) => {
     foundEmployee.destroy()
     clearImage(foundEmployee.profilePic)
     return res.json({ message: 'Employee deleted successfully.' })
-
   } catch (err) {
     next(err)
   }
@@ -178,9 +173,7 @@ exports.createTaskProject = async (req, res, next) => {
   try {
 
     if (!errors.isEmpty()) {
-      const error = new Error(errors.array()[0].msg)
-      error.statusCode = 400
-      throw error
+      throwError(errors.array()[0].msg, 400)
     }
 
     const foundProject = await Project.findByPk(chosenProjectId)
@@ -215,7 +208,6 @@ exports.createTaskProject = async (req, res, next) => {
 
 exports.editProjectTask = async (req, res, next) => {
   const chosenTaskId = req.params.chosenTaskId
-  const assignedProjectId = req.params.assignedProjectId
   const errors = validationResult(req)
   const { taskTitle, deadline } = req.body
 
@@ -267,9 +259,9 @@ exports.assignEmployees = async (req, res, next) => {
   const assignedEmployeeList = req.body
   const errors = validationResult(req)
 
-
   const foundTask = await Task.findByPk(chosenTaskId)
   const foundProject = await Project.findByPk(assignedProjectId)
+  
   try {
 
     if (!errors.isEmpty()) {
