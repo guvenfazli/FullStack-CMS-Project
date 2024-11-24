@@ -4,18 +4,19 @@ import { useParams, notFound } from "next/navigation"
 import EmployeeStats from "./EmployeeStats"
 import EmployeeTasks from "./EmployeeTasks"
 import SingleEmployeeCard from "./SingleEmployeeCard"
-import RouteProtection from "@/utils/routeProtection"
 
-export default function EmployeeInfo({ foundEmployee, stats }) {
+export default function EmployeeInfo({ foundEmployee, stats, error }) {
+
+  const [isError, setIsError] = useState(error ? error : undefined)
+  if (isError) {
+    notFound()
+  }
 
   const employeeId = useParams().employeeId
   const [fetchedEmployee, setFetchedEmployee] = useState(foundEmployee)
   const [foundEmployeeStats, setFoundEmployeeStats] = useState(stats)
-  const [isError, setIsError] = useState(false)
 
-  if (isError) {
-    notFound()
-  }
+
 
   return (
     <div className="flex flex-col w-full justify-start gap-5 ">

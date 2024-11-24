@@ -22,9 +22,10 @@ export default async function SingleEmployeePage({ params }) {
     return (
       <EmployeeInfo foundEmployee={resData.foundEmployee} stats={resData.foundEmployeeStats} />
     )
-
   } catch (err) {
-    console.log(err)
+    return (
+      <EmployeeInfo error={err} />
+    )
   }
 
 

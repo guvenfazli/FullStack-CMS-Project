@@ -111,7 +111,7 @@ exports.fetchSingleEmployee = async (req, res, next) => {
       where: { employeeId: chosenEmployeeId, taskStatus: 'Completed', updatedAt: { [Op.between]: [lastWeek, today] } }, attributes: [[sequelize.fn('DATE', sequelize.col('updatedAt')), 'date'], [sequelize.fn('COUNT', sequelize.col('taskStatus')), 'counted']], group: ['date']
     })
 
-    if (!foundEmployee) {
+    if (foundEmployee.length === 0) {
       throwError('Employee not found!', 404)
     }
 
