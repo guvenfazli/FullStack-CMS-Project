@@ -7,8 +7,7 @@ import SingleEmployeeCard from "./SingleEmployeeCard"
 
 export default function EmployeeInfo({ foundEmployee, stats, error }) {
 
-  const [isError, setIsError] = useState(error ? error : undefined)
-  if (isError) {
+  if (error) {
     notFound()
   }
 

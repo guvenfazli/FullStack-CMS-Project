@@ -43,7 +43,6 @@ export default function UserTable({ socket }) {
     setAllEmployees(resData.employees)
   }
 
-
   return (
     <div>
       <div>

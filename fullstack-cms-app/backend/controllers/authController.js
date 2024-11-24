@@ -92,7 +92,7 @@ exports.loginAccount = async (req, res, next) => {
       throw error
     }
 
-    const token = jwt.sign({ name: foundUser.name, email: foundUser.email, userId: foundUser.id, userPp: foundUser.profilePic, isAdmin: foundUser.isAdmin }, process.env.WT_SCRT, { expiresIn: '1h' })
+    const token = jwt.sign({ name: foundUser.name, email: foundUser.email, userId: foundUser.id, userPp: foundUser.profilePic, isAdmin: foundUser.isAdmin }, process.env.WT_SCRT, { expiresIn: '24h' })
 
     res.cookie('jwt', token, {
       httpOnly: true,
