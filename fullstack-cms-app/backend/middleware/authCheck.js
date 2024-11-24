@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 dotenv.config({ path: '../config.env' })
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, next) => { // Checking if the token is non edited and real token
   try {
     const cookie = req.cookies['jwt']
     const resolvedCookie = jwt.verify(cookie, process.env.WT_SCRT)

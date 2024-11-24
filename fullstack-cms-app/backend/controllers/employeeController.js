@@ -398,8 +398,6 @@ exports.markNotificationsAsRead = async (req, res, next) => {
     }
 
     await fetchedNotifications.save()
-
-
   } catch (err) {
     next(err)
   }

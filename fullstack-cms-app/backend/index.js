@@ -11,8 +11,7 @@ const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
 const dotenv = require('dotenv')
-dotenv.config({path: './config.env'})
-
+dotenv.config({ path: './config.env' })
 
 // M O D E L S 
 const Admin = require('./models/Admin.js')
@@ -24,13 +23,11 @@ const Notification = require('./models/Notification.js')
 const ProjectActivity = require('./models/ProjectActivity.js')
 
 // R O U T E R S 
-
 const authRouter = require('./routes/authRoute.js')
 const employeeRouter = require('./routes/userRoute.js')
 const adminRouter = require('./routes/adminRoute.js')
 
 // M I D D L E W A R E S 
-
 const fileStorage = multer.diskStorage({
   destination: (req, res, cb) => {
     cb(null, 'employeePics')
@@ -75,7 +72,6 @@ app.use((error, req, res, next) => {
 })
 
 // R E L A T I O N S 
-
 Employee.hasOne(Admin, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 Admin.belongsTo(Employee, { onDelete: 'CASCADE', foreignKey: 'employeeId' })
 Project.hasMany(Task, { onDelete: 'CASCADE', foreignKey: 'projectId' })
@@ -122,10 +118,9 @@ const homePage = io.of('/homePage')
 
 const activeUsers = []
 
-notifs.on('connection', (connectedEmployee) => {
-
-  let activityTimer;
+notifs.on('connection', (connectedEmployee) => { 
   let employeeId;
+
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
     connectedEmployee.join(userId)
     employeeId = userId
@@ -140,7 +135,6 @@ notifs.on('connection', (connectedEmployee) => {
   connectedEmployee.on('disconnect', () => {
     const loggedOffEmployee = activeUsers.findIndex(emp => emp === employeeId)
     activeUsers.splice(loggedOffEmployee, 1)
-    clearInterval(activityTimer)
   })
 
 })
@@ -231,7 +225,7 @@ singleProjectPage.on('connection', (connectedEmployee) => {
 
 // N O D E - C R O N 
 
-cron.schedule('*/30 * * * *', async () => {
+cron.schedule('*/30 * * * *', async () => { // Adds activity points to a user every 30 min.
   for (const activeEmp of activeUsers) {
     const foundEmployee = await Employee.findByPk(activeEmp)
     foundEmployee.activityPoints += 15
