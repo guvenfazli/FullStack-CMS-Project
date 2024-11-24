@@ -1,6 +1,7 @@
 import EmployeeInfo from "@/components/SingleEmployee/EmployeeInfo"
 import RouteProtection from "@/utils/routeProtection"
 import { cookies } from "next/headers";
+
 export default async function SingleEmployeePage({ params }) {
 
   const { employeeId } = await params
