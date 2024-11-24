@@ -1,3 +1,4 @@
+"use client"
 import { createContext, useState, useContext, useEffect } from "react";
 import AuthCheck from "@/utils/authCheck";
 const AppContext = createContext()
