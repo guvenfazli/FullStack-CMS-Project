@@ -1,6 +1,6 @@
 "use client"
 
-import { lazy, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useAppContext } from "@/context"
 import { useParams } from "next/navigation"
 import { notFound } from 'next/navigation'
