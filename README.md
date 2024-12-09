@@ -52,3 +52,28 @@ Employees earn +15 Activity Points for every 30 minutes of active login. This sy
 - Input validation using Express Validator for all API requests.
 - Route protection for secure access to sensitive API endpoints.
 
+  
+<br>
+App preview
+<br><br>
+<h3>Login / Sign In Page</h3>
+<img src="fullstack-cms-app/assetsForReadme/loginScreen.png">
+<img src="fullstack-cms-app/assetsForReadme/registerScreen.png">
+<h3>Homepage</h3>
+<img src="fullstack-cms-app/assetsForReadme/homePage.png">
+<img src="fullstack-cms-app/assetsForReadme/employeesTask.png">
+<img src="fullstack-cms-app/assetsForReadme/employeeCreation.png">
+<h3>Employee List</h3>
+<img src="fullstack-cms-app/assetsForReadme/employeeListPage.png">
+<h3>Project List</h3>
+<img src="fullstack-cms-app/assetsForReadme/projectList.png">
+<img src="fullstack-cms-app/assetsForReadme/projectCreation.png">
+<h3>Project Details</h3>
+<img src="fullstack-cms-app/assetsForReadme/projectDetailPage.png">
+<img src="fullstack-cms-app/assetsForReadme/projectTaskSection.png">
+<img src="fullstack-cms-app/assetsForReadme/assignEmployeeSection.png">
+<h3>Employee Profile</h3>
+<img src="fullstack-cms-app/assetsForReadme/employeeProfile.png">
+<h3>Notifications</h3>
+<img src="fullstack-cms-app/assetsForReadme/notificationSection.png">
+<br><br>
