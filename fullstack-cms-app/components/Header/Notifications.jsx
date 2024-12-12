@@ -91,7 +91,7 @@ export default function Notifications({ isLogged, socket }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="rounded-full p-2 hover:bg-slate-700 duration-75" onPointerDown={() => markAsRead()}>{!isRead ? notificationIcon : pendingNotificationIcon}</DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-700 text-white z-10">
+      <DropdownMenuContent className="bg-gray-700 text-white z-10 max-h-72 overflow-scroll overflow-x-hidden">
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {notifications.length <= 0 ? <p>Seems quite...</p> : notifications.map((notify) => {
