@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/hover-card"
 
 import { filterUp, trashCan, eyeIcon, taskIcon } from "@/components/Icons/Icons"
+import deadLineChecker from "@/utils/deadLineChecker"
 import ProjectStatus from "./ProjectStatus"
 import CreateTask from "./CreateTask"
 import dateFormatter from "@/utils/dateFormatter"
@@ -162,12 +163,17 @@ export default function ProjectTable({ isLogged, fetchedProjects, setFetchedProj
 
       <TableBody>
         {fetchedProjects?.map((project) => {
+          const remainingDays = deadLineChecker(project.deadline)
+          console.log(remainingDays)
           return (
+
+
+
             <TableRow key={project.id}>
               <TableCell className="font-medium">{project.id}</TableCell>
               <TableCell>{project.projectName}</TableCell>
               <TableCell>{dateFormatter(project.createdAt)}</TableCell>
-              <TableCell>{dateFormatter(project.deadline)}</TableCell>
+              <TableCell>{remainingDays >= 3 ? 'Deadline is passed!' : deadLineChecker(project.deadline)}</TableCell>
 
               <TableCell>
                 <HoverCard>

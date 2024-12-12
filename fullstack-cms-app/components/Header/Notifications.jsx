@@ -75,7 +75,6 @@ export default function Notifications({ isLogged, socket }) {
     return () => { // User disconnects from the sockets and rooms
       socket.off('disconnect')
       socket.disconnect()
-
     }
 
   }, [isLogged])
@@ -90,7 +89,7 @@ export default function Notifications({ isLogged, socket }) {
 
 
   return (
-    <DropdownMenu >
+    <DropdownMenu>
       <DropdownMenuTrigger className="rounded-full p-2 hover:bg-slate-700 duration-75" onPointerDown={() => markAsRead()}>{!isRead ? notificationIcon : pendingNotificationIcon}</DropdownMenuTrigger>
       <DropdownMenuContent className="bg-gray-700 text-white z-10">
         <DropdownMenuLabel>Notifications</DropdownMenuLabel>
