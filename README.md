@@ -74,7 +74,7 @@ App preview
 <img src="fullstack-cms-app/assetsForReadme/assignEmployeeSection.png">
 <h3>Employee Profile</h3>
 <img src="fullstack-cms-app/assetsForReadme/employeeProfile.png">
-**HERE WILL BE THE RECHARTS OF THE WEEKLY COMPLETED PROJECTS**
+<img src="fullstack-cms-app/assetsForReadme/graphChards.png">
 <h3>Notifications</h3>
 <img src="fullstack-cms-app/assetsForReadme/notificationSection.png">
 <br><br>
