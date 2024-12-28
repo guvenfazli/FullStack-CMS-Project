@@ -25,9 +25,10 @@ export default function RegisterForm({ newUserCreation, socket }) {
   async function createAccount(e) {
     e.preventDefault()
     const fd = new FormData(e.target)
+
     fd.append('profilePic', fileState)
     let createAccount;
-
+    console.log(fd)
     try {
       setIsLoading(true)
       if (newUserCreation) { // Admin creates the user
