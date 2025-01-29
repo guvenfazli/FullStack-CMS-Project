@@ -11,7 +11,7 @@ const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
 const dotenv = require('dotenv')
-dotenv.config({ path: './config.env' })
+dotenv.config({ path: './.env' })
 
 // M O D E L S 
 const Admin = require('./models/Admin.js')
