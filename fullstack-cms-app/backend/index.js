@@ -9,6 +9,7 @@ const multer = require('multer')
 const cron = require('node-cron');
 const http = require('http')
 const server = http.createServer(app)
+const helmet = require('helmet')
 const { Server } = require('socket.io')
 const dotenv = require('dotenv')
 dotenv.config({ path: './.env' })
@@ -45,7 +46,7 @@ const fileFilter = (req, file, cb) => {
   }
 }
 
-
+app.use(helmet())
 app.use(cookieparser())
 app.use(bodyParser.json()) // application/json
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('profilePic', 1))
