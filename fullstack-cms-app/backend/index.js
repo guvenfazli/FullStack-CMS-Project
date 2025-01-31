@@ -10,6 +10,7 @@ const cron = require('node-cron');
 const http = require('http')
 const server = http.createServer(app)
 const helmet = require('helmet')
+const compression = require('compression')
 const { Server } = require('socket.io')
 const dotenv = require('dotenv')
 dotenv.config({ path: './.env' })
@@ -46,7 +47,8 @@ const fileFilter = (req, file, cb) => {
   }
 }
 
-app.use(helmet())
+app.use(helmet()) // Security
+app.use(compression()) // Performance
 app.use(cookieparser())
 app.use(bodyParser.json()) // application/json
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('profilePic', 1))
@@ -119,7 +121,7 @@ const homePage = io.of('/homePage')
 
 const activeUsers = []
 
-notifs.on('connection', (connectedEmployee) => { 
+notifs.on('connection', (connectedEmployee) => {
   let employeeId;
 
   connectedEmployee.on('createNotificationRoom', (userId) => { // Room is being created for notifications at the beginning.
