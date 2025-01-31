@@ -95,7 +95,7 @@ Notification.belongsTo(Task, { onDelete: 'CASCADE', foreignKey: 'taskId' })
 
 
 sequelize.sync().then(async (res) => {
-  server.listen(8080)
+  server.listen(process.env.PORT || 8080)
 }).catch(err => console.log(err));
 
 
