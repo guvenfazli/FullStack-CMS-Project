@@ -29,7 +29,7 @@ const clearImage = (imageUrl) => {
 exports.createAccount = async (req, res, next) => {
   const { name, surname, email, password, jobTitle, birthDate, phoneNumber } = req.body;
   const errors = validationResult(req)
-  console.log(req.body)
+
   try {
 
     if (!errors.isEmpty()) {
